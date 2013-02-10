@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Infrastructure\MockRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="when_creating_order.cs" />
     <Compile Include="with.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +63,10 @@
     <ProjectReference Include="..\ReSTore.Infrastructure\ReSTore.Infrastructure.csproj">
       <Project>{839666B7-146C-41AC-9BEB-C8EE245BD45E}</Project>
       <Name>ReSTore.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReSTore.Messages\ReSTore.Messages.csproj">
+      <Project>{6D38CB00-F49A-471E-A6C2-896B4B0C08AD}</Project>
+      <Name>ReSTore.Messages</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

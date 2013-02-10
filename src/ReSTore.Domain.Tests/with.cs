@@ -7,7 +7,7 @@ using ReSTore.Infrastructure;
 
 namespace ReSTore.Domain.Tests
 {
-    public abstract class with<T>
+    public abstract class with<TCommand>
     {
         protected class EventPair
         {
@@ -50,11 +50,11 @@ namespace ReSTore.Domain.Tests
             PublishedEvents = publishedEvents.Skip(numberOfGivenEvents).ToArray();
         }
 
-        protected abstract ICommandHandler<T> WithHandler(IRepository<Guid> repository);
+        protected abstract ICommandHandler<TCommand> WithHandler(IRepository<Guid> repository);
 
         protected abstract IEnumerable<EventPair> Given();
 
-        protected abstract T When();
+        protected abstract TCommand When();
 
         protected EventPair GivenEvent(Guid aggregateId, object evt)
         {

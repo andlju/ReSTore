@@ -39,8 +39,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandHandlers\CreateOrderHandler.cs" />
     <Compile Include="ICommandHandler.cs" />
+    <Compile Include="Order.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ReSTore.Infrastructure\ReSTore.Infrastructure.csproj">
+      <Project>{839666B7-146C-41AC-9BEB-C8EE245BD45E}</Project>
+      <Name>ReSTore.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReSTore.Messages\ReSTore.Messages.csproj">
+      <Project>{6D38CB00-F49A-471E-A6C2-896B4B0C08AD}</Project>
+      <Name>ReSTore.Messages</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
