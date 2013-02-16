@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -22,13 +23,13 @@ namespace ReSTore.Infrastructure
             Store(id, aggregate.GetUncommittedEvents());
         }
 
-        public void Store(TId id, IEnumerable<object> events)
+        public void Store(TId id, IEnumerable events)
         {
             using (var conn = EventStoreConnection.Create())
             {
                 conn.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1113));
                 
-                conn.AppendToStream(id.ToString(), ExpectedVersion.Any, events.Select(e => _serializer.Serialize(e)));
+                conn.AppendToStream(id.ToString(), ExpectedVersion.Any, events.OfType<object>().Select(e => _serializer.Serialize(e)));
             }
         }
 

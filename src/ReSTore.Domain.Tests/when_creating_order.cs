@@ -11,25 +11,33 @@ namespace ReSTore.Domain.Tests
     [TestClass]
     public class when_creating_order : with<CreateOrder>
     {
+        private Guid _orderId = Guid.NewGuid();
+
         protected override ICommandHandler<CreateOrder> WithHandler(IRepository<Guid> repository)
         {
             return new CreateOrderHandler(repository);
         }
 
-        protected override IEnumerable<EventPair> Given()
+        protected override void Given(IGiven given)
         {
-            yield break;
+            
         }
 
         protected override CreateOrder When()
         {
-            return new CreateOrder() { OrderId = AggregateId };
+            return new CreateOrder() { OrderId = _orderId };
         }
 
         [TestMethod]
         public void then_OrderCreated_event_is_published()
         {
-            Assert.IsInstanceOfType(PublishedEvents[0], typeof(OrderCreated));
+            For(_orderId).Event<OrderCreated>(0);
+        }
+
+        [TestMethod]
+        public void then_OrderId_in_event_is_correct()
+        {
+            For(_orderId).Event<OrderCreated>(0, e => Assert.AreEqual(_orderId, e.OrderId) );
         }
     }
 }

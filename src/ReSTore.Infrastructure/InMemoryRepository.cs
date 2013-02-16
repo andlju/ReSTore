@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ReSTore.Infrastructure
 {
@@ -23,7 +25,7 @@ namespace ReSTore.Infrastructure
             Store(id, aggregate.GetUncommittedEvents());
         }
 
-        public void Store(Guid id, IEnumerable<object> events)
+        public void Store(Guid id, IEnumerable events)
         {
             List<object> storedEvents;
             if (!_store.TryGetValue(id, out storedEvents))
@@ -31,7 +33,7 @@ namespace ReSTore.Infrastructure
                 storedEvents = new List<object>();
                 _store[id] = storedEvents;
             }
-            storedEvents.AddRange(events);
+            storedEvents.AddRange(events.OfType<object>());
         }
 
         public IEnumerable<object> GetEvents(Guid id)

@@ -18,6 +18,11 @@ namespace ReSTore.Domain
             Publish(new OrderCreated() { OrderId = orderId });
         }
 
+        public void AddItem(Guid itemId)
+        {
+            Publish(new ItemAddedToOrder() { OrderId = _orderId, ItemId = itemId });
+        }
+
         private void Apply(OrderCreated evt)
         {
             _orderId = evt.OrderId;

@@ -7,12 +7,26 @@ using ReSTore.Infrastructure;
 
 namespace ReSTore.Domain.Tests
 {
+    public interface IGiven
+    {
+        void Event(Guid aggregateId, object @event);
+    }
+
     public abstract class with<TCommand>
     {
-        protected class EventPair
+        class GivenImpl : IGiven
         {
-            public Guid AggregateId;
-            public object Event;
+            private MockRepository _repository;
+
+            public GivenImpl(MockRepository repository)
+            {
+                _repository = repository;
+            }
+
+            public void Event(Guid aggregateId, object @event)
+            {
+                _repository.Store(aggregateId, new [] { @event });
+            }
         }
 
         protected Guid AggregateId = Guid.NewGuid();
@@ -27,14 +41,10 @@ namespace ReSTore.Domain.Tests
         {
             _repository = new MockRepository();
 
-            var givenEvents = Given();
-            var numberOfGivenEvents = 0;
-            if (givenEvents != null)
-            {
-                var givenEventsArr = givenEvents as object[] ?? givenEvents.ToArray();
-                _repository.Store(AggregateId, givenEventsArr);
-                numberOfGivenEvents = givenEventsArr.Length;
-            }
+            var given = new GivenImpl(_repository);
+            Given(given);
+
+            _repository.ResetCommitted();
 
             var handler = WithHandler(_repository);
             var command = When();
@@ -46,25 +56,48 @@ namespace ReSTore.Domain.Tests
             {
                 ThrownException = ex;
             }
-            var publishedEvents = _repository.GetEvents(AggregateId) ?? new object[0];
-            PublishedEvents = publishedEvents.Skip(numberOfGivenEvents).ToArray();
         }
 
         protected abstract ICommandHandler<TCommand> WithHandler(IRepository<Guid> repository);
 
-        protected abstract IEnumerable<EventPair> Given();
+        protected abstract void Given(IGiven given);
 
         protected abstract TCommand When();
 
-        protected EventPair GivenEvent(Guid aggregateId, object evt)
+        protected EventAssertions For(Guid aggregateId)
         {
-            return new EventPair() { AggregateId = aggregateId, Event = evt};
+            return new EventAssertions(_repository.GetCommittedEvents(aggregateId));
         }
 
-        protected TEvent GetEvent<TEvent>(int eventIndex)
+        protected class EventAssertions
         {
-            return ((TEvent)PublishedEvents[eventIndex]);
-        }
+            private readonly object[] _events;
 
+            public EventAssertions(IEnumerable<object> events)
+            {
+                _events = events.ToArray();
+            }
+
+            public int NumberOfEvents
+            {
+                get { return _events.Length; }
+            }
+
+            public TEvent GetEvent<TEvent>(int eventIndex)
+            {
+                return ((TEvent)_events[eventIndex]);
+            }
+
+            public void Event<TEvent>(int index)
+            {
+                Assert.IsInstanceOfType(_events[index], typeof(TEvent));
+            }
+
+            public void Event<TEvent>(int index, Action<TEvent> eventAssertion)
+            {
+                eventAssertion((TEvent)_events[index]);
+            }
+            
+        }
     }
 }
