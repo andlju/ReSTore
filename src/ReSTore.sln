@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSTore.Infrastructure.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSTore.Domain.Tests", "ReSTore.Domain.Tests\ReSTore.Domain.Tests.csproj", "{21812FD4-F6D0-4A75-A3C0-0BBF8DF8892B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSTore.Web", "ReSTore.Web\ReSTore.Web.csproj", "{2976E1D4-8614-404E-8679-616EF38F39C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{21812FD4-F6D0-4A75-A3C0-0BBF8DF8892B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21812FD4-F6D0-4A75-A3C0-0BBF8DF8892B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21812FD4-F6D0-4A75-A3C0-0BBF8DF8892B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2976E1D4-8614-404E-8679-616EF38F39C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2976E1D4-8614-404E-8679-616EF38F39C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2976E1D4-8614-404E-8679-616EF38F39C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2976E1D4-8614-404E-8679-616EF38F39C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
