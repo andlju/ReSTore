@@ -13,6 +13,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSTore.Domain.Tests", "ReS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSTore.Web", "ReSTore.Web\ReSTore.Web.csproj", "{2976E1D4-8614-404E-8679-616EF38F39C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSTore.Web.Tests", "ReSTore.Web.Tests\ReSTore.Web.Tests.csproj", "{27283FC1-3CF0-493B-AD5D-7461080465BF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{087FB7FF-0E91-40A9-90B2-BA32431767CB}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +52,10 @@ Global
 		{2976E1D4-8614-404E-8679-616EF38F39C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2976E1D4-8614-404E-8679-616EF38F39C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2976E1D4-8614-404E-8679-616EF38F39C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27283FC1-3CF0-493B-AD5D-7461080465BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27283FC1-3CF0-493B-AD5D-7461080465BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27283FC1-3CF0-493B-AD5D-7461080465BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27283FC1-3CF0-493B-AD5D-7461080465BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,34 @@
+<ProjectConfiguration>
+  <CopyReferencedAssembliesToWorkspace>false</CopyReferencedAssembliesToWorkspace>
+  <ConsiderInconclusiveTestsAsPassing>false</ConsiderInconclusiveTestsAsPassing>
+  <PreloadReferencedAssemblies>false</PreloadReferencedAssemblies>
+  <AllowDynamicCodeContractChecking>true</AllowDynamicCodeContractChecking>
+  <AllowStaticCodeContractChecking>false</AllowStaticCodeContractChecking>
+  <IgnoreThisComponentCompletely>false</IgnoreThisComponentCompletely>
+  <RunPreBuildEvents>false</RunPreBuildEvents>
+  <RunPostBuildEvents>false</RunPostBuildEvents>
+  <PreviouslyBuiltSuccessfully>true</PreviouslyBuiltSuccessfully>
+  <InstrumentAssembly>true</InstrumentAssembly>
+  <PreventSigningOfAssembly>false</PreventSigningOfAssembly>
+  <AnalyseExecutionTimes>true</AnalyseExecutionTimes>
+  <IncludeStaticReferencesInWorkspace>true</IncludeStaticReferencesInWorkspace>
+  <DefaultTestTimeout>60000</DefaultTestTimeout>
+  <UseBuildConfiguration />
+  <UseBuildPlatform />
+  <ProxyProcessPath />
+  <UseCPUArchitecture>AutoDetect</UseCPUArchitecture>
+  <IgnoredTests>
+    <NamedTestSelector>
+      <TestName>ReSTore.Infrastructure.Tests.EventStoreRepositoryTest.when_getting_newly_created_aggregate</TestName>
+    </NamedTestSelector>
+    <NamedTestSelector>
+      <TestName>ReSTore.Infrastructure.Tests.EventStoreRepositoryTest.when_getting_previously_unstored_aggregate</TestName>
+    </NamedTestSelector>
+    <NamedTestSelector>
+      <TestName>ReSTore.Infrastructure.Tests.EventStoreRepositoryTest.when_getting_unknown_aggregate_type</TestName>
+    </NamedTestSelector>
+    <NamedTestSelector>
+      <TestName>ReSTore.Infrastructure.Tests.EventStoreRepositoryTest.when_storing_a_new_aggregate</TestName>
+    </NamedTestSelector>
+  </IgnoredTests>
+</ProjectConfiguration>
