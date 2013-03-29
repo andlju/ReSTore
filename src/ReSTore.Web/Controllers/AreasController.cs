@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Runtime.Remoting.Messaging;
 using System.Web.Http;
 using Raven.Client;
+using ReSTore.Infrastructure;
+using ReSTore.Messages.Commands;
 using ReSTore.Web.Models;
 using WebApiContrib.Formatting.CollectionJson;
 
@@ -17,6 +21,28 @@ namespace ReSTore.Web.Controllers
             item.Data.Add(new Data() { Name = "name", Value = area.Name });
 
             return item;
+        }
+    }
+
+    public class CommandView
+    {
+        
+    }
+
+    public class CommandsController : ApiController
+    {
+        private ICommandDispatcher _dispatcher;
+
+        public CommandsController(ICommandDispatcher dispatcher)
+        {
+            _dispatcher = dispatcher;
+        }
+
+        public CommandView Put(Guid commandId, CreateOrder command)
+        {
+            _dispatcher.Dispatch(commandId, command);
+            
+            return new CommandView();
         }
     }
 

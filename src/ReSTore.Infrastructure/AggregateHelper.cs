@@ -26,8 +26,8 @@ namespace ReSTore.Infrastructure
 
     public static class AggregateHelper
     {
-        private static Dictionary<Type, Func<IEnumerable<object>, object>> _builders = new Dictionary<Type, Func<IEnumerable<object>, object>>();
-        private static Dictionary<Type, Dictionary<Type, Action<object, object>>> _handlers = new Dictionary<Type, Dictionary<Type, Action<object, object>>>();
+        private static readonly Dictionary<Type, Func<IEnumerable<object>, object>> Builders = new Dictionary<Type, Func<IEnumerable<object>, object>>();
+        private static readonly Dictionary<Type, Dictionary<Type, Action<object, object>>> Handlers = new Dictionary<Type, Dictionary<Type, Action<object, object>>>();
 
         private static void Register(Type aggregateType)
         {
@@ -42,7 +42,7 @@ namespace ReSTore.Infrastructure
             {
                 throw new InvalidOperationException("Aggregate must have constructor with no parameters");
             }
-            _builders[t] = (evts) =>
+            Builders[t] = (evts) =>
                                        {
                                            var agg = (Aggregate)ctor.Invoke(new object[0]);
                                            foreach (var evt in evts)
@@ -57,19 +57,19 @@ namespace ReSTore.Infrastructure
         {
             var applyMethods = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic).Where(m => m.Name == "Apply");
 
-            Dictionary<Type, Action<object, object>> tmp = new Dictionary<Type, Action<object, object>>();
+            var tmp = new Dictionary<Type, Action<object, object>>();
             foreach (var am in applyMethods)
             {
                 var applyMethod = am;
                 tmp.Add(applyMethod.GetParameters().First().ParameterType, (agg, e) => applyMethod.Invoke(agg, new object[] { e }));
             }
-            _handlers[type] = tmp;
+            Handlers[type] = tmp;
         }
 
         public static void Apply(this Aggregate agg, object evt)
         {
             Dictionary<Type, Action<object, object>> handlers;
-            if (!_handlers.TryGetValue(agg.GetType(), out handlers))
+            if (!Handlers.TryGetValue(agg.GetType(), out handlers))
             {
                 Register(agg.GetType());
                 Apply(agg, evt);
@@ -89,7 +89,7 @@ namespace ReSTore.Infrastructure
         public static T Build<T>(IEnumerable<object> events) where T : Aggregate, new()
         {
             Func<IEnumerable<object>, object> builder;
-            if (!_builders.TryGetValue(typeof (T), out builder))
+            if (!Builders.TryGetValue(typeof (T), out builder))
             {
                 Register(typeof(T));
                 return Build<T>(events); // Try again!

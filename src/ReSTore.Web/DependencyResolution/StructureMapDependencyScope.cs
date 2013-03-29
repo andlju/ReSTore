@@ -79,7 +79,7 @@ namespace ReSTore.Web.DependencyResolution
         /// <returns>
         /// The System.Object.
         /// </returns>
-        public object GetService(Type serviceType)
+        public new object GetService(Type serviceType)
         {
             if (serviceType == null)
             {

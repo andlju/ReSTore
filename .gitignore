@@ -93,6 +93,9 @@ DocProject/Help/*.hhp
 DocProject/Help/Html2
 DocProject/Help/html
 
+# NCrunch
+*.ncrunchproject
+
 # Click-Once directory
 publish
 
