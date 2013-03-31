@@ -26,24 +26,7 @@ namespace ReSTore.Web.Controllers
 
     public class CommandView
     {
-        
-    }
-
-    public class CommandsController : ApiController
-    {
-        private ICommandDispatcher _dispatcher;
-
-        public CommandsController(ICommandDispatcher dispatcher)
-        {
-            _dispatcher = dispatcher;
-        }
-
-        public CommandView Put(Guid commandId, CreateOrder command)
-        {
-            _dispatcher.Dispatch(commandId, command);
-            
-            return new CommandView();
-        }
+        public Guid CommandId { get; set; }
     }
 
     public class AreaHypermediaMapper : ICollectionJsonDocumentWriter<Area>

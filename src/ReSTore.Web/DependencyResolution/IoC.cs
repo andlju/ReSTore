@@ -16,6 +16,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
+using ReSTore.Web.Controllers;
 using StructureMap;
 using StructureMap.Configuration.DSL;
 
@@ -25,6 +26,8 @@ namespace ReSTore.Web.DependencyResolution {
             ObjectFactory.Initialize(x =>
                         {
                             x.AddRegistry<RavenRegistry>();
+                            x.AddRegistry<ServiceBusRegistry>();
+                            x.For<ICommandDispatcher>().Use<EasyNetQCommandDispatcher>();
                             x.Scan(scan =>
                                     {
                                         scan.TheCallingAssembly();

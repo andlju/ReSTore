@@ -11,7 +11,7 @@ namespace ReSTore.Infrastructure
             var json = Newtonsoft.Json.JsonConvert.SerializeObject(testClassToSerialize);
             var data = Encoding.UTF8.GetBytes(json);
 
-            return new EventData(Guid.NewGuid(), testClassToSerialize.GetType().AssemblyQualifiedName, true, data, null);
+            return new EventData(Guid.NewGuid(), testClassToSerialize.GetType().FullName, true, data, null);
         }
 
         public object Deserialize(RecordedEvent evt)
