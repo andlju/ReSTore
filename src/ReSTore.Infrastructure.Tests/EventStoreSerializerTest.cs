@@ -32,9 +32,9 @@ namespace ReSTore.Infrastructure.Tests
                               MyString = "Test"
                           };
 
-            var data = _serializer.Serialize(obj);
+            var data = _serializer.Serialize(obj, null);
 
-            Assert.AreEqual<string>("ReSTore.Infrastructure.Tests.TestClassToSerialize, ReSTore.Infrastructure.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", data.Type);
+            Assert.AreEqual<string>("TestClassToSerialize", data.Type);
         }
          
     }
