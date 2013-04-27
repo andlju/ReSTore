@@ -6,8 +6,11 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using EasyNetQ;
+using Raven.Client;
+using Raven.Client.Document;
 using ReSTore.Domain;
 using ReSTore.Domain.CommandHandlers;
+using ReSTore.Domain.Services;
 using ReSTore.Infrastructure;
 using ReSTore.Messages.Events;
 using StructureMap;
@@ -17,10 +20,29 @@ using Topshelf;
 
 namespace ReSTore
 {
+    public class RavenRegistry : Registry
+    {
+        public RavenRegistry()
+        {
+            For<IDocumentStore>().Singleton().Use(c =>
+            {
+                var store = new DocumentStore()
+                {
+                    Url = "http://localhost:8080",
+                    DefaultDatabase = "ReSTore"
+                };
+                store.Initialize();
+                return store;
+            });
+        }
+    }
+
     public class DomainRegistry : Registry
     {
         public DomainRegistry()
         {
+            IncludeRegistry<RavenRegistry>();
+            For<IPricingService>().Singleton().Use<PricingService>();
             Scan(s =>
                 {
                     s.AssemblyContainingType<CreateOrderHandler>();

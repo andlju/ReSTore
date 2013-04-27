@@ -6,5 +6,7 @@ namespace ReSTore.Messages.Events
     {
         public Guid OrderId { get; set; }
         public Guid ItemId { get; set; }
+
+        public decimal Price { get; set; }
     }
 }

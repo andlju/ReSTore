@@ -14,26 +14,5 @@
 {
 <script type="text/javascript">
 
-    function CategoriesViewModel() {
-        var self = this;
-
-        self.categories = ko.observableArray([]);
-
-        self.refresh = function () {
-            $.ajax('/Content/data/categories.json').
-                success(function(data, status, xhr) {
-                    alert(data);
-                });
-        };
-    }
-
-    $(function () {
-
-        var categoriesViewModel = new CategoriesViewModel();
-
-        categoriesViewModel.refresh();
-
-        // ko.applyBindings();
-    });
 </script>
 }

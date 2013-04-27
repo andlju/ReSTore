@@ -2,12 +2,21 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReSTore.Domain.CommandHandlers;
+using ReSTore.Domain.Services;
 using ReSTore.Infrastructure;
 using ReSTore.Messages.Commands;
 using ReSTore.Messages.Events;
 
 namespace ReSTore.Domain.Tests
 {
+    public class FakePricingService : IPricingService
+    {
+        public decimal GetPrice(Guid itemId)
+        {
+            return 13.37m;
+        }
+    }
+
     [TestClass]
     public class when_adding_item_to_order : with<AddItemToOrder>
     {
@@ -16,7 +25,7 @@ namespace ReSTore.Domain.Tests
 
         protected override ICommandHandler<AddItemToOrder> WithHandler(IRepository<Guid> repository)
         {
-            return new AddItemToOrderHandler(repository);
+            return new AddItemToOrderHandler(repository, new FakePricingService());
         }
 
         protected override void Given(IGiven given)
@@ -45,6 +54,12 @@ namespace ReSTore.Domain.Tests
         public void then_ItemId_in_event_is_correct()
         {
             For(_orderId).Event<ItemAddedToOrder>(0, e => Assert.AreEqual(_itemId, e.ItemId));
+        }
+
+        [TestMethod]
+        public void then_price_in_event_is_correct()
+        {
+            For(_orderId).Event<ItemAddedToOrder>(0, e => Assert.AreEqual(13.37m, e.Price));
         }
     }
 }

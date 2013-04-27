@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>@ViewBag.Title</title>
         @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
+        @Scripts.Render("~/bundles/angular")
         <style>
             body {
                 padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -43,7 +43,6 @@
                 
 
         @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/knockout")
         @Scripts.Render("~/bundles/bootstrap")
         @RenderSection("scripts", required: false)
     </body>

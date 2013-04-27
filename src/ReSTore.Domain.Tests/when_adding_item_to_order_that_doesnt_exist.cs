@@ -14,7 +14,7 @@ namespace ReSTore.Domain.Tests
 
         protected override ICommandHandler<AddItemToOrder> WithHandler(IRepository<Guid> repository)
         {
-            return new AddItemToOrderHandler(repository);
+            return new AddItemToOrderHandler(repository, null);
         }
 
         protected override void Given(IGiven given)
