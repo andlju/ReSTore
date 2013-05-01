@@ -16,5 +16,15 @@ namespace ReSTore.Web.Controllers
             return View();
         }
 
+        public ActionResult Areas()
+        {
+            return PartialView();
+        }
+
+        public ActionResult Categories()
+        {
+            return PartialView();
+        }
+        
     }
 }

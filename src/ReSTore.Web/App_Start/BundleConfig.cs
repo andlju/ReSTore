@@ -26,6 +26,12 @@ namespace ReSTore.Web
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                          "~/Scripts/angular.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/angular-app").Include(
+                         "~/Scripts_App/*.js",
+                         "~/Scripts_App/services/*.js",
+                         "~/Scripts_App/controllers/*.js"
+                         ));
+
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(

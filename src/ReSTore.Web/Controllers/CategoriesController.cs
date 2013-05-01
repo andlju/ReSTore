@@ -19,7 +19,29 @@ using WebApiContrib.Formatting.CollectionJson;
 
 namespace ReSTore.Web.Controllers
 {
+    public class CategoriesHypermediaMapper : ICollectionJsonDocumentWriter<Category>
+    {
+        public ReadDocument Write(IEnumerable<Category> data)
+        {
+            var areaId = data.First().AreaId;
 
+            var doc = new ReadDocument();
+            var collection = doc.Collection;
+            collection.Version = "1.0";
+            collection.Href = new Uri(string.Format("/api/areas/{0}/categories", areaId), UriKind.Relative);
+            
+            foreach (var category in data)
+            {
+                var item = category.ToItem();
+                item.Href = new Uri(string.Format("/api/areas/{0}/categories/{1}", areaId, category.Id), UriKind.Relative);
+                collection.Items.Add(item);
+            }
+
+            return doc;
+        }
+    }
+        
+    [TypeMappedCollectionJsonFormatter(typeof(CategoriesHypermediaMapper))]
     public class CategoriesController : ApiController
     {
         private readonly IDocumentStore _store;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net.Http;
 using System.Runtime.Remoting.Messaging;
 using System.Web.Http;
@@ -11,19 +12,6 @@ using WebApiContrib.Formatting.CollectionJson;
 
 namespace ReSTore.Web.Controllers
 {
-
-    public static class DataExtensions
-    {
-        public static Item ToItem(this Area area)
-        {
-            var item = new Item();
-            item.Data.Add(new Data() { Name = "id", Value = area.Id.ToString() });
-            item.Data.Add(new Data() { Name = "name", Value = area.Name });
-
-            return item;
-        }
-    }
-
     public class CommandView
     {
         public Guid CommandId { get; set; }
@@ -36,10 +24,12 @@ namespace ReSTore.Web.Controllers
             var doc = new ReadDocument();
             var collection = doc.Collection;
             collection.Version = "1.0";
-            collection.Href = new Uri("http://test.com/api/areas");
+            collection.Href = new Uri("/api/areas", UriKind.Relative);
             foreach (var area in data)
             {
-                collection.Items.Add(area.ToItem());
+                var item = area.ToItem();
+                item.Href = new Uri(string.Format("/api/areas/{0}/categories", area.Id), UriKind.Relative);
+                collection.Items.Add(item);
             }
 
             return doc;
