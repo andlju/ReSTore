@@ -33,7 +33,7 @@ namespace ReSTore.Web.Controllers
             foreach (var category in data)
             {
                 var item = category.ToItem();
-                item.Href = new Uri(string.Format("/api/areas/{0}/categories/{1}", areaId, category.Id), UriKind.Relative);
+                item.Href = new Uri(string.Format("/api/areas/{0}/categories/{1}/products", areaId, category.Id), UriKind.Relative);
                 collection.Items.Add(item);
             }
 
@@ -64,32 +64,6 @@ namespace ReSTore.Web.Controllers
             using (var session = _store.OpenSession())
             {
                 return session.Load<Category>(id);
-            }
-        }
-    }
-
-    public class ProductsController : ApiController
-    {
-        private readonly IDocumentStore _store;
-
-        public ProductsController(IDocumentStore store)
-        {
-            _store = store;
-        }
-
-        public IEnumerable<Product> Get(Guid categoryId)
-        {
-            using (var session = _store.OpenSession())
-            {
-                return session.Query<Product>().Where(p => p.CategoryId == categoryId);
-            }
-        }
-
-        public Product Get(Guid areaId, Guid categoryId, Guid id)
-        {
-            using (var session = _store.OpenSession())
-            {
-                return session.Load<Product>(id);
             }
         }
     }

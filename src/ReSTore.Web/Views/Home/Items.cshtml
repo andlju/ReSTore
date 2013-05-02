@@ -2,8 +2,8 @@
 
 <section>
     <ul class="thumbnails">
-        <li ng-repeat="item in areas" class="span3">
-            <a href="#/categories?href={{item.href}}" class="thumbnail">
+        <li ng-repeat="item in items" class="span3">
+            <a href="" ng-click="select(item)" class="thumbnail">
                 <img ng-src="{{'https://se.airshoppen.com' + item.imageHref}}" alt="">
                 {{item.name}}
             </a>

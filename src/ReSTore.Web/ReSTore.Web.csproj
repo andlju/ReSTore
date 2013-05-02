@@ -167,6 +167,7 @@
     <Compile Include="Controllers\DataExtensions.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ICommandDispatcher.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
     <Compile Include="DependencyResolution\RavenRegistry.cs" />
     <Compile Include="DependencyResolution\ServiceBusRegistry.cs" />
@@ -579,9 +580,7 @@
     <Content Include="Scripts\ui-bootstrap-tpls-0.2.0.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Scripts_App\app.js" />
-    <Content Include="Scripts_App\controllers\AreasControl.js" />
-    <Content Include="Scripts_App\controllers\CategoriesControl.js" />
-    <Content Include="Scripts_App\services\Areas.js" />
+    <Content Include="Scripts_App\controllers\ItemsControl.js" />
     <Content Include="Scripts_App\services\CollectionJson.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -595,8 +594,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Areas.cshtml" />
-    <Content Include="Views\Home\Categories.cshtml" />
+    <Content Include="Views\Home\Items.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -13,7 +13,7 @@ var CollectionJson = function () {
             o[name] = val;
         }
         o.links = item.links;
-        o.href = encodeURIComponent(item.href);
+        o.href = item.href;
         return o;
     };
 
