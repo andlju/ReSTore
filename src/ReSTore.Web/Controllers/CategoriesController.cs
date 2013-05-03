@@ -23,17 +23,19 @@ namespace ReSTore.Web.Controllers
     {
         public ReadDocument Write(IEnumerable<Category> data)
         {
-            var areaId = data.First().AreaId;
+            var categories = data as Category[] ?? data.ToArray();
+            var areaId = categories.First().AreaId;
 
             var doc = new ReadDocument();
             var collection = doc.Collection;
             collection.Version = "1.0";
             collection.Href = new Uri(string.Format("/api/areas/{0}/categories", areaId), UriKind.Relative);
             
-            foreach (var category in data)
+            foreach (var category in categories)
             {
                 var item = category.ToItem();
-                item.Href = new Uri(string.Format("/api/areas/{0}/categories/{1}/products", areaId, category.Id), UriKind.Relative);
+                item.Href = new Uri(string.Format("/api/areas/{0}/categories/{1}", areaId, category.Id), UriKind.Relative);
+                item.Links.Add(new Link() { Href = new Uri(string.Format("/api/areas/{0}/categories/{1}/products", areaId, category.Id), UriKind.Relative), Rel = "children", Prompt = "Products" });
                 collection.Items.Add(item);
             }
 

@@ -22,7 +22,7 @@ namespace ReSTore.Domain
         public void AddItem(Guid itemId, IPricingService pricingService)
         {
             var price = pricingService.GetPrice(itemId);
-            Publish(new ItemAddedToOrder() { OrderId = _orderId, ItemId = itemId, Price = price });
+            Publish(new ItemAddedToOrder() { OrderId = _orderId, ProductId = itemId, Price = price });
         }
 
         private void Apply(OrderCreated evt)

@@ -24,7 +24,7 @@ namespace ReSTore.Domain.Tests
 
         protected override AddItemToOrder When()
         {
-            return new AddItemToOrder() { OrderId = _orderId, ItemId = _itemId};
+            return new AddItemToOrder() { OrderId = _orderId, ProductId = _itemId};
         }
 
         [TestMethod]

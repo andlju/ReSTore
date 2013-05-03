@@ -51,7 +51,7 @@ namespace ReSTore.Views.Tests.OrderStatus.Empty
 
             var eventContext = new EventContext()
             {
-                Event = new ItemAddedToOrder() { OrderId = OrderId, ItemId = Guid.NewGuid() },
+                Event = new ItemAddedToOrder() { OrderId = OrderId, ProductId = Guid.NewGuid() },
                 EventNumber = 2,
                 Headers =
                     new Dictionary<string, object>()

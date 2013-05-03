@@ -28,7 +28,8 @@ namespace ReSTore.Web.Controllers
             foreach (var area in data)
             {
                 var item = area.ToItem();
-                item.Href = new Uri(string.Format("/api/areas/{0}/categories", area.Id), UriKind.Relative);
+                item.Href = new Uri(string.Format("/api/areas/{0}", area.Id), UriKind.Relative);
+                item.Links.Add(new Link() { Href = new Uri(string.Format("/api/areas/{0}/categories", area.Id), UriKind.Relative), Rel = "children", Prompt = "Categories"});
                 collection.Items.Add(item);
             }
 
@@ -51,6 +52,14 @@ namespace ReSTore.Web.Controllers
             using (var session = _store.OpenSession())
             {
                 return session.Query<Area>();
+            }
+        }
+
+        public Area Get(Guid id)
+        {
+            using (var session = _store.OpenSession())
+            {
+                return session.Load<Area>(id);
             }
         }
     }

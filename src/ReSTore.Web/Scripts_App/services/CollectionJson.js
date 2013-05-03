@@ -12,8 +12,16 @@ var CollectionJson = function () {
             var val = item.data[dataItem].value;
             o[name] = val;
         }
-        o.links = item.links;
-        o.href = item.href;
+        o._links = {};
+        for (var link in item.links) {
+            var linkRelArray = o._links[item.links[link].rel];
+            if (linkRelArray == null) {
+                o._links[item.links[link].rel] = linkRelArray = [];
+            }
+            linkRelArray.push(item.links[link]);
+        }
+        o._href = item.href;
+        console.log(o);
         return o;
     };
 

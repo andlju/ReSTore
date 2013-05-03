@@ -33,7 +33,7 @@ namespace ReSTore.Web.Tests.Controllers.Areas
         [TestMethod]
         public void then_item_links_are_correct()
         {
-            _document.Collection.Href.ToString().ShouldEqual("http://test.com/api/areas");
+            _document.Collection.Href.ToString().ShouldEqual("/api/areas");
         }
 
         [TestMethod]

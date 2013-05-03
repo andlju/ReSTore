@@ -17,7 +17,11 @@ ngRestore.controller("ItemsControl",
         };
 
         $scope.select = function(item) {
-            $location.search({ href: item.href });
+            $location.search({ href: item._links.children[0].href });
+        };
+
+        $scope.hasChildren = function(item) {
+            return item._links.children != null;
         };
 
         $scope.refresh();

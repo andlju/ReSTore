@@ -3,10 +3,14 @@
 <section>
     <ul class="thumbnails">
         <li ng-repeat="item in items" class="span3">
-            <a href="" ng-click="select(item)" class="thumbnail">
+            <a href="" ng-click="select(item)" class="thumbnail" ng-show="hasChildren(item)">
                 <img ng-src="{{'https://se.airshoppen.com' + item.imageHref}}" alt="">
                 {{item.name}}
             </a>
+            <div class="thumbnail" ng-show="!hasChildren(item)">
+                <img ng-src="{{'https://se.airshoppen.com' + item.imageHref}}" alt="">
+                {{item.name}}
+            </div>
         </li>
     </ul>
 </section>

@@ -22,7 +22,7 @@ namespace ReSTore.Domain.CommandHandlers
             if (order == null)
                 throw new InvalidOperationException(string.Format("No order found with an OrderId of {0}", command.OrderId));
 
-            order.AddItem(command.ItemId, _pricingService);
+            order.AddItem(command.ProductId, _pricingService);
             _repository.Store(command.OrderId, order);
         }
     }

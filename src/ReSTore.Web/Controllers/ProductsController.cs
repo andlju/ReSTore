@@ -25,6 +25,13 @@ namespace ReSTore.Web.Controllers
             {
                 var item = product.ToItem();
                 item.Href = new Uri(string.Format("/api/areas/{0}/categories/{1}/products/{2}", areaId, categoryId, product.Id), UriKind.Relative);
+                
+                item.Links.Add(new Link()
+                    {
+                        Href = new Uri(string.Format("/api/basket/addItemToOrder"), UriKind.Relative),
+                        Rel="command",
+                        Prompt = "Add to basket"
+                    });
                 collection.Items.Add(item);
             }
 

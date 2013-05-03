@@ -18,10 +18,10 @@ namespace ReSTore.Domain.Tests
     }
 
     [TestClass]
-    public class when_adding_item_to_order : with<AddItemToOrder>
+    public class when_adding_to_order : with<AddItemToOrder>
     {
         private Guid _orderId = Guid.NewGuid();
-        private Guid _itemId = Guid.NewGuid();
+        private Guid _productId = Guid.NewGuid();
 
         protected override ICommandHandler<AddItemToOrder> WithHandler(IRepository<Guid> repository)
         {
@@ -35,7 +35,7 @@ namespace ReSTore.Domain.Tests
 
         protected override AddItemToOrder When()
         {
-            return new AddItemToOrder() { OrderId = _orderId, ItemId = _itemId };
+            return new AddItemToOrder() { OrderId = _orderId, ProductId = _productId };
         }
 
         [TestMethod]
@@ -53,7 +53,7 @@ namespace ReSTore.Domain.Tests
         [TestMethod]
         public void then_ItemId_in_event_is_correct()
         {
-            For(_orderId).Event<ItemAddedToOrder>(0, e => Assert.AreEqual(_itemId, e.ItemId));
+            For(_orderId).Event<ItemAddedToOrder>(0, e => Assert.AreEqual(_productId, e.ProductId));
         }
 
         [TestMethod]
