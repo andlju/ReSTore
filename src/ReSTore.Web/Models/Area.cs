@@ -8,4 +8,5 @@ namespace ReSTore.Web.Models
         public string Name { get; set; }
         public string ImageHref { get; set; }
     }
+
 }

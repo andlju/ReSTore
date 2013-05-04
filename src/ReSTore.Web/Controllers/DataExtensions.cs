@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Linq;
+using System.Reflection;
 using WebApiContrib.Formatting.CollectionJson;
 
 namespace ReSTore.Web.Controllers
@@ -20,6 +22,33 @@ namespace ReSTore.Web.Controllers
             }
 
             return item;
+        }
+
+        public static void PopulateTemplate(this Template template, Type type)
+        {
+            foreach (var prop in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                // TODO Look at Data Annotation Attributes
+                template.Data.Add(new Data() { Name = prop.Name.ToCase(Case.CamelCase), Prompt = prop.Name });
+            }
+        }
+
+        public static TObj FromTemplate<TObj>(this Template template) where TObj : new()
+        {
+            var obj = new TObj();
+            var type = obj.GetType();
+            foreach (var prop in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                var data =
+                    template.Data.SingleOrDefault(
+                        d => d.Name.Equals(prop.Name, StringComparison.InvariantCultureIgnoreCase));
+                if (data != null)
+                {
+                    var val = Convert.ChangeType(data.Value, prop.PropertyType);
+                    prop.SetValue(obj, val);
+                }
+            }
+            return obj;
         }
     }
 }

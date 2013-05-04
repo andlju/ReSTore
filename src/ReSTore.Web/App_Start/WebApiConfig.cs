@@ -22,9 +22,9 @@ namespace ReSTore.Web
             );
 
             config.Routes.MapHttpRoute(
-                name: "CommandsApi",
-                routeTemplate: "api/commands/{action}/{commandId}",
-                defaults: new { controller="commands", commandId = RouteParameter.Optional }
+                name: "BasketCommandsApi",
+                routeTemplate: "api/basket/{action}/{commandId}",
+                defaults: new { controller="basket", commandId = RouteParameter.Optional }
             );
 
             config.Routes.MapHttpRoute(
