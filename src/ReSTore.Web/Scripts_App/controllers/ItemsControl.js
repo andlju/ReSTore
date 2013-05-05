@@ -24,7 +24,20 @@ ngRestore.controller("ItemsControl",
             return item._links.children != null;
         };
 
+        $scope.basketItems = [];
+
+        $scope.refreshBasket = function() {
+            $http.get('/api/basket').success(
+                function(data) {
+                    $scope.basketItems = CollectionJson.parseItems(data);
+                }
+            ).error(function (data, status, headers) {
+
+            });
+        };
+
         $scope.refresh();
+        $scope.refreshBasket();
     }]);
 
 

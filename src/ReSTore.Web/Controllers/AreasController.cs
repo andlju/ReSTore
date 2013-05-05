@@ -12,6 +12,7 @@ using WebApiContrib.Formatting.CollectionJson;
 
 namespace ReSTore.Web.Controllers
 {
+
     public class AreaHypermediaMapper : ICollectionJsonDocumentWriter<Area>
     {
         public ReadDocument Write(IEnumerable<Area> data)

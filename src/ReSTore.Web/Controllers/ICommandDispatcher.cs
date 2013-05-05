@@ -5,7 +5,7 @@ namespace ReSTore.Web.Controllers
 {
     public interface ICommandDispatcher
     {
-        void Dispatch<TMessage>(Guid commandId, TMessage command);
+        void Dispatch<TMessage>(TMessage command);
     }
 
     public class EasyNetQCommandDispatcher : ICommandDispatcher
@@ -17,7 +17,7 @@ namespace ReSTore.Web.Controllers
             _bus = bus;
         }
 
-        public void Dispatch<TMessage>(Guid commandId, TMessage command)
+        public void Dispatch<TMessage>(TMessage command)
         {
             using (var channel = _bus.OpenPublishChannel())
             {

@@ -1,8 +1,8 @@
 ﻿@model dynamic
 
-<section>
+<section class="span9">
     <ul class="thumbnails">
-        <li ng-repeat="item in items" class="span3">
+        <li ng-repeat="item in items" class="span2">
             <a href="" ng-click="select(item)" class="thumbnail" ng-show="hasChildren(item)">
                 <img ng-src="{{'https://se.airshoppen.com' + item.imageHref}}" alt="">
                 {{item.name}}
@@ -13,4 +13,17 @@
             </div>
         </li>
     </ul>
+</section>
+<section class="span3">
+    <table class="table">
+        <thead>
+            
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in basketItems">
+                <td>{{item.name}}</td>
+                <td>{{item.amount}}</td>
+            </tr>
+        </tbody>
+    </table>
 </section>

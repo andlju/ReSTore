@@ -9,4 +9,8 @@ namespace ReSTore.Web.Models
         public string ImageHref { get; set; }
     }
 
+    public class Root
+    {
+        
+    }
 }
