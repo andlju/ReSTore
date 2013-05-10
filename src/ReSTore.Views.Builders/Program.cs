@@ -62,10 +62,13 @@ namespace ReSTore.Views.Builders
             if (evt.Event.EventType.StartsWith("$"))
                 return;
 
-            RavenViewModelBuilder<OrderStatusModel> builder;
-            builder = new RavenViewModelBuilder<OrderStatusModel>(_store, new OrderStatusModelHandler());
+            var deserializedEvent = _serializer.Deserialize(evt.Event);
 
-            builder.Build(evt.Event.EventStreamId, new[] {_serializer.Deserialize(evt.Event)});
+            var orderStatusbuilder = new RavenViewModelBuilder<OrderStatusModel>(_store, new OrderStatusModelHandler());
+            orderStatusbuilder.Build(evt.Event.EventStreamId, new[] { deserializedEvent });
+
+            var orderItemsBuilder = new RavenViewModelBuilder<OrderItemsModel>(_store, new OrderItemsModelHandler());
+            orderItemsBuilder.Build(evt.Event.EventStreamId, new[] { deserializedEvent });
 
             ViewBuilderData mainData;
             using (var session = _store.OpenSession())

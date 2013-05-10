@@ -618,6 +618,10 @@
       <Project>{6D38CB00-F49A-471E-A6C2-896B4B0C08AD}</Project>
       <Name>ReSTore.Messages</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ReSTore.Views\ReSTore.Views.csproj">
+      <Project>{FB178121-7759-448A-AA05-61ED8038CD30}</Project>
+      <Name>ReSTore.Views</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

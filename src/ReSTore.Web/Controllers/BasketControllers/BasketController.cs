@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using Raven.Client;
 using ReSTore.Messages.Commands;
+using ReSTore.Views;
 using ReSTore.Web.Models;
 using WebApiContrib.Formatting.CollectionJson;
 
@@ -19,13 +20,18 @@ namespace ReSTore.Web.Controllers.BasketControllers
             var collection = doc.Collection;
             collection.Version = "1.0";
             collection.Href = new Uri("/api/basket", UriKind.Relative);
-            
+
             var basket = data.Single();
+            if (basket == null)
+            {
+                return doc;
+            }
+
             foreach (var basketItem in basket.Items)
             {
                 var item = basketItem.ToItem();
-                item.Href = new Uri(string.Format("/api/basket/items/{0}", basketItem.ItemId), UriKind.Relative);
-                item.Links.Add(new Link() { Href = new Uri(string.Format("/api/products/{0}", basketItem.ItemId), UriKind.Relative), Rel = "description", Prompt = "Product Information"});
+                item.Href = new Uri(string.Format("/api/basket/items/{0}", basketItem.ProductId), UriKind.Relative);
+                item.Links.Add(new Link() { Href = new Uri(string.Format("/api/products/{0}", basketItem.ProductId), UriKind.Relative), Rel = "description", Prompt = "Product Information"});
                 collection.Items.Add(item);
             }
 
@@ -51,7 +57,7 @@ namespace ReSTore.Web.Controllers.BasketControllers
         {
             var basketId = Guid.Parse((string)Request.Properties[BasketIdHandler.BasketIdToken]);
 
-            using (var session = _store.OpenSession())
+            using (var session = _store.OpenSession("ReSTore.Views"))
             {
                 var basket = session.Load<Basket>(basketId);
                 if (basket == null)

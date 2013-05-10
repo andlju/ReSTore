@@ -17,7 +17,7 @@ namespace ReSTore.Web.Models
 
     public class BasketItem
     {
-        public Guid ItemId { get; set; }
+        public Guid ProductId { get; set; }
 
         public string Name { get; set; }
         public decimal Amount { get; set; }

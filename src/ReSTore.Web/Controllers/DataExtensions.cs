@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using WebApiContrib.Formatting.CollectionJson;
@@ -44,7 +45,7 @@ namespace ReSTore.Web.Controllers
                         d => d.Name.Equals(prop.Name, StringComparison.InvariantCultureIgnoreCase));
                 if (data != null)
                 {
-                    var val = Convert.ChangeType(data.Value, prop.PropertyType);
+                    var val = TypeDescriptor.GetConverter(prop.PropertyType).ConvertFrom(data.Value);
                     prop.SetValue(obj, val);
                 }
             }

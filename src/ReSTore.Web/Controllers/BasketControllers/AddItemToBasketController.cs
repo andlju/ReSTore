@@ -25,7 +25,7 @@ namespace ReSTore.Web.Controllers.BasketControllers
             return Enumerable.Empty<AddItemToOrder>();
         }
 
-        public BasketCommandView Put(Guid commandId, AddItemToOrder command)
+        public BasketCommandView Put(Guid commandId, [FromBody]AddItemToOrder command)
         {
             command.CommandId = commandId;
 

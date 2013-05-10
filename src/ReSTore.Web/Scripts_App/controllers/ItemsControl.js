@@ -32,7 +32,13 @@ ngRestore.controller("ItemsControl",
                     $scope.basketItems = CollectionJson.parseItems(data);
                 }
             ).error(function (data, status, headers) {
-
+                if (status == 404) {
+                    $http.post('/api/basket').success(
+                        function(data) {
+                            alert('basket created');
+                        }
+                    );
+                }
             });
         };
 

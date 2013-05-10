@@ -15,7 +15,11 @@ namespace ReSTore.Domain.CommandHandlers
 
         public void Handle(CreateOrder command)
         {
-            var order = new Order(command.OrderId);
+            var order = _repository.GetAggregate<Order>(command.OrderId);
+            if (order != null)
+                throw new Exception("Order already created");
+
+            order = new Order(command.OrderId);
             _repository.Store(command.OrderId, order);
         }
     }
