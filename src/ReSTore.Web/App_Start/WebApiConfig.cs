@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using ReSTore.Web.Controllers;
-using ReSTore.Web.Controllers.BasketControllers;
+using ReSTore.Web.Controllers.OrderControllers;
 
 namespace ReSTore.Web
 {
@@ -11,7 +11,6 @@ namespace ReSTore.Web
     {
         public static void Register(HttpConfiguration config)
         {
-            config.MessageHandlers.Add(new BasketIdHandler());
 
             config.Routes.MapHttpRoute(
                 name: "CategoriesApi",
@@ -26,8 +25,8 @@ namespace ReSTore.Web
             );
 
             config.Routes.MapHttpRoute(
-                name: "BasketCommandsApi",
-                routeTemplate: "api/basket/{controller}/{commandId}",
+                name: "OrderCommandsApi",
+                routeTemplate: "api/order/{controller}/{commandId}",
                 defaults: new { commandId = RouteParameter.Optional }
             );
 

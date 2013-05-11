@@ -24,7 +24,8 @@ namespace ReSTore.Web
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
-                         "~/Scripts/angular.js"));
+                         "~/Scripts/angular.js",
+                         "~/Scripts/angular-cookies.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/angular-app").Include(
                          "~/Scripts_App/*.js",

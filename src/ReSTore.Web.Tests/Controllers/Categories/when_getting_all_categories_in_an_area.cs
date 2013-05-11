@@ -27,7 +27,7 @@ namespace ReSTore.Web.Tests.Controllers.Categories
         [TestMethod]
         public void then_category_id_is_correct()
         {
-            Assert.AreEqual(TestDataHelpers._Category3Id, _categories[0].Id);
+            Assert.AreEqual(TestDataHelpers._Category3Id, _categories[0].CategoryId);
         }
     }
 }

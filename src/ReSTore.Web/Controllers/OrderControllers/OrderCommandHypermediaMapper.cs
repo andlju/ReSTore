@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using WebApiContrib.Formatting.CollectionJson;
 
-namespace ReSTore.Web.Controllers.BasketControllers
+namespace ReSTore.Web.Controllers.OrderControllers
 {
-    public class BasketCommandHypermediaMapper<TCmd> : 
+    public class OrderCommandHypermediaMapper<TCmd> : 
         ICollectionJsonDocumentWriter<TCmd>,
         ICollectionJsonDocumentReader<TCmd> 
         where TCmd : new()
@@ -21,7 +21,7 @@ namespace ReSTore.Web.Controllers.BasketControllers
             var doc = new ReadDocument();
             var collection = doc.Collection;
             collection.Version = "1.0";
-            collection.Href = new Uri(string.Format("/api/basket/commands/TODO"), UriKind.Relative);
+            collection.Href = new Uri(string.Format("/api/order/commands/TODO"), UriKind.Relative);
             collection.Template.PopulateTemplate(typeof(TCmd));
             
             return doc;

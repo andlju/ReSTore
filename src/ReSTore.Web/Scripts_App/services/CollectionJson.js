@@ -25,8 +25,31 @@ var CollectionJson = function () {
         return o;
     };
 
+    var fillTemplate = function(template, items) {
+        for (var item in template.data) {
+            var dataItem = template.data[item];
+            var name = dataItem.name;
+            var val = getValue(name, items);
+            if (val) {
+                dataItem.value = val;
+            }
+        }
+    };
+
+    var getValue = function(name, items) {
+        for (var idx in items) {
+            var obj = items[idx];
+            var val = obj[name];
+            if (val) {
+                return val;
+            }
+        }
+        return null;
+    };
+
     return {
-        parseItems: parseItems
+        parseItems: parseItems,
+        fillTemplate : fillTemplate
     };
 }();
 

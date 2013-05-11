@@ -24,13 +24,13 @@ namespace ReSTore.Web.Controllers
             foreach (var product in data)
             {
                 var item = product.ToItem();
-                item.Href = new Uri(string.Format("/api/areas/{0}/categories/{1}/products/{2}", areaId, categoryId, product.Id), UriKind.Relative);
+                item.Href = new Uri(string.Format("/api/areas/{0}/categories/{1}/products/{2}", areaId, categoryId, product.ProductId), UriKind.Relative);
                 
                 item.Links.Add(new Link()
                     {
-                        Href = new Uri(string.Format("/api/basket/addItemToOrder"), UriKind.Relative),
+                        Href = new Uri(string.Format("/api/order/addItemToOrder"), UriKind.Relative),
                         Rel="command",
-                        Prompt = "Add to basket"
+                        Prompt = "Add to order"
                     });
                 collection.Items.Add(item);
             }

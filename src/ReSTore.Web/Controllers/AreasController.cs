@@ -24,8 +24,8 @@ namespace ReSTore.Web.Controllers
             foreach (var area in data)
             {
                 var item = area.ToItem();
-                item.Href = new Uri(string.Format("/api/areas/{0}", area.Id), UriKind.Relative);
-                item.Links.Add(new Link() { Href = new Uri(string.Format("/api/areas/{0}/categories", area.Id), UriKind.Relative), Rel = "children", Prompt = "Categories"});
+                item.Href = new Uri(string.Format("/api/areas/{0}", area.AreaId), UriKind.Relative);
+                item.Links.Add(new Link() { Href = new Uri(string.Format("/api/areas/{0}/categories", area.AreaId), UriKind.Relative), Rel = "children", Prompt = "Categories"});
                 collection.Items.Add(item);
             }
 

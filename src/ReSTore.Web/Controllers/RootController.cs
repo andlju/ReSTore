@@ -14,7 +14,7 @@ namespace ReSTore.Web.Controllers
             var collection = doc.Collection;
             collection.Version = "1.0";
             collection.Href = new Uri("/api", UriKind.Relative);
-            collection.Links.Add(new Link() { Href = new Uri("/api/basket", UriKind.Relative), Rel = "basket" });
+            collection.Links.Add(new Link() { Href = new Uri("/api/order", UriKind.Relative), Rel = "order" });
             collection.Links.Add(new Link() { Href = new Uri("/api/areas", UriKind.Relative), Rel = "areas" });
 
             return doc;

@@ -4,46 +4,62 @@ ngRestore.controller("ItemsControl",
 
         $http.defaults.headers.common['Accept'] = 'application/vnd.collection+json';
 
-        var href = $routeParams.href;
-        if (href == undefined)
-            href = '/api/areas';
+        $scope.href = $routeParams.href;
+        if ($scope.href == undefined)
+            $scope.href = '/api/areas';
         
         $scope.items = [];
 
         $scope.refresh = function() {
-            $http.get(href).success(function(data) {
+            $http.get($scope.href).success(function (data) {
                 $scope.items = CollectionJson.parseItems(data);
             });
         };
 
-        $scope.select = function(item) {
-            $location.search({ href: item._links.children[0].href });
+        $scope.select = function (item) {
+            var itemHref = item._links.children[0].href;
+            $scope.href = itemHref;
+            $location.search({ href: itemHref });
+            $scope.refresh();
         };
 
         $scope.hasChildren = function(item) {
             return item._links.children != null;
         };
 
-        $scope.basketItems = [];
+        $scope.orderItems = [];
 
-        $scope.refreshBasket = function() {
-            $http.get('/api/basket').success(
-                function(data) {
-                    $scope.basketItems = CollectionJson.parseItems(data);
-                }
-            ).error(function (data, status, headers) {
-                if (status == 404) {
-                    $http.post('/api/basket').success(
-                        function(data) {
-                            alert('basket created');
-                        }
-                    );
-                }
+        $scope.postCommand = function (item, command) {
+            $http.get(command.href).success(function(data) {
+                var template = data.collection.template;
+                CollectionJson.fillTemplate(template, [item, $scope]);
+                console.log(template);
             });
+        };
+        $scope.createOrder = function() {
+            $http.post('/api/order').success(
+                function (data, status, headers) {
+                    $scope.orderId = headers('Order-Id');
+                });
+        };
+        
+        $scope.refreshOrder = function () {
+            if (!$scope.orderId)
+                return;
+            
+            $http.get('/api/order', {
+                headers: {
+                    'Order-Id' : $scope.orderId
+                }
+            }).success(
+                function(data) {
+                    $scope.orderItems = CollectionJson.parseItems(data);
+                }
+            );
         };
 
         $scope.refresh();
-        $scope.refreshBasket();
+        $scope.refreshOrder();
     }]);
 
 

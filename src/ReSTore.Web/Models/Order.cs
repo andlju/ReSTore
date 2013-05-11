@@ -3,19 +3,19 @@ using System.Collections.Generic;
 
 namespace ReSTore.Web.Models
 {
-    public class BasketCommandView
+    public class OrderCommandView
     {
         public Guid CommandId { get; set; }
-        public Guid BasketId { get; set; }
+        public Guid OrderId { get; set; }
     }
     
-    public class Basket
+    public class Order
     {
-        public Guid Id { get; set; }
-        public List<BasketItem> Items { get; set; }
+        public Guid OrderId { get; set; }
+        public List<OrderItem> Items { get; set; }
     }
 
-    public class BasketItem
+    public class OrderItem
     {
         public Guid ProductId { get; set; }
 

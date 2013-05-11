@@ -10,20 +10,28 @@
             <div class="thumbnail" ng-show="!hasChildren(item)">
                 <img ng-src="{{'https://se.airshoppen.com' + item.imageHref}}" alt="">
                 {{item.name}}
+                <button ng-repeat="command in item._links.command" ng-click="postCommand(item, command)">{{command.prompt}}</button>
             </div>
         </li>
     </ul>
 </section>
 <section class="span3">
-    <table class="table">
-        <thead>
+    
+    <div ng-show="orderId">
+        <table class="table" >
+            <thead>
             
-        </thead>
-        <tbody>
-            <tr ng-repeat="item in basketItems">
-                <td>{{item.name}}</td>
-                <td>{{item.amount}}</td>
-            </tr>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in orderItems">
+                    <td>{{item.name}}</td>
+                    <td>{{item.amount}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <button ng-click="reset()">Reset</button>
+    </div>
+    <div ng-show="!orderId">
+        <button ng-click="createOrder()">Create</button>
+    </div>
 </section>

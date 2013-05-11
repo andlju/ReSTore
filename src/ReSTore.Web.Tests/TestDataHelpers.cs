@@ -30,32 +30,32 @@ namespace ReSTore.Web.Tests
 
         public static IEnumerable<Area> GetAreas()
         {
-            yield return new Area() { Id = _Area1Id, Name = "Area 1", ImageHref = "/images/area/1.jpg" };
-            yield return new Area() { Id = _Area2Id, Name = "Area 2", ImageHref = "/images/area/2.jpg" };
-            yield return new Area() { Id = _Area3Id, Name = "Area 3", ImageHref = "/images/area/3.jpg" };
+            yield return new Area() { AreaId = _Area1Id, Name = "Area 1", ImageHref = "/images/area/1.jpg" };
+            yield return new Area() { AreaId = _Area2Id, Name = "Area 2", ImageHref = "/images/area/2.jpg" };
+            yield return new Area() { AreaId = _Area3Id, Name = "Area 3", ImageHref = "/images/area/3.jpg" };
         }
 
         public static IEnumerable<Category> GetCategories()
         {
-            yield return new Category() { Id = _Category1Id, AreaId = _Area1Id, Name="Category 1", ImageHref="/images/category/1" };
-            yield return new Category() { Id = _Category2Id, AreaId = _Area1Id, Name="Category 2", ImageHref="/images/category/2" };
-            yield return new Category() { Id = _Category3Id, AreaId = _Area2Id, Name="Category 3", ImageHref="/images/category/3" };
-            yield return new Category() { Id = _Category4Id, AreaId = _Area3Id, Name="Category 4", ImageHref="/images/category/4" };
-            yield return new Category() { Id = _Category5Id, AreaId = _Area3Id, Name="Category 5", ImageHref="/images/category/5" };
-            yield return new Category() { Id = _Category6Id, AreaId = _Area3Id, Name="Category 6", ImageHref="/images/category/6" };
+            yield return new Category() { CategoryId = _Category1Id, AreaId = _Area1Id, Name="Category 1", ImageHref="/images/category/1" };
+            yield return new Category() { CategoryId = _Category2Id, AreaId = _Area1Id, Name="Category 2", ImageHref="/images/category/2" };
+            yield return new Category() { CategoryId = _Category3Id, AreaId = _Area2Id, Name="Category 3", ImageHref="/images/category/3" };
+            yield return new Category() { CategoryId = _Category4Id, AreaId = _Area3Id, Name="Category 4", ImageHref="/images/category/4" };
+            yield return new Category() { CategoryId = _Category5Id, AreaId = _Area3Id, Name="Category 5", ImageHref="/images/category/5" };
+            yield return new Category() { CategoryId = _Category6Id, AreaId = _Area3Id, Name="Category 6", ImageHref="/images/category/6" };
         }
 
         public static IEnumerable<Product> GetProducts()
         {
-            yield return new Product() { Id = _Product1Id, CategoryId = _Category1Id, Name = "Product 1", Amount = "100 g", Brand = "Brand 1", ImageHref = "/images/product/1", Price = 101.50m };
-            yield return new Product() { Id = _Product2Id, CategoryId = _Category1Id, Name = "Product 2", Amount = "200 g", Brand = "Brand 1", ImageHref = "/images/product/2", Price = 102.50m };
-            yield return new Product() { Id = _Product3Id, CategoryId = _Category1Id, Name = "Product 3", Amount = "300 g", Brand = "Brand 2", ImageHref = "/images/product/3", Price = 103.50m };
-            yield return new Product() { Id = _Product4Id, CategoryId = _Category1Id, Name = "Product 4", Amount = "400 g", Brand = "Brand 3", ImageHref = "/images/product/4", Price = 104.50m };
-            yield return new Product() { Id = _Product5Id, CategoryId = _Category2Id, Name = "Product 5", Amount = "500 g", Brand = "Brand 1", ImageHref = "/images/product/5", Price = 105.50m };
-            yield return new Product() { Id = _Product6Id, CategoryId = _Category2Id, Name = "Product 6", Amount = "600 g", Brand = "Brand 2", ImageHref = "/images/product/6", Price = 106.50m };
-            yield return new Product() { Id = _Product7Id, CategoryId = _Category3Id, Name = "Product 7", Amount = "700 g", Brand = "Brand 3", ImageHref = "/images/product/7", Price = 107.50m };
-            yield return new Product() { Id = _Product8Id, CategoryId = _Category4Id, Name = "Product 8", Amount = "800 g", Brand = "Brand 1", ImageHref = "/images/product/8", Price = 108.50m };
-            yield return new Product() { Id = _Product9Id, CategoryId = _Category5Id, Name = "Product 9", Amount = "900 g", Brand = "Brand 2", ImageHref = "/images/product/9", Price = 109.50m };
+            yield return new Product() { ProductId = _Product1Id, CategoryId = _Category1Id, Name = "Product 1", Amount = "100 g", Brand = "Brand 1", ImageHref = "/images/product/1", Price = 101.50m };
+            yield return new Product() { ProductId = _Product2Id, CategoryId = _Category1Id, Name = "Product 2", Amount = "200 g", Brand = "Brand 1", ImageHref = "/images/product/2", Price = 102.50m };
+            yield return new Product() { ProductId = _Product3Id, CategoryId = _Category1Id, Name = "Product 3", Amount = "300 g", Brand = "Brand 2", ImageHref = "/images/product/3", Price = 103.50m };
+            yield return new Product() { ProductId = _Product4Id, CategoryId = _Category1Id, Name = "Product 4", Amount = "400 g", Brand = "Brand 3", ImageHref = "/images/product/4", Price = 104.50m };
+            yield return new Product() { ProductId = _Product5Id, CategoryId = _Category2Id, Name = "Product 5", Amount = "500 g", Brand = "Brand 1", ImageHref = "/images/product/5", Price = 105.50m };
+            yield return new Product() { ProductId = _Product6Id, CategoryId = _Category2Id, Name = "Product 6", Amount = "600 g", Brand = "Brand 2", ImageHref = "/images/product/6", Price = 106.50m };
+            yield return new Product() { ProductId = _Product7Id, CategoryId = _Category3Id, Name = "Product 7", Amount = "700 g", Brand = "Brand 3", ImageHref = "/images/product/7", Price = 107.50m };
+            yield return new Product() { ProductId = _Product8Id, CategoryId = _Category4Id, Name = "Product 8", Amount = "800 g", Brand = "Brand 1", ImageHref = "/images/product/8", Price = 108.50m };
+            yield return new Product() { ProductId = _Product9Id, CategoryId = _Category5Id, Name = "Product 9", Amount = "900 g", Brand = "Brand 2", ImageHref = "/images/product/9", Price = 109.50m };
         }
     }
 }

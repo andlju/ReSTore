@@ -34,8 +34,8 @@ namespace ReSTore.Web.Controllers
             foreach (var category in categories)
             {
                 var item = category.ToItem();
-                item.Href = new Uri(string.Format("/api/areas/{0}/categories/{1}", areaId, category.Id), UriKind.Relative);
-                item.Links.Add(new Link() { Href = new Uri(string.Format("/api/areas/{0}/categories/{1}/products", areaId, category.Id), UriKind.Relative), Rel = "children", Prompt = "Products" });
+                item.Href = new Uri(string.Format("/api/areas/{0}/categories/{1}", areaId, category.CategoryId), UriKind.Relative);
+                item.Links.Add(new Link() { Href = new Uri(string.Format("/api/areas/{0}/categories/{1}/products", areaId, category.CategoryId), UriKind.Relative), Rel = "children", Prompt = "Products" });
                 collection.Items.Add(item);
             }
 

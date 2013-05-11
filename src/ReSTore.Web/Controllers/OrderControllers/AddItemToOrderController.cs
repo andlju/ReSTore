@@ -6,16 +6,16 @@ using ReSTore.Messages.Commands;
 using ReSTore.Web.Models;
 using WebApiContrib.Formatting.CollectionJson;
 
-namespace ReSTore.Web.Controllers.BasketControllers
+namespace ReSTore.Web.Controllers.OrderControllers
 {
     [TypeMappedCollectionJsonFormatter(
-        typeof(BasketCommandHypermediaMapper<AddItemToOrder>), 
-        typeof(BasketCommandViewHypermediaMapper))]
-    public class AddItemToBasketController : ApiController
+        typeof(OrderCommandHypermediaMapper<AddItemToOrder>), 
+        typeof(OrderCommandViewHypermediaMapper))]
+    public class AddItemToOrderController : ApiController
     {
         private readonly ICommandDispatcher _dispatcher;
 
-        public AddItemToBasketController(ICommandDispatcher dispatcher)
+        public AddItemToOrderController(ICommandDispatcher dispatcher)
         {
             _dispatcher = dispatcher;
         }
@@ -25,13 +25,13 @@ namespace ReSTore.Web.Controllers.BasketControllers
             return Enumerable.Empty<AddItemToOrder>();
         }
 
-        public BasketCommandView Put(Guid commandId, [FromBody]AddItemToOrder command)
+        public OrderCommandView Put(Guid commandId, [FromBody]AddItemToOrder command)
         {
             command.CommandId = commandId;
 
             _dispatcher.Dispatch(command);
 
-            return new BasketCommandView() { CommandId = commandId, BasketId = command.OrderId };
+            return new OrderCommandView() { CommandId = commandId, OrderId = command.OrderId };
         }
     }
 }
