@@ -1,20 +1,53 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using EasyNetQ;
 using Raven.Client;
 using ReSTore.Infrastructure;
+using ReSTore.Messages.Notifications;
 
 namespace ReSTore.Views.Builders
 {
+    public interface IModelUpdateNotifier
+    {
+        void Notify<TModel>(string id, TModel model);
+    }
+
+    public class ServiceBusUpdateNotifier : IModelUpdateNotifier
+    {
+        private IBus _bus;
+
+        public ServiceBusUpdateNotifier(IBus bus)
+        {
+            _bus = bus;
+        }
+
+        public void Notify<TModel>(string id, TModel model)
+        {
+            using (var channel = _bus.OpenPublishChannel())
+            {
+                channel.Publish(new ViewModelUpdated()
+                    {
+                        Id = Guid.Parse(id),
+                        Type = typeof (TModel).Name,
+                        Content = model
+                    });
+            }
+        }
+    }
+
     public class RavenViewModelBuilder<TModel> : IViewModelBuilder
         where TModel : class
     {
         private readonly IDocumentStore _store;
         private readonly IModelHandler<TModel> _handler;
+        private readonly IModelUpdateNotifier _updateNotifier;
 
-        public RavenViewModelBuilder(IDocumentStore store, IModelHandler<TModel> handler)
+        public RavenViewModelBuilder(IDocumentStore store, IModelHandler<TModel> handler, IModelUpdateNotifier updateNotifier)
         {
             _store = store;
             _handler = handler;
+            _updateNotifier = updateNotifier;
         }
 
         public void Build<TId>(TId id, IEnumerable<EventContext> events)
@@ -41,6 +74,7 @@ namespace ReSTore.Views.Builders
                 metaData["EventNumber"] = eventNumber;
 
                 session.SaveChanges();
+                _updateNotifier.Notify(id.ToString(), model);
             }
         }
 

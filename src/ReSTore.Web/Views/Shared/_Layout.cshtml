@@ -13,6 +13,9 @@
             }
         </style>
         @Styles.Render("~/Content/bootstrap")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jquery.signalR")
+        <script src="~/signalr/hubs"></script>
         @Scripts.Render("~/bundles/angular-app")
     </head>
 
@@ -42,8 +45,6 @@
             @RenderBody()
         </div> <!-- /container -->
                 
-
-        @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")
         @RenderSection("scripts", required: false)
     </body>

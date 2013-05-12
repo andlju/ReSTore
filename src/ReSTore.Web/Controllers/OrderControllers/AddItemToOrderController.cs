@@ -25,8 +25,9 @@ namespace ReSTore.Web.Controllers.OrderControllers
             return Enumerable.Empty<AddItemToOrder>();
         }
 
-        public OrderCommandView Put(Guid commandId, [FromBody]AddItemToOrder command)
+        public OrderCommandView Post([FromBody]AddItemToOrder command)
         {
+            var commandId = Guid.NewGuid();
             command.CommandId = commandId;
 
             _dispatcher.Dispatch(command);

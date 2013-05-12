@@ -1,5 +1,6 @@
 ﻿using Raven.Client;
 using Raven.Client.Document;
+using ReSTore.Views;
 using StructureMap.Configuration.DSL;
 
 namespace ReSTore.Web.DependencyResolution

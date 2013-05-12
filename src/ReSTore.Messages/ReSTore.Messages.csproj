@@ -46,6 +46,7 @@
     <Compile Include="Commands\CreateOrder.cs" />
     <Compile Include="Events\ItemAddedToOrder.cs" />
     <Compile Include="Events\OrderCreated.cs" />
+    <Compile Include="Notifications\ViewModelUpdated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

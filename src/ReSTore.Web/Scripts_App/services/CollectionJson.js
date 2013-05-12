@@ -21,7 +21,6 @@ var CollectionJson = function () {
             linkRelArray.push(item.links[link]);
         }
         o._href = item.href;
-        console.log(o);
         return o;
     };
 

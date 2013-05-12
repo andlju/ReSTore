@@ -34,8 +34,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EasyNetQ">
+      <HintPath>..\packages\EasyNetQ.0.10.0.84\lib\net40\EasyNetQ.dll</HintPath>
+    </Reference>
     <Reference Include="EventStore.ClientAPI">
       <HintPath>..\packages\EventStore.Client.1.1.0\lib\net40\EventStore.ClientAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RabbitMQ.Client">
+      <HintPath>..\packages\RabbitMQ.Client.3.0.2\lib\net30\RabbitMQ.Client.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Abstractions">
       <HintPath>..\packages\RavenDB.Client.2.0.2330\lib\net40\Raven.Abstractions.dll</HintPath>
@@ -48,6 +58,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -59,11 +70,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EventStoreRegistry.cs" />
     <Compile Include="IViewModelBuilder.cs" />
     <Compile Include="OrderStatusModelHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RavenRegistry.cs" />
     <Compile Include="RavenViewModelBuilder.cs" />
+    <Compile Include="ServiceBusRegistry.cs" />
+    <Compile Include="ViewBuilderService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

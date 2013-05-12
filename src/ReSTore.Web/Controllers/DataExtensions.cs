@@ -43,7 +43,7 @@ namespace ReSTore.Web.Controllers
                 var data =
                     template.Data.SingleOrDefault(
                         d => d.Name.Equals(prop.Name, StringComparison.InvariantCultureIgnoreCase));
-                if (data != null)
+                if (data != null && data.Value != null)
                 {
                     var val = TypeDescriptor.GetConverter(prop.PropertyType).ConvertFrom(data.Value);
                     prop.SetValue(obj, val);

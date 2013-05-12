@@ -34,6 +34,7 @@ namespace ReSTore.Views.Builders
             {
                 model = new OrderItemsModel()
                     {
+                        Id = itemAddedToOrder.OrderId.ToString(),
                         OrderItems = new List<OrderItem>()
                     };
             }
@@ -71,7 +72,7 @@ namespace ReSTore.Views.Builders
         public OrderStatusModel Handle(OrderStatusModel model, OrderCreated orderCreated, IDictionary<string, object> headers)
         {
             var timestamp = (DateTime)headers["_Timestamp"];
-            return new OrderStatusModel() { Created = timestamp, Status = Status.New };
+            return new OrderStatusModel() { Id = orderCreated.OrderId.ToString(), Created = timestamp, Status = Status.New };
         }
 
         public OrderStatusModel Handle(OrderStatusModel model, ItemAddedToOrder itemAddedToOrder, IDictionary<string, object> headers)

@@ -4,7 +4,7 @@ using EasyNetQ;
 using StructureMap;
 using StructureMap.Configuration.DSL;
 
-namespace ReSTore.Web.DependencyResolution
+namespace ReSTore
 {
     public class ServiceBusRegistry : Registry
     {
@@ -22,9 +22,6 @@ namespace ReSTore.Web.DependencyResolution
             }
 
             var bus = RabbitHutch.CreateBus(connectionString.ConnectionString);
-            
-            var autoSub = new AutoSubscriber(bus, "restore_web_autosub");
-            autoSub.Subscribe(typeof(ServiceBusRegistry).Assembly);
 
             return bus;
         }

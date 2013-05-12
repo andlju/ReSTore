@@ -9,6 +9,7 @@ using ReSTore.Messages.Commands;
 using ReSTore.Views;
 using ReSTore.Web.Models;
 using WebApiContrib.Formatting.CollectionJson;
+using OrderItem = ReSTore.Web.Models.OrderItem;
 
 namespace ReSTore.Web.Controllers.OrderControllers
 {
@@ -65,9 +66,19 @@ namespace ReSTore.Web.Controllers.OrderControllers
 
             using (var session = _store.OpenSession("ReSTore.Views"))
             {
-                var order = session.Load<OrderItemsModel>("OrderItemsModel/" + orderId);
-                if (order == null)
+                var status = session.Load<OrderStatusModel>("OrderStatusModel/" + orderId);
+                if (status == null)
                     return Request.CreateResponse(HttpStatusCode.NotFound);
+
+                var order = new Order()
+                    {
+                        OrderId = orderId,
+
+                    };
+                var items = session.Load<OrderItemsModel>("OrderItemsModel/" + orderId);
+                if (items != null)
+                    order.Items = items.OrderItems.Select(
+                        o => new OrderItem() {ProductId = o.ProductId, Name = "Unknown", Amount = o.Price}).ToList();
 
                 return Request.CreateResponse(HttpStatusCode.OK, order);
             }

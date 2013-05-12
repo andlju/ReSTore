@@ -76,8 +76,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainRegistry.cs" />
+    <Compile Include="DomainService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RavenRegistry.cs" />
+    <Compile Include="ServiceBusRegistry.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
