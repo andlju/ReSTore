@@ -176,6 +176,7 @@
     <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AreasController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\OrderControllers\AddItemToOrderController.cs" />
     <Compile Include="Controllers\OrderControllers\OrderCommandHypermediaMapper.cs" />
     <Compile Include="Controllers\OrderControllers\OrderCommandViewHypermediaMapper.cs" />
