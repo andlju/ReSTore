@@ -28,7 +28,7 @@ namespace ReSTore.Web.Controllers
                 item.Links.Add(new Link() { Href = new Uri(string.Format("/api/areas/{0}/categories", area.AreaId), UriKind.Relative), Rel = "children", Prompt = "Categories"});
                 collection.Items.Add(item);
             }
-
+            collection.Template.PopulateTemplate(typeof(Area));
             return doc;
         }
     }

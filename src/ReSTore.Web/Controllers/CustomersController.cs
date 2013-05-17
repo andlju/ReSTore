@@ -23,6 +23,17 @@ namespace ReSTore.Web.Controllers
 
     public class CustomersController : ApiController
     {
+        public HttpResponseMessage Post(Customer customer)
+        {
+            // TODO Actually save the Customer
+            var id = 1234;
+
+            var response = Request.CreateResponse(HttpStatusCode.Created);
+            response.Headers.Location = new Uri("/api/customer/" + id, UriKind.Relative);
+
+            return response;
+        }
+
         public Customer Get(int id)
         {
             var cust = new Customer()
@@ -37,17 +48,6 @@ namespace ReSTore.Web.Controllers
                 };
             
             return cust;
-        }
-     
-        public HttpResponseMessage Post(Customer customer)
-        {
-            // TODO Actually save the Customer
-            var id = 1234;
-
-            var response = Request.CreateResponse(HttpStatusCode.Created);
-            response.Headers.Location = new Uri("/api/customer/" + id, UriKind.Relative);
-
-            return response;
         }
     }
 }

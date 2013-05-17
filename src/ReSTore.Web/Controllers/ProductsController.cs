@@ -34,6 +34,7 @@ namespace ReSTore.Web.Controllers
                     });
                 collection.Items.Add(item);
             }
+            collection.Template.PopulateTemplate(typeof(Product));
 
             return doc;
         }
