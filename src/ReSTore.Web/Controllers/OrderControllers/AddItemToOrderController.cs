@@ -20,8 +20,9 @@ namespace ReSTore.Web.Controllers.OrderControllers
             _dispatcher = dispatcher;
         }
 
-        public IEnumerable<AddItemToOrder> Get()
+        public IEnumerable<AddItemToOrder> Get(Guid orderId)
         {
+            var command = new AddItemToOrder() {OrderId = Guid.NewGuid()};
             return Enumerable.Empty<AddItemToOrder>();
         }
 

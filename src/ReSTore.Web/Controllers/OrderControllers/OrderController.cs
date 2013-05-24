@@ -40,9 +40,7 @@ namespace ReSTore.Web.Controllers.OrderControllers
         }
     }
 
-    [TypeMappedCollectionJsonFormatter(
-        typeof(OrderHypermediaMapper),
-        typeof(OrderCommandViewHypermediaMapper))]
+    [TypeMappedCollectionJsonFormatter(typeof(OrderHypermediaMapper))]
     public class OrderController : ApiController
     {
         private readonly IDocumentStore _store;
@@ -93,7 +91,7 @@ namespace ReSTore.Web.Controllers.OrderControllers
 
             var resp = Request.CreateResponse(HttpStatusCode.Created);
             resp.Headers.Location = new Uri(Url.Link("DefaultApi", new {controller = "order"}));
-            resp.Headers.Add("Order-Id", orderId.ToString());
+            resp.Headers.Add(OrderIdToken, orderId.ToString());
 
             return resp;
         }

@@ -26,7 +26,7 @@ namespace ReSTore.Web
 
             config.Routes.MapHttpRoute(
                 name: "OrderCommandsApi",
-                routeTemplate: "api/order/{controller}/{commandId}",
+                routeTemplate: "api/commands/order/{controller}/{commandId}",
                 defaults: new { commandId = RouteParameter.Optional }
             );
 

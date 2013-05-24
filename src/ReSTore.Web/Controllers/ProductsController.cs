@@ -28,10 +28,11 @@ namespace ReSTore.Web.Controllers
                 
                 item.Links.Add(new Link()
                     {
-                        Href = new Uri(string.Format("/api/order/addItemToOrder"), UriKind.Relative),
+                        Href = new Uri(string.Format("/api/commands/order/addItemToOrder"), UriKind.Relative),
                         Rel="command",
                         Prompt = "Add to order"
                     });
+                
                 collection.Items.Add(item);
             }
             collection.Template.PopulateTemplate(typeof(Product));
