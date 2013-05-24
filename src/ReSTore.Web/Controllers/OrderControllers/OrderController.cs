@@ -23,7 +23,8 @@ namespace ReSTore.Web.Controllers.OrderControllers
             collection.Href = new Uri("/api/order", UriKind.Relative);
 
             var order = data.Single();
-            if (order == null)
+            doc.Collection.Links.Add(new Link() { Href = new Uri(string.Format("orderhub:{0}", order.OrderId)), Rel = "orderhub" });
+            if (order.Items == null)
             {
                 return doc;
             }
@@ -35,7 +36,6 @@ namespace ReSTore.Web.Controllers.OrderControllers
                 item.Links.Add(new Link() { Href = new Uri(string.Format("/api/products/{0}", orderItem.ProductId), UriKind.Relative), Rel = "description", Prompt = "Product Information"});
                 collection.Items.Add(item);
             }
-
             return doc;
         }
     }
