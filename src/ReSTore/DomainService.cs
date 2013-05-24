@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using EasyNetQ;
+using MassTransit;
 using ReSTore.Domain;
 using StructureMap;
 
@@ -10,7 +10,7 @@ namespace ReSTore
     public class DomainService : IService
     {
         private readonly IContainer _container;
-        private IBus _bus;
+        private IServiceBus _bus;
 
         public DomainService(IContainer container)
         {
@@ -19,7 +19,7 @@ namespace ReSTore
 
         public void Start()
         {
-            _bus = _container.GetInstance<IBus>();
+            _bus = _container.GetInstance<IServiceBus>();
             var handlerInterfaces = GetHandlerInterfaces();
 
             foreach (var handlerInterface in handlerInterfaces)
@@ -54,11 +54,11 @@ namespace ReSTore
                               Select(p => p.PluginType).ToArray();
         }
 
-        private static void Subscribe(IBus bus, Type msgType, object action)
+        private static void Subscribe(IServiceBus bus, Type msgType, object action)
         {
-            var subMethod = bus.GetType().GetMethods().Single(m => m.Name == "Subscribe" && m.GetParameters().Length == 2).MakeGenericMethod(msgType);
+            var subMethod = typeof(HandlerSubscriptionExtensions).GetMethods().Single(m => m.Name == "SubscribeHandler" && m.GetParameters().Length == 2).MakeGenericMethod(msgType);
             
-            subMethod.Invoke(bus, new object[] { "test", action });
+            subMethod.Invoke(bus, new object[] { bus, action });
         }
 
         public void Stop()

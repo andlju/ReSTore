@@ -1,28 +1,26 @@
 using System;
-using EasyNetQ;
+using MassTransit;
+
 
 namespace ReSTore.Web.Controllers
 {
     public interface ICommandDispatcher
     {
-        void Dispatch<TMessage>(TMessage command);
+        void Dispatch<TMessage>(TMessage command) where TMessage : class;
     }
 
-    public class EasyNetQCommandDispatcher : ICommandDispatcher
+    public class MassTransitCommandDispatcher : ICommandDispatcher
     {
-        private IBus _bus;
+        private readonly IServiceBus _bus;
 
-        public EasyNetQCommandDispatcher(IBus bus)
+        public MassTransitCommandDispatcher(IServiceBus bus)
         {
             _bus = bus;
         }
 
-        public void Dispatch<TMessage>(TMessage command)
+        public void Dispatch<TMessage>(TMessage command) where TMessage : class
         {
-            using (var channel = _bus.OpenPublishChannel())
-            {
-                channel.Publish(command);
-            }
+            _bus.Publish(command);
         }
     }
 }

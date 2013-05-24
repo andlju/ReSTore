@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using EventStore.ClientAPI;
 using Raven.Client;
 using ReSTore.Infrastructure;
@@ -42,6 +43,7 @@ namespace ReSTore.Views.Builders
             if (evt.Event.EventType.StartsWith("$"))
                 return;
 
+            Debug.WriteLine("Handling event: {1} {0}", evt.Event.EventStreamId, evt.Event.EventNumber);
             var deserializedEvent = _serializer.Deserialize(evt.Event);
 
             var orderStatusbuilder = new RavenViewModelBuilder<OrderStatusModel>(_store, new OrderStatusModelHandler(), _updateNotifier);
@@ -65,6 +67,7 @@ namespace ReSTore.Views.Builders
                     mainData.CommitPosition = pos.CommitPosition;
                     mainData.PreparePosition = pos.PreparePosition;
                     session.SaveChanges();
+                    Debug.WriteLine("Position stored");
                 }
             }
         }

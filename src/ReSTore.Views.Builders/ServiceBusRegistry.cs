@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Configuration;
-using EasyNetQ;
+using MassTransit;
 using StructureMap;
 using StructureMap.Configuration.DSL;
 
@@ -10,19 +10,16 @@ namespace ReSTore.Views.Builders
     {
         public ServiceBusRegistry()
         {
-            For<IBus>().Use(CreateMessageBus);
+            For<IServiceBus>().Use(CreateMessageBus);
         }
 
-        public static IBus CreateMessageBus(IContext context)
+        public static IServiceBus CreateMessageBus(IContext context)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["EasyNetQ"];
-            if (connectionString == null || connectionString.ConnectionString == string.Empty)
-            {
-                throw new Exception("EasyNetQ connection string is missing or empty");
-            }
-
-            var bus = RabbitHutch.CreateBus(connectionString.ConnectionString);
-
+            var bus = ServiceBusFactory.New(cfg =>
+                {
+                    cfg.ReceiveFrom("rabbitmq://localhost/restore-viewbuilders");
+                    cfg.UseRabbitMq();
+                });
             return bus;
         }
     }

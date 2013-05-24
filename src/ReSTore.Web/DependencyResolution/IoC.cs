@@ -27,7 +27,7 @@ namespace ReSTore.Web.DependencyResolution {
                         {
                             x.AddRegistry<RavenRegistry>();
                             x.AddRegistry<ServiceBusRegistry>();
-                            x.For<ICommandDispatcher>().Use<EasyNetQCommandDispatcher>();
+                            x.For<ICommandDispatcher>().Use<MassTransitCommandDispatcher>();
                             x.Scan(scan =>
                                     {
                                         scan.TheCallingAssembly();

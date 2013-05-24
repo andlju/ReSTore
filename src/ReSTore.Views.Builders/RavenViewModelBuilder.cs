@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using EasyNetQ;
+using MassTransit;
 using Raven.Client;
 using ReSTore.Infrastructure;
 using ReSTore.Messages.Notifications;
@@ -15,24 +16,22 @@ namespace ReSTore.Views.Builders
 
     public class ServiceBusUpdateNotifier : IModelUpdateNotifier
     {
-        private IBus _bus;
+        private IServiceBus _bus;
 
-        public ServiceBusUpdateNotifier(IBus bus)
+        public ServiceBusUpdateNotifier(IServiceBus bus)
         {
             _bus = bus;
         }
 
         public void Notify<TModel>(string id, TModel model)
         {
-            using (var channel = _bus.OpenPublishChannel())
-            {
-                channel.Publish(new ViewModelUpdated()
-                    {
-                        Id = Guid.Parse(id),
-                        Type = typeof (TModel).Name,
-                        Content = model
-                    });
-            }
+            _bus.Publish(new ViewModelUpdated()
+                {
+                    Id = Guid.Parse(id),
+                    Type = typeof (TModel).Name,
+                    Content = model
+                });
+            Debug.WriteLine(string.Format("ViewModelUpdated published: {0} {1}", id, typeof(TModel).Name));
         }
     }
 

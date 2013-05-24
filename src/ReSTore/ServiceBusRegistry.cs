@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Configuration;
-using EasyNetQ;
+using MassTransit;
 using StructureMap;
 using StructureMap.Configuration.DSL;
 
@@ -10,19 +10,16 @@ namespace ReSTore
     {
         public ServiceBusRegistry()
         {
-            For<IBus>().Use(CreateMessageBus);
+            For<IServiceBus>().Use(CreateMessageBus);
         }
 
-        public static IBus CreateMessageBus(IContext context)
+        public static IServiceBus CreateMessageBus(IContext context)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["EasyNetQ"];
-            if (connectionString == null || connectionString.ConnectionString == string.Empty)
+            var bus = ServiceBusFactory.New(cfg =>
             {
-                throw new Exception("EasyNetQ connection string is missing or empty");
-            }
-
-            var bus = RabbitHutch.CreateBus(connectionString.ConnectionString);
-
+                cfg.ReceiveFrom("rabbitmq://localhost/restore-core");
+                cfg.UseRabbitMq();
+            });
             return bus;
         }
     }

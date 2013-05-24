@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
-using EasyNetQ;
+using MassTransit;
+using ReSTore.Web.Controllers.OrderControllers;
 using StructureMap;
 using StructureMap.Configuration.DSL;
 
@@ -10,22 +11,20 @@ namespace ReSTore.Web.DependencyResolution
     {
         public ServiceBusRegistry()
         {
-            For<IBus>().Use(CreateMessageBus);
+            For<IServiceBus>().Singleton().Use(CreateMessageBus);
         }
 
-        public static IBus CreateMessageBus(IContext context)
+        public static IServiceBus CreateMessageBus(IContext context)
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["EasyNetQ"];
-            if (connectionString == null || connectionString.ConnectionString == string.Empty)
+            var bus = ServiceBusFactory.New(cfg =>
             {
-                throw new Exception("EasyNetQ connection string is missing or empty");
-            }
-
-            var bus = RabbitHutch.CreateBus(connectionString.ConnectionString);
-            
-            var autoSub = new AutoSubscriber(bus, "restore_web_autosub");
-            autoSub.Subscribe(typeof(ServiceBusRegistry).Assembly);
-
+                cfg.ReceiveFrom("rabbitmq://localhost/restore-web");
+                cfg.UseRabbitMq();
+                cfg.Subscribe(subs =>
+                    {
+                        subs.Consumer<ViewModelNotifier>();
+                    });
+            });
             return bus;
         }
     }
