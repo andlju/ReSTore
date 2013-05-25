@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using WebApiContrib.Formatting.CollectionJson;
@@ -15,10 +16,15 @@ namespace ReSTore.Web.Controllers
             var type = obj.GetType();
             foreach (var prop in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
+                string prompt = null;
+                var displayAttribute = prop.GetCustomAttribute<DisplayAttribute>();
+                if (displayAttribute != null)
+                    prompt = displayAttribute.Prompt;
+
                 var value = prop.GetValue(obj);
                 if (value != null)
                 {
-                    item.Data.Add(new Data() { Name = prop.Name.ToCase(Case.CamelCase), Value = value.ToString() });
+                    item.Data.Add(new Data() { Name = prop.Name.ToCase(Case.CamelCase), Value = value.ToString(), Prompt = prompt });
                 }
             }
 
@@ -29,8 +35,12 @@ namespace ReSTore.Web.Controllers
         {
             foreach (var prop in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
-                // TODO Look at Data Annotation Attributes
-                template.Data.Add(new Data() { Name = prop.Name.ToCase(Case.CamelCase), Prompt = prop.Name });
+                string prompt = null;
+                var displayAttribute = prop.GetCustomAttribute<DisplayAttribute>();
+                if (displayAttribute != null)
+                    prompt = displayAttribute.Prompt;
+
+                template.Data.Add(new Data() { Name = prop.Name.ToCase(Case.CamelCase), Prompt = prompt });
             }
         }
 

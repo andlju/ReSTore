@@ -6,6 +6,8 @@ namespace ReSTore.Views
     public class OrderStatusModel
     {
         public string Id { get; set; }
+        public string BookingReference { get; set; }
+
         public Status Status { get; set; }
         public DateTime Created { get; set; }
         public DateTime LastChange { get; set; }
@@ -14,13 +16,13 @@ namespace ReSTore.Views
     public class OrderItemsModel
     {
         public string Id { get; set; }
-        public List<OrderItem> OrderItems { get; set; }
+        public List<OrderItemModel> OrderItems { get; set; }
     }
 
-    public class OrderItem
+    public class OrderItemModel
     {
         public Guid ProductId { get; set; }
-
+        public int Amount { get; set; }
         public decimal Price { get; set; }
     }
 }

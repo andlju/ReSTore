@@ -1,8 +1,11 @@
 ﻿
 var CollectionJson = function () {
 
-    var parseItems = function (collectionJson) {
-        return $.map(collectionJson.collection.items, parseItem);
+    var parse = function (collectionJson) {
+        var obj = {};
+        obj.items = $.map(collectionJson.collection.items, parseItem);
+        obj._links = parseLinks(collectionJson.collection);
+        return obj;
     };
 
     var parseItem = function (item) {
@@ -12,18 +15,26 @@ var CollectionJson = function () {
             var val = item.data[dataItem].value;
             o[name] = val;
         }
-        o._links = {};
-        for (var link in item.links) {
-            var linkRelArray = o._links[item.links[link].rel];
-            if (linkRelArray == null) {
-                o._links[item.links[link].rel] = linkRelArray = [];
-            }
-            linkRelArray.push(item.links[link]);
-        }
+        
+        o._links = parseLinks(item);
         o._href = item.href;
         return o;
     };
 
+    var parseLinks = function(item) {
+        var colJsonLinks = item.links;
+        var links = {};
+        for (var link in colJsonLinks) {
+            var colJsonLink = colJsonLinks[link];
+            var linkRelArray = links[colJsonLink.rel];
+            if (linkRelArray == null) {
+                links[colJsonLink.rel] = linkRelArray = [];
+            }
+            linkRelArray.push(colJsonLink);
+        }
+        return links;
+    };
+    
     var fillTemplate = function(template, items) {
         for (var item in template.data) {
             var dataItem = template.data[item];
@@ -31,6 +42,11 @@ var CollectionJson = function () {
             var val = getValue(name, items);
             if (val) {
                 dataItem.value = val;
+            } else {
+                // If there is a prompt value, we should ask the user for a value
+                if (dataItem.prompt) {
+                    dataItem.value = prompt("Please enter " + dataItem.prompt);
+                }
             }
         }
     };
@@ -47,7 +63,7 @@ var CollectionJson = function () {
     };
 
     return {
-        parseItems: parseItems,
+        parse: parse,
         fillTemplate : fillTemplate
     };
 }();

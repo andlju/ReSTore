@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using ReSTore.Messages.Commands;
 using ReSTore.Web.Models;
@@ -25,14 +27,17 @@ namespace ReSTore.Web.Controllers.OrderControllers
             return Enumerable.Empty<AddItemToOrder>();
         }
 
-        public OrderCommandView Post([FromBody]AddItemToOrder command)
+        public HttpResponseMessage Post([FromBody]AddItemToOrder command)
         {
+            if (command.OrderId == Guid.Empty)
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+
             var commandId = Guid.NewGuid();
             command.CommandId = commandId;
 
             _dispatcher.Dispatch(command);
 
-            return new OrderCommandView() { CommandId = commandId, OrderId = command.OrderId };
+            return Request.CreateResponse(HttpStatusCode.Accepted, new OrderCommandView() { CommandId = commandId, OrderId = command.OrderId });
         }
     }
 }

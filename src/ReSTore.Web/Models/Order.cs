@@ -3,16 +3,12 @@ using System.Collections.Generic;
 
 namespace ReSTore.Web.Models
 {
-    public class OrderCommandView
-    {
-        public Guid CommandId { get; set; }
-        public Guid OrderId { get; set; }
-    }
-    
     public class Order
     {
         public Guid OrderId { get; set; }
+        public string BookingReference { get; set; }
         public List<OrderItem> Items { get; set; }
+        public decimal TotalPrice { get; set; }
     }
 
     public class OrderItem
@@ -20,6 +16,7 @@ namespace ReSTore.Web.Models
         public Guid ProductId { get; set; }
 
         public string Name { get; set; }
-        public decimal Amount { get; set; }
+        public int Amount { get; set; }
+        public decimal Price { get; set; }
     }
 }

@@ -16,6 +16,7 @@ namespace ReSTore.Web.DependencyResolution
                                                                   Url = "http://localhost:8080",
                                                                   DefaultDatabase = "ReSTore"
                                                               };
+                                                          store.Conventions.ShouldCacheRequest = (url) => false;
                                                           store.Initialize();
                                                           return store;
                                                       });

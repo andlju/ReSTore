@@ -13,7 +13,7 @@ ngRestore.controller("ItemsControl",
 
         $scope.refresh = function() {
             $http.get($scope.href).success(function (data) {
-                $scope.items = CollectionJson.parseItems(data);
+                $scope.items = CollectionJson.parse(data).items;
             });
         };
 
@@ -63,7 +63,7 @@ ngRestore.controller("ItemsControl",
                     return;
                 }
                 $scope.refreshOrder();
-                console.log(content);
+                console.log('ViewModel updated');
             });
         };
         
@@ -73,11 +73,13 @@ ngRestore.controller("ItemsControl",
             
             $http.get('/api/order', {
                 headers: {
-                    'Order-Id' : $scope.orderId
+                    'Order-Id': $scope.orderId,
+                    'Cache-Control' : 'no-cache'
                 }
             }).success(
                 function(data) {
-                    $scope.orderItems = CollectionJson.parseItems(data);
+                    $scope.order = CollectionJson.parse(data);
+                    console.log('Order refreshed');
                 }
             );
         };

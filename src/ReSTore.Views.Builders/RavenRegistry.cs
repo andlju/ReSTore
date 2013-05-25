@@ -16,6 +16,7 @@ namespace ReSTore.Views.Builders
                                 Url = "http://localhost:8080",
                                 DefaultDatabase = "ReSTore.Views",
                             };
+                    store.Conventions.ShouldCacheRequest = (url) => false;
                                               
                     store.Initialize();
                     return store;

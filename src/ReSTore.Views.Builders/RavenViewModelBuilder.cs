@@ -52,11 +52,12 @@ namespace ReSTore.Views.Builders
         public void Build<TId>(TId id, IEnumerable<EventContext> events)
         {
             var ravenId = typeof(TModel).Name + "/" + id;
-            
+
+            TModel model;
             using (var session = _store.OpenSession())
             {
-                var model = session.Load<TModel>(ravenId);
-                
+                model = session.Load<TModel>(ravenId);
+
                 var isNew = model == null;
                 
                 var eventNumber = _handler.HandleAll(ref model, events);
@@ -73,8 +74,8 @@ namespace ReSTore.Views.Builders
                 metaData["EventNumber"] = eventNumber;
 
                 session.SaveChanges();
-                _updateNotifier.Notify(id.ToString(), model);
             }
+            _updateNotifier.Notify(id.ToString(), model);
         }
 
     }

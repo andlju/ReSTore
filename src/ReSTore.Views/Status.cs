@@ -8,7 +8,7 @@ namespace ReSTore.Views
     public enum Status
     {
         New,
-        Confirmed,
+        Submitted,
         Cancelled
     }
 }

@@ -41,7 +41,7 @@ namespace ReSTore.Web.Tests.Controllers.Areas
         {
             var item1 = _document.Collection.Items[1];
 
-            item1.Data[0].Name.ShouldEqual("id");
+            item1.Data[0].Name.ShouldEqual("areaId");
             item1.Data[0].Value.ShouldEqual(TestDataHelpers._Area2Id.ToString());
 
             item1.Data[1].Name.ShouldEqual("name");

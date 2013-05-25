@@ -196,6 +196,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ICommandDispatcher.cs" />
     <Compile Include="Controllers\OrderControllers\OrderHub.cs" />
+    <Compile Include="Controllers\OrderControllers\SetBookingReferenceController.cs" />
+    <Compile Include="Controllers\OrderControllers\SubmitOrderController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\RootController.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
@@ -209,6 +211,7 @@
     </Compile>
     <Compile Include="Models\Area.cs" />
     <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderCommandView.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Category.cs" />

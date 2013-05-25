@@ -23,13 +23,20 @@
             
             </thead>
             <tbody>
-                <tr ng-repeat="item in orderItems">
+                <tr ng-repeat="item in order.items">
                     <td>{{item.name}}</td>
                     <td>{{item.amount}}</td>
+                    <td>{{item.price}}:-</td>
                 </tr>
             </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="2">Total price</th>
+                    <th>{{totalPrice}}</th>
+                </tr>
+            </tfoot>
         </table>
-        <button ng-click="reset()">Reset</button>
+        <button ng-repeat="command in order._links.command" ng-click="postCommand(order, command)">{{command.prompt}}</button>
     </div>
     <div ng-show="!orderId">
         <button ng-click="createOrder()">Create</button>

@@ -8,9 +8,9 @@ namespace ReSTore.Domain.Services
         decimal GetPrice(Guid itemId);
     }
 
-    public class Item
+    public class Product
     {
-        public Guid ItemId { get; set; }
+        public Guid Id { get; set; }
         public decimal Price { get; set; }
     }
 
@@ -27,11 +27,11 @@ namespace ReSTore.Domain.Services
         {
             using (var session = _store.OpenSession())
             {
-                var item = session.Load<Item>(itemId);
-                if (item == null)
+                var product = session.Load<Product>(itemId.ToString());
+                if (product == null)
                     return 0;
 
-                return item.Price;
+                return product.Price;
             }
         }
     }
