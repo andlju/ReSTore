@@ -11,8 +11,7 @@ using WebApiContrib.Formatting.CollectionJson;
 namespace ReSTore.Web.Controllers.OrderControllers
 {
     [TypeMappedCollectionJsonFormatter(
-        typeof(OrderCommandHypermediaMapper<AddItemToOrder>), 
-        typeof(OrderCommandViewHypermediaMapper))]
+        typeof (OrderCommandHypermediaMapper<AddItemToOrder>))]
     public class AddItemToOrderController : ApiController
     {
         private readonly ICommandDispatcher _dispatcher;
@@ -27,7 +26,7 @@ namespace ReSTore.Web.Controllers.OrderControllers
             return Enumerable.Empty<AddItemToOrder>();
         }
 
-        public HttpResponseMessage Post([FromBody]AddItemToOrder command)
+        public HttpResponseMessage Post([FromBody] AddItemToOrder command)
         {
             if (command.OrderId == Guid.Empty)
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
@@ -37,7 +36,9 @@ namespace ReSTore.Web.Controllers.OrderControllers
 
             _dispatcher.Dispatch(command);
 
-            return Request.CreateResponse(HttpStatusCode.Accepted, new OrderCommandView() { CommandId = commandId, OrderId = command.OrderId });
+            var response = Request.CreateResponse(HttpStatusCode.Accepted);
+            response.Headers.Location = new Uri(string.Format("/api/commands/{0}", commandId), UriKind.Relative);
+            return response;
         }
     }
 }

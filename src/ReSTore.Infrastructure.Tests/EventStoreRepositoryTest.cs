@@ -15,7 +15,7 @@ namespace ReSTore.Infrastructure.Tests
 
         protected override void FillRepository(Guid aggregateId, object[] events)
         {
-            _eventStoreRepository.Store(aggregateId, events);
+            _eventStoreRepository.Store(aggregateId, events, headers => { });
         }
 
         [TestInitialize]

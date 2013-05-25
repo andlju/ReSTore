@@ -25,7 +25,7 @@ namespace ReSTore.Domain.Tests
 
             public void Event(Guid aggregateId, object @event)
             {
-                _repository.Store(aggregateId, new [] { @event });
+                _repository.Store(aggregateId, new [] { @event }, headers => { });
             }
         }
 

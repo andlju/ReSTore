@@ -22,14 +22,14 @@ namespace ReSTore.Domain.Tests.Infrastructure
             return AggregateHelper.Build<T>(storedEvents);
         }
 
-        public void Store(Guid id, Aggregate aggregate)
+        public void Store(Guid id, Aggregate aggregate, Action<IDictionary<string, object>> applyHeaders)
         {
             var events = aggregate.GetUncommittedEvents();
             Store(id, events, _store);
             Store(id, events, _committedStore);
         }
 
-        public void Store(Guid id, IEnumerable<object> events)
+        public void Store(Guid id, IEnumerable<object> events, Action<IDictionary<string, object>> applyHeaders)
         {
             var evts = events.ToArray();
             Store(id, evts, _store);

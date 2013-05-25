@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using ReSTore.Messages.Commands;
 using ReSTore.Web.Models;
@@ -9,8 +11,7 @@ using WebApiContrib.Formatting.CollectionJson;
 namespace ReSTore.Web.Controllers.OrderControllers
 {
     [TypeMappedCollectionJsonFormatter(
-        typeof(OrderCommandHypermediaMapper<SetBookingReference>),
-        typeof(OrderCommandViewHypermediaMapper))]
+        typeof(OrderCommandHypermediaMapper<SetBookingReference>))]
     public class SetBookingReferenceController : ApiController
     {
         private readonly ICommandDispatcher _dispatcher;
@@ -25,14 +26,16 @@ namespace ReSTore.Web.Controllers.OrderControllers
             return Enumerable.Empty<SetBookingReference>();
         }
 
-        public OrderCommandView Post([FromBody]SetBookingReference command)
+        public HttpResponseMessage Post([FromBody]SetBookingReference command)
         {
             var commandId = Guid.NewGuid();
             command.CommandId = commandId;
 
             _dispatcher.Dispatch(command);
 
-            return new OrderCommandView() { CommandId = commandId, OrderId = command.OrderId };
+            var response = Request.CreateResponse(HttpStatusCode.Accepted);
+            response.Headers.Location = new Uri(string.Format("/api/commands/{0}", commandId), UriKind.Relative);
+            return response;
         }
     }
 }

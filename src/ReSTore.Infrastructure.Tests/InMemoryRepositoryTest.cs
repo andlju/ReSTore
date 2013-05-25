@@ -45,7 +45,7 @@ namespace ReSTore.Infrastructure.Tests
 
         protected override void FillRepository(Guid aggregateId, object[] events)
         {
-            _inMemoryRepository.Store(aggregateId, events);
+            _inMemoryRepository.Store(aggregateId, events, headers => { });
         }
     }
 }

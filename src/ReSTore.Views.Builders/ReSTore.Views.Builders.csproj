@@ -82,6 +82,7 @@
   <ItemGroup>
     <Compile Include="EventStoreRegistry.cs" />
     <Compile Include="IViewModelBuilder.cs" />
+    <Compile Include="OrderItemsModelHandler.cs" />
     <Compile Include="OrderStatusModelHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

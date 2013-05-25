@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace ReSTore.Views
 {
+        
     public class OrderStatusModel
     {
         public string Id { get; set; }

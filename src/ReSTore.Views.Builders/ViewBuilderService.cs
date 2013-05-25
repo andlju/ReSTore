@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using EventStore.ClientAPI;
 using Raven.Client;
@@ -52,23 +53,43 @@ namespace ReSTore.Views.Builders
             var orderItemsBuilder = new RavenViewModelBuilder<OrderItemsModel>(_store, new OrderItemsModelHandler(), _updateNotifier);
             orderItemsBuilder.Build(evt.Event.EventStreamId, new[] { deserializedEvent });
 
-            ViewBuilderData mainData;
             using (var session = _store.OpenSession())
             {
-                mainData = session.Load<ViewBuilderData>("main");
-                if (mainData == null)
-                {
-                    mainData = new ViewBuilderData();
-                    session.Store(mainData, "main");
-                }
-                if (evt.OriginalPosition.HasValue)
-                {
-                    var pos = evt.OriginalPosition.Value;
-                    mainData.CommitPosition = pos.CommitPosition;
-                    mainData.PreparePosition = pos.PreparePosition;
-                    session.SaveChanges();
-                    Debug.WriteLine("Position stored");
-                }
+                StoreViewBuilderData(evt, session);
+                StoreCommandData(evt, deserializedEvent, session);
+                session.SaveChanges();
+            }
+        }
+        
+        private static void StoreCommandData(ResolvedEvent evt, EventContext deserializedEvent, IDocumentSession session)
+        {
+            var commandId = deserializedEvent.Headers["CommandId"] as string;
+
+            var commandModel = session.Load<CommandStatusModel>(commandId);
+            if (commandModel == null)
+            {
+                commandModel = new CommandStatusModel() { Id = commandId };
+                commandModel.Events = new List<EventStatusModel>();
+                session.Store(commandModel);
+            }
+            commandModel.Events.Add(new EventStatusModel() { StreamId = evt.Event.EventStreamId, EventNumber = evt.Event.EventNumber, Type = evt.Event.EventType});
+        }
+
+        private static void StoreViewBuilderData(ResolvedEvent evt, IDocumentSession session)
+        {
+            ViewBuilderData mainData;
+            mainData = session.Load<ViewBuilderData>("main");
+            if (mainData == null)
+            {
+                mainData = new ViewBuilderData();
+                session.Store(mainData, "main");
+            }
+            if (evt.OriginalPosition.HasValue)
+            {
+                var pos = evt.OriginalPosition.Value;
+                mainData.CommitPosition = pos.CommitPosition;
+                mainData.PreparePosition = pos.PreparePosition;
+                Debug.WriteLine("Position stored");
             }
         }
 

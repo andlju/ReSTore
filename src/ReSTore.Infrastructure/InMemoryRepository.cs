@@ -20,12 +20,12 @@ namespace ReSTore.Infrastructure
             return AggregateHelper.Build<T>(storedEvents);
         }
 
-        public void Store(Guid id, Aggregate aggregate)
+        public void Store(Guid id, Aggregate aggregate, Action<IDictionary<string, object>> applyHeaders)
         {
-            Store(id, aggregate.GetUncommittedEvents());
+            Store(id, aggregate.GetUncommittedEvents(), applyHeaders);
         }
 
-        public void Store(Guid id, IEnumerable events)
+        public void Store(Guid id, IEnumerable events, Action<IDictionary<string, object>> applyHeaders)
         {
             List<object> storedEvents;
             if (!_store.TryGetValue(id, out storedEvents))

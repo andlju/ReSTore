@@ -20,7 +20,7 @@ namespace ReSTore.Domain.CommandHandlers
                 throw new InvalidOperationException(string.Format("No order found with an OrderId of {0}", command.OrderId));
 
             order.SetBookingReference(command.BookingReference);
-            _repository.Store(command.OrderId, order);
+            _repository.Store(command.OrderId, order, command.ApplyCommandHeaders());
         }
     }
 }

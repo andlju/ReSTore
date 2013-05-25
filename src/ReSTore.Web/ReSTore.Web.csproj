@@ -188,6 +188,7 @@
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\OrderControllers\AddItemToOrderController.cs" />
     <Compile Include="Controllers\OrderControllers\OrderCommandHypermediaMapper.cs" />
+    <Compile Include="Controllers\OrderControllers\CommandsController.cs" />
     <Compile Include="Controllers\OrderControllers\OrderCommandViewHypermediaMapper.cs" />
     <Compile Include="Controllers\OrderControllers\OrderController.cs" />
     <Compile Include="Controllers\CaseExtensions.cs" />

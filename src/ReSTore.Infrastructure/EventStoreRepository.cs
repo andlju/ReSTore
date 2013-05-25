@@ -19,12 +19,12 @@ namespace ReSTore.Infrastructure
             return AggregateHelper.Build<T>(events);
         }
 
-        public void Store(TId id, Aggregate aggregate)
+        public void Store(TId id, Aggregate aggregate, Action<IDictionary<string,object>> applyHeaders)
         {
-            Store(id, aggregate.GetUncommittedEvents());
+            Store(id, aggregate.GetUncommittedEvents(), applyHeaders);
         }
 
-        public void Store(TId id, IEnumerable events)
+        public void Store(TId id, IEnumerable events, Action<IDictionary<string, object>> applyHeaders)
         {
             using (var conn = EventStoreConnection.Create())
             {
@@ -32,7 +32,11 @@ namespace ReSTore.Infrastructure
 
                 conn.AppendToStream(id.ToString(), ExpectedVersion.Any,
                                     events.OfType<object>()
-                                          .Select(e => _serializer.Serialize(e, h => h.Add("_Timestamp", DateTime.Now))));
+                                          .Select(e => _serializer.Serialize(e, h =>
+                                              {
+                                                  h.Add("_Timestamp", DateTime.Now);
+                                                  applyHeaders(h);
+                                              })));
             }
         }
 

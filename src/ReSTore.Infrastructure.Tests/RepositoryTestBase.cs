@@ -81,8 +81,8 @@ namespace ReSTore.Infrastructure.Tests
         {
             var testId = Guid.NewGuid();
             var agg = new TestAgg(testId);
-            
-            Repository.Store(testId, agg);
+
+            Repository.Store(testId, agg, headers => { });
 
             var events = Repository.GetEvents(testId);
 

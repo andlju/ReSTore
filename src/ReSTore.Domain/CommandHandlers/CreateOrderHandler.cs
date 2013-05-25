@@ -20,7 +20,7 @@ namespace ReSTore.Domain.CommandHandlers
                 throw new Exception("Order already created");
 
             order = new Order(command.OrderId);
-            _repository.Store(command.OrderId, order);
+            _repository.Store(command.OrderId, order, command.ApplyCommandHeaders());
         }
     }
 }
