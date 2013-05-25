@@ -22,6 +22,8 @@ namespace ReSTore.Web.Controllers.OrderControllers
             collection.Href = new Uri("/api/order", UriKind.Relative);
 
             var order = data.Single();
+            if (order == null)
+                return doc;
             doc.Collection.Links.Add(new Link() { Href = new Uri(string.Format("orderhub:{0}", order.OrderId)), Rel = "orderhub" });
             
             doc.Collection.Links.Add(new Link() { Href = new Uri("/api/commands/order/setBookingReference", UriKind.Relative), Rel = "command", Prompt = "Set Booking Reference"});
