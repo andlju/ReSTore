@@ -20,7 +20,11 @@
     <div ng-show="orderId">
         <table class="table" >
             <thead>
-            
+                <tr>
+                    <th>Item</th>
+                    <th>No</th>
+                    <th>Price</th>
+                </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="item in order.items">
@@ -29,12 +33,6 @@
                     <td>{{item.price}}:-</td>
                 </tr>
             </tbody>
-            <tfoot>
-                <tr>
-                    <th colspan="2">Total price</th>
-                    <th>{{totalPrice}}</th>
-                </tr>
-            </tfoot>
         </table>
         <button ng-repeat="command in order._links.command" ng-click="postCommand(order, command)">{{command.prompt}}</button>
     </div>

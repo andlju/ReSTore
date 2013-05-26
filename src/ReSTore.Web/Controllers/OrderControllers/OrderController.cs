@@ -102,6 +102,7 @@ namespace ReSTore.Web.Controllers.OrderControllers
                 var status = viewSession.Load<OrderStatusModel>("OrderStatusModel/" + orderId);
                 if (status == null)
                     return null;
+                order.BookingReference = status.BookingReference;
 
                 var items = viewSession.Load<OrderItemsModel>("OrderItemsModel/" + orderId);
                 if (items != null)
