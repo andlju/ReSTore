@@ -30,7 +30,8 @@ namespace ReSTore.Web.Controllers
             var collection = doc.Collection;
             collection.Version = "1.0";
             collection.Href = new Uri(string.Format("/api/areas/{0}/categories", areaId), UriKind.Relative);
-            
+            collection.Links.Add(new Link() { Href = new Uri(string.Format("/api/areas"), UriKind.Relative), Rel = "parent" });
+
             foreach (var category in categories)
             {
                 var item = category.ToItem();

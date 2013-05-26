@@ -6,13 +6,6 @@ using System.Web.Http;
 
 namespace ReSTore.Web.Controllers
 {
-
-    public class HyperLink
-    {
-        public string Rel { get; set; }
-        public string Href { get; set; }
-    }
-
     public class Customer
     {
         public string FirstName { get; set; }
@@ -21,15 +14,21 @@ namespace ReSTore.Web.Controllers
         public IEnumerable<HyperLink> Links { get; set; }
     }
 
+    public class HyperLink
+    {
+        public string Rel { get; set; }
+        public string Href { get; set; }
+    }
+
     public class CustomersController : ApiController
     {
         public HttpResponseMessage Post(Customer customer)
         {
-            // TODO Actually save the Customer
+            // Save the customer
             var id = 1234;
 
             var response = Request.CreateResponse(HttpStatusCode.Created);
-            response.Headers.Location = new Uri("/api/customer/" + id, UriKind.Relative);
+            response.Headers.Location = new Uri("/api/customers/" + id, UriKind.Relative);
 
             return response;
         }
@@ -42,8 +41,8 @@ namespace ReSTore.Web.Controllers
                     LastName = "Ljusberg",
                     Links = new[]
                         {
-                            new HyperLink() {Rel = "self", Href = "/api/customer/" + id},
-                            new HyperLink() {Rel = "orders", Href = "/api/customer/" + id + "orders"},
+                            new HyperLink() {Rel = "self", Href = "/api/customers/" + id},
+                            new HyperLink() {Rel = "orders", Href = "/api/customers/" + id + "/orders"},
                         }
                 };
             

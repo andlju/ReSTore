@@ -8,12 +8,20 @@ ngRestore.controller("ItemsControl",
         $scope.href = $routeParams.href;
         if ($scope.href == undefined)
             $scope.href = '/api/areas';
+
+        $scope.title = 'Welcome';
         
         $scope.items = [];
 
         $scope.refresh = function() {
             $http.get($scope.href).success(function (data) {
-                $scope.items = CollectionJson.parse(data).items;
+                var content = CollectionJson.parse(data);
+                $scope.items = content.items;
+                if (content._links.parent) {
+                    $scope.parentLink = content._links.parent[0];
+                } else {
+                    $scope.parentLink = null;
+                }
             });
         };
 
@@ -23,7 +31,13 @@ ngRestore.controller("ItemsControl",
             $location.search({ href: itemHref });
             $scope.refresh();
         };
-
+        
+        $scope.back = function() {
+            var backHref = $scope.parentLink.href;
+            $scope.href = backHref;
+            $location.search({ href: backHref });
+            $scope.refresh();
+        };
         $scope.hasChildren = function(item) {
             return item._links.children != null;
         };
