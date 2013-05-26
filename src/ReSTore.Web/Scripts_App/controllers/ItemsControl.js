@@ -1,6 +1,6 @@
 ﻿
 ngRestore.controller("ItemsControl",
-    ['$scope', '$http', '$routeParams', '$location', function ($scope, $http, $routeParams, $location) {
+    ['$scope', '$http', '$routeParams', '$location', '$timeout', function ($scope, $http, $routeParams, $location, $timeout) {
 
         $http.defaults.headers.common['Accept'] = 'application/vnd.collection+json';
         $http.defaults.headers.post['Content-Type'] = 'application/vnd.collection+json';
@@ -45,10 +45,12 @@ ngRestore.controller("ItemsControl",
             $http.post('/api/order').success(
                 function (data, status, headers) {
                     $scope.orderId = headers('Order-Id');
-                    $scope.registerSignalR();
+                    $timeout($scope.refreshOrder, 2000);
+                    // $scope.registerSignalR();
                 });
         };
 
+        /*
         var orderHub = $.connection.orderHub;
         $.connection.hub.start().done($scope.registerSignalR);
 
@@ -66,6 +68,7 @@ ngRestore.controller("ItemsControl",
                 console.log('ViewModel updated');
             });
         };
+        */
         
         $scope.refreshOrder = function () {
             if (!$scope.orderId)
@@ -80,8 +83,11 @@ ngRestore.controller("ItemsControl",
                 function(data) {
                     $scope.order = CollectionJson.parse(data);
                     console.log('Order refreshed');
+                    $timeout($scope.refreshOrder, 2000);
                 }
-            );
+            ).error(function() {
+                $timeout($scope.refreshOrder, 2000);
+            });
         };
 
         $scope.refresh();
