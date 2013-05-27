@@ -21,7 +21,7 @@ namespace ReSTore.Web.Controllers.OrderControllers
             var doc = new ReadDocument();
             var collection = doc.Collection;
             collection.Version = "1.0";
-            collection.Href = new Uri(string.Format("/api/order/commands/TODO"), UriKind.Relative);
+            collection.Href = new Uri(string.Format("/api/commands/order/" + typeof(TCmd).Name.ToCase(Case.CamelCase)), UriKind.Relative);
             collection.Template.PopulateTemplate(typeof(TCmd));
             
             return doc;

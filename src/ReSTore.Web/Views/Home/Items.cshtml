@@ -7,12 +7,12 @@
 <div class="row">
     <section class="span9">
         <ul class="thumbnails">
-            <li ng-repeat="item in items" class="span2">
-                <a href="" ng-click="select(item)" class="thumbnail" ng-show="hasChildren(item)">
+            <li ng-repeat="item in items" class="span2" >
+                <a href="" ng-click="select(item)" style="height: 110px" class="thumbnail" ng-show="hasChildren(item)">
                     <img ng-src="{{'https://se.airshoppen.com' + item.imageHref}}" alt="">
                     {{item.name}}
                 </a>
-                <div class="thumbnail" ng-show="!hasChildren(item)">
+                <div class="thumbnail" style="height: 250px" ng-show="!hasChildren(item)">
                     <img ng-src="{{'https://se.airshoppen.com' + item.imageHref}}" alt="">
                     {{item.name}}
                     <button ng-repeat="command in item._links.command" ng-click="postCommand(item, command)">{{command.prompt}}</button>

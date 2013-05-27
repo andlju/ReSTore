@@ -58,23 +58,6 @@ namespace ReSTore.Web.Controllers.OrderControllers
             _dispatcher = dispatcher;
         }
 
-        public HttpResponseMessage Get()
-        {
-            IEnumerable<string> headers;
-            if (!Request.Headers.TryGetValues(OrderIdToken, out headers))
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
-            
-            // Get Order-Id from header
-            var orderId = Guid.Parse(headers.First());
-
-            // Try to load the order and its items
-            var order = LoadOrder(orderId);
-            if (order == null)
-                Request.CreateResponse(HttpStatusCode.NotFound);
-
-            return Request.CreateResponse(HttpStatusCode.OK, order);
-        }
-
         public HttpResponseMessage Post()
         {
             var commandId = Guid.NewGuid();
@@ -82,11 +65,28 @@ namespace ReSTore.Web.Controllers.OrderControllers
 
             _dispatcher.Dispatch(new CreateOrder() { CommandId = commandId, OrderId = orderId});
 
-            var resp = Request.CreateResponse(HttpStatusCode.Created);
-            resp.Headers.Location = new Uri(Url.Link("DefaultApi", new {controller = "order"}));
+            var resp = Request.CreateResponse(HttpStatusCode.Accepted);
+            resp.Headers.Location = new Uri("/api/order", UriKind.Relative);
             resp.Headers.Add(OrderIdToken, orderId.ToString());
 
             return resp;
+        }
+
+        public HttpResponseMessage Get()
+        {
+            IEnumerable<string> headers;
+            if (!Request.Headers.TryGetValues(OrderIdToken, out headers))
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Order-Id header missing");
+            
+            // Get Order-Id from header
+            var orderId = Guid.Parse(headers.First());
+
+            // Try to load the order and its items
+            var order = LoadOrder(orderId);
+            if (order == null)
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+
+            return Request.CreateResponse(HttpStatusCode.OK, order);
         }
 
 
