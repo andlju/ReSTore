@@ -35,11 +35,12 @@ namespace ReSTore.Web.Controllers
         {
             foreach (var prop in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
+                if (prop.Name == "CommandId")
+                    continue;
                 string prompt = null;
                 var displayAttribute = prop.GetCustomAttribute<DisplayAttribute>();
                 if (displayAttribute != null)
                     prompt = displayAttribute.Prompt;
-
                 template.Data.Add(new Data() { Name = prop.Name.ToCase(Case.CamelCase), Prompt = prompt });
             }
         }

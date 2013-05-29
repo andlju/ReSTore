@@ -29,7 +29,7 @@ namespace ReSTore.Web.Controllers.OrderControllers
         public HttpResponseMessage Post([FromBody] AddItemToOrder command)
         {
             if (command.OrderId == Guid.Empty)
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "OrderId missing");
 
             var commandId = Guid.NewGuid();
             command.CommandId = commandId;
