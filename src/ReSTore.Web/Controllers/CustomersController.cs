@@ -41,7 +41,7 @@ namespace ReSTore.Web.Controllers
                     LastName = "Ljusberg",
                     Links = new[]
                         {
-                            new HyperLink() {Rel = "self", Href = "/api/customers/" + id},
+                            new HyperLink() {Rel = "address", Href = "/api/customers/" + id + "/address"},
                             new HyperLink() {Rel = "orders", Href = "/api/customers/" + id + "/orders"},
                         }
                 };
