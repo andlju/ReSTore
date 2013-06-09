@@ -619,6 +619,7 @@
     <Content Include="Scripts_App\app.js" />
     <Content Include="Scripts_App\controllers\ItemsControl.js" />
     <Content Include="Scripts_App\services\CollectionJson.js" />
+    <Content Include="Scripts_App\services\CommandHandler.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -635,6 +636,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Scripts_App\directives\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>

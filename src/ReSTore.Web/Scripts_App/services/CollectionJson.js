@@ -1,6 +1,6 @@
-﻿
-var CollectionJson = function () {
+﻿ngRestore.service('collectionJson', function() {
 
+    // Return an array of parsed Collection+JSON items and corresponding links
     var parse = function (collectionJson) {
         var obj = {};
         obj.items = $.map(collectionJson.collection.items, parseItem);
@@ -8,6 +8,7 @@ var CollectionJson = function () {
         return obj;
     };
 
+    // Return a single parsed item with links
     var parseItem = function (item) {
         var o = {};
         for (var dataItem in item.data) {
@@ -15,13 +16,14 @@ var CollectionJson = function () {
             var val = item.data[dataItem].value;
             o[name] = val;
         }
-        
+
         o._links = parseLinks(item);
         o._href = item.href;
         return o;
     };
 
-    var parseLinks = function(item) {
+    // Return a HAL-style array of links
+    var parseLinks = function (item) {
         var colJsonLinks = item.links;
         var links = {};
         for (var link in colJsonLinks) {
@@ -34,26 +36,25 @@ var CollectionJson = function () {
         }
         return links;
     };
-    
-    var fillTemplate = function(template, items) {
+
+    var fillTemplate = function (template, context) {
+        var dataMissing = false;
         for (var item in template.data) {
             var dataItem = template.data[item];
             var name = dataItem.name;
-            var val = getValue(name, items);
+            var val = getContextValue(name, context);
             if (val) {
                 dataItem.value = val;
             } else {
-                // If there is a prompt value, we should ask the user for a value
-                if (dataItem.prompt) {
-                    dataItem.value = prompt("Please enter " + dataItem.prompt);
-                }
+                dataMissing = true;
             }
         }
+        return dataMissing;
     };
 
-    var getValue = function(name, items) {
-        for (var idx in items) {
-            var obj = items[idx];
+    var getContextValue = function (name, context) {
+        for (var idx in context) {
+            var obj = context[idx];
             var val = obj[name];
             if (val) {
                 return val;
@@ -64,8 +65,6 @@ var CollectionJson = function () {
 
     return {
         parse: parse,
-        fillTemplate : fillTemplate
+        fillTemplate: fillTemplate
     };
-}();
-
-
+});

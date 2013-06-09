@@ -1,6 +1,6 @@
 ﻿
 ngRestore.controller("ItemsControl",
-    ['$scope', '$http', '$routeParams', '$location', '$timeout', function ($scope, $http, $routeParams, $location, $timeout) {
+    ['$scope', '$http', '$routeParams', '$location', '$timeout', 'collectionJson', 'commandHandler', function ($scope, $http, $routeParams, $location, $timeout, collectionJson, commandHandler) {
 
         $http.defaults.headers.common['Accept'] = 'application/vnd.collection+json';
         $http.defaults.headers.post['Content-Type'] = 'application/vnd.collection+json';
@@ -15,7 +15,7 @@ ngRestore.controller("ItemsControl",
 
         $scope.refresh = function() {
             $http.get($scope.href).success(function (data) {
-                var content = CollectionJson.parse(data);
+                var content = collectionJson.parse(data);
                 $scope.items = content.items;
                 if (content._links.parent) {
                     $scope.parentLink = content._links.parent[0];
@@ -44,13 +44,7 @@ ngRestore.controller("ItemsControl",
 
 
         $scope.postCommand = function (item, command) {
-            $http.get(command.href).success(function (data) {
-                var template = data.collection.template;
-
-                CollectionJson.fillTemplate(template, [item, $scope]);
-                
-                $http.post(command.href, { template: template });
-            });
+            commandHandler.exec(command.href, [item, $scope]);
         };
 
         $scope.orderItems = [];
@@ -95,7 +89,7 @@ ngRestore.controller("ItemsControl",
                 }
             }).success(
                 function(data) {
-                    $scope.order = CollectionJson.parse(data);
+                    $scope.order = collectionJson.parse(data);
                     console.log('Order refreshed');
                     $timeout($scope.refreshOrder, 2000);
                 }
