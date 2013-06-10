@@ -124,7 +124,7 @@ namespace ReSTore.Web.Controllers.OrderControllers
 
             using (var catalogSession = _store.OpenSession("ReSTore"))
             {
-                var productInfos = catalogSession.Load<Product>(order.Items.Select(o => o.ProductId.ToString()));
+                var productInfos = catalogSession.Load<Product>(order.Items.Select(o => (ValueType)o.ProductId));
                 foreach (var prod in productInfos)
                 {
                     var orderItem = order.Items.Single(oi => oi.ProductId == prod.ProductId);

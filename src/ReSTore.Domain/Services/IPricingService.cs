@@ -27,7 +27,7 @@ namespace ReSTore.Domain.Services
         {
             using (var session = _store.OpenSession())
             {
-                var product = session.Load<Product>(itemId.ToString());
+                var product = session.Load<Product>(itemId);
                 if (product == null)
                     return 0;
 

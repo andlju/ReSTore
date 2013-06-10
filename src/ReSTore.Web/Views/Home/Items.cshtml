@@ -15,7 +15,7 @@
                 <div class="thumbnail" style="height: 250px" ng-show="!hasChildren(item)">
                     <img ng-src="{{'https://se.airshoppen.com' + item.imageHref}}" alt="">
                     {{item.name}}
-                    <button ng-repeat="command in item._links.command" ng-click="postCommand(item, command)">{{command.prompt}}</button>
+                    <commands item="item" context="this"/>
                 </div>
             </li>
         </ul>
@@ -39,7 +39,7 @@
                     </tr>
                 </tbody>
             </table>
-            <button ng-repeat="command in order._links.command" ng-click="postCommand(order, command)">{{command.prompt}}</button>
+            <commands item="order" context="this"/>
         </div>
         <div ng-show="!orderId">
             <button ng-click="createOrder()">Create</button>

@@ -1,4 +1,27 @@
 ﻿
+ngRestore.directive('commands', ['commandHandler', function (commandHandler) {
+    var directiveDefinitionObject = {
+
+        restrict: 'E',
+        
+        replace: true,
+
+        scope: {
+            item: '=item',
+            context: '=context'
+        },
+
+        controller: ['$scope', function ($scope) {
+            $scope.postCommand = function (command) {
+                commandHandler.exec(command.href, [$scope.item, $scope.context]);
+            };
+        }],
+
+        template: '<button ng-repeat="command in item._links.command" ng-click="postCommand(command)">{{command.prompt}}</button>'
+    };
+    return directiveDefinitionObject;
+}]);
+
 ngRestore.controller("ItemsControl",
     ['$scope', '$http', '$routeParams', '$location', '$timeout', 'collectionJson', 'commandHandler', function ($scope, $http, $routeParams, $location, $timeout, collectionJson, commandHandler) {
 
