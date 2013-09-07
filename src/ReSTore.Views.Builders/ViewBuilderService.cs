@@ -4,28 +4,41 @@ using System.Diagnostics;
 using EventStore.ClientAPI;
 using Raven.Client;
 using ReSTore.Infrastructure;
+using StructureMap;
 
 namespace ReSTore.Views.Builders
 {
+	public class NullModelUpdateNotifier : IModelUpdateNotifier
+	{
+		public void Notify<TModel>(string id, TModel model)
+		{
+
+		}
+	}
+
     public class ViewBuilderService : IService
     {
         private IDocumentStore _store;
-        private readonly IModelUpdateNotifier _updateNotifier;
+        private IModelUpdateNotifier _updateNotifier;
         private EventStoreConnection _eventStoreConnection;
-        private readonly IEventStoreSerializer _serializer;
+        private IEventStoreSerializer _serializer;
         private EventStoreAllCatchUpSubscription _subscription;
 
-        public ViewBuilderService(EventStoreConnection eventStoreConnection, IEventStoreSerializer serializer,  IDocumentStore store, IModelUpdateNotifier updateNotifier)
+		private IContainer _container;
+
+        public ViewBuilderService(IContainer container)
         {
-            _eventStoreConnection = eventStoreConnection;
-            _serializer = serializer;
-            _store = store;
-            _updateNotifier = updateNotifier;
+	        _container = container;
         }
 
         public void Start()
         {
-            ViewBuilderData mainData;
+			_eventStoreConnection = _container.GetInstance<EventStoreConnection>();
+			_serializer = _container.GetInstance<IEventStoreSerializer>();
+			_store = _container.GetInstance<IDocumentStore>();
+			_updateNotifier = new NullModelUpdateNotifier();
+			// _updateNotifier = _container.GetInstance<IModelUpdateNotifier>();
+			ViewBuilderData mainData;
             using (var session = _store.OpenSession())
             {
                 mainData = session.Load<ViewBuilderData>("main");
