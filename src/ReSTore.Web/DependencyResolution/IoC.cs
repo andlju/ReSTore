@@ -16,6 +16,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
+using MassTransit;
 using ReSTore.Web.Controllers;
 using StructureMap;
 using StructureMap.Configuration.DSL;
@@ -35,6 +36,8 @@ namespace ReSTore.Web.DependencyResolution {
                                     });
 
                         });
+	        var container = ObjectFactory.Container;
+	        container.GetInstance<IServiceBus>();
             return ObjectFactory.Container;
         }
     }

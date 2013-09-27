@@ -20,10 +20,10 @@ namespace ReSTore.Web.DependencyResolution
             {
                 cfg.ReceiveFrom("rabbitmq://localhost/restore-web");
                 cfg.UseRabbitMq();
-                cfg.Subscribe(subs =>
+                /*cfg.Subscribe(subs =>
                     {
                         subs.Consumer<ViewModelNotifier>();
-                    });
+                    });*/
             });
             return bus;
         }

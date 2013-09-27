@@ -26,7 +26,7 @@ namespace ReSTore.Web.Controllers
         {
             // Save the customer
             var id = 1234;
-
+			
             var response = Request.CreateResponse(HttpStatusCode.Created);
             response.Headers.Location = new Uri("/api/customers/" + id, UriKind.Relative);
 
