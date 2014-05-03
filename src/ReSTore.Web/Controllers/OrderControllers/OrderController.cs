@@ -8,13 +8,14 @@ using Raven.Client;
 using ReSTore.Messages.Commands;
 using ReSTore.Views;
 using ReSTore.Web.Models;
+using WebApiContrib.CollectionJson;
 using WebApiContrib.Formatting.CollectionJson;
 
 namespace ReSTore.Web.Controllers.OrderControllers
 {
     public class OrderHypermediaMapper : ICollectionJsonDocumentWriter<Order>
     {
-        public ReadDocument Write(IEnumerable<Order> data)
+        public IReadDocument Write(IEnumerable<Order> data)
         {
             var doc = new ReadDocument();
             var collection = doc.Collection;

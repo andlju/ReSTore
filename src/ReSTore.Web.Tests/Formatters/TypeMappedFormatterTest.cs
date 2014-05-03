@@ -11,6 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Should;
+using WebApiContrib.CollectionJson;
 using WebApiContrib.Formatting.CollectionJson;
 
 namespace ReSTore.Web.Tests.Formatters
@@ -35,7 +36,7 @@ namespace ReSTore.Web.Tests.Formatters
 
     public class TestOutputWriter : ICollectionJsonDocumentWriter<TestOutputOnly>
     {
-        public ReadDocument Write(IEnumerable<TestOutputOnly> data)
+        public IReadDocument Write(IEnumerable<TestOutputOnly> data)
         {
             var doc = new ReadDocument();
             foreach (var dataItem in data)
@@ -51,7 +52,7 @@ namespace ReSTore.Web.Tests.Formatters
 
     public class TestInputReader : ICollectionJsonDocumentReader<TestInputOnly>
     {
-        public TestInputOnly Read(WriteDocument document)
+        public TestInputOnly Read(IWriteDocument document)
         {
             var testInputOnly = new TestInputOnly();
             testInputOnly.StringProperty = document.Template.Data.Single(d => d.Name == "stringProperty").Value;
@@ -63,7 +64,7 @@ namespace ReSTore.Web.Tests.Formatters
 
     public class TestInputAndOutputReaderAndWriter : ICollectionJsonDocumentReader<TestInputAndOutput>, ICollectionJsonDocumentWriter<TestInputAndOutput>
     {
-        public TestInputAndOutput Read(WriteDocument document)
+        public TestInputAndOutput Read(IWriteDocument document)
         {
             var testInputAndOutput = new TestInputAndOutput();
             testInputAndOutput.StringProperty = document.Template.Data.Single(d => d.Name == "stringProperty").Value;
@@ -72,7 +73,7 @@ namespace ReSTore.Web.Tests.Formatters
             return testInputAndOutput;
         }
 
-        public ReadDocument Write(IEnumerable<TestInputAndOutput> data)
+        public IReadDocument Write(IEnumerable<TestInputAndOutput> data)
         {
             var doc = new ReadDocument();
             foreach (var dataItem in data)

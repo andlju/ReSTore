@@ -9,7 +9,7 @@ namespace ReSTore.Web.DependencyResolution
     {
         public RavenRegistry()
         {
-            For<IDocumentStore>().Singleton().Use(c =>
+            For<IDocumentStore>().Singleton().Use("Create Raven document store", c =>
                                                       {
                                                           var store = new DocumentStore()
                                                               {

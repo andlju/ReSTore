@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using EventStore.ClientAPI;
+using EventStore.ClientAPI.SystemData;
 using Raven.Client;
 using ReSTore.Infrastructure;
 using StructureMap;
@@ -20,7 +21,7 @@ namespace ReSTore.Views.Builders
     {
         private IDocumentStore _store;
         private IModelUpdateNotifier _updateNotifier;
-        private EventStoreConnection _eventStoreConnection;
+        private IEventStoreConnection _eventStoreConnection;
         private IEventStoreSerializer _serializer;
         private EventStoreAllCatchUpSubscription _subscription;
 
@@ -33,7 +34,7 @@ namespace ReSTore.Views.Builders
 
         public void Start()
         {
-			_eventStoreConnection = _container.GetInstance<EventStoreConnection>();
+			_eventStoreConnection = _container.GetInstance<IEventStoreConnection>();
 			_serializer = _container.GetInstance<IEventStoreSerializer>();
 			_store = _container.GetInstance<IDocumentStore>();
 			_updateNotifier = new NullModelUpdateNotifier();
@@ -49,8 +50,13 @@ namespace ReSTore.Views.Builders
                 pos = new Position(mainData.CommitPosition, mainData.PreparePosition);
             }
             _subscription = _eventStoreConnection.SubscribeToAllFrom(
-                pos, false, HandleEvent);
+                pos, false, HandleEvent, s =>
+                {
+                    
+                }, (s,d,e) => { }, new UserCredentials("admin", "changeit"));
+            _subscription.Start();
         }
+
 
         private void HandleEvent(EventStoreCatchUpSubscription sub, ResolvedEvent evt)
         {

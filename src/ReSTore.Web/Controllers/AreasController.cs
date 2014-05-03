@@ -5,9 +5,8 @@ using System.Net.Http;
 using System.Runtime.Remoting.Messaging;
 using System.Web.Http;
 using Raven.Client;
-using ReSTore.Infrastructure;
-using ReSTore.Messages.Commands;
 using ReSTore.Web.Models;
+using WebApiContrib.CollectionJson;
 using WebApiContrib.Formatting.CollectionJson;
 
 namespace ReSTore.Web.Controllers
@@ -15,7 +14,7 @@ namespace ReSTore.Web.Controllers
 
     public class AreaHypermediaMapper : ICollectionJsonDocumentWriter<Area>
     {
-        public ReadDocument Write(IEnumerable<Area> data)
+        public IReadDocument Write(IEnumerable<Area> data)
         {
             var doc = new ReadDocument();
             var collection = doc.Collection;

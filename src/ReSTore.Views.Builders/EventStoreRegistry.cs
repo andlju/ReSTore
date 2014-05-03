@@ -2,6 +2,7 @@
 using EventStore.ClientAPI;
 using ReSTore.Infrastructure;
 using StructureMap.Configuration.DSL;
+using StructureMap.Pipeline;
 
 namespace ReSTore.Views.Builders
 {
@@ -9,12 +10,14 @@ namespace ReSTore.Views.Builders
     {
         public EventStoreRegistry()
         {
-            For<EventStoreConnection>().Singleton().Use(c =>
-                {
-                    var conn = EventStoreConnection.Create();
-                    conn.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1113));
-                    return conn;
-                });
+            For<IEventStoreConnection>().Singleton().Use("Creating EventStore connection", c =>
+            {
+                var settings = ConnectionSettings.Create();
+                var endpoint = new IPEndPoint(IPAddress.Loopback, 1113);
+                var conn = EventStoreConnection.Create(settings, endpoint);
+                conn.Connect();
+                return conn;
+            });
             For<IEventStoreSerializer>().Use<JsonEventStoreSerializer>();
         }
     }

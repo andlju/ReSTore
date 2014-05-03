@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSTore.Domain", "ReSTore.Domain\ReSTore.Domain.csproj", "{4303D72D-D025-44A1-BD8B-61E1954AFC9C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSTore.Infrastructure", "ReSTore.Infrastructure\ReSTore.Infrastructure.csproj", "{839666B7-146C-41AC-9BEB-C8EE245BD45E}"
@@ -10,8 +12,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSTore.Infrastructure.Tests", "ReSTore.Infrastructure.Tests\ReSTore.Infrastructure.Tests.csproj", "{E20F0643-7DF3-4777-B3DA-1934644BF937}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSTore.Domain.Tests", "ReSTore.Domain.Tests\ReSTore.Domain.Tests.csproj", "{21812FD4-F6D0-4A75-A3C0-0BBF8DF8892B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSTore.Web", "ReSTore.Web\ReSTore.Web.csproj", "{2976E1D4-8614-404E-8679-616EF38F39C9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSTore.Web.Tests", "ReSTore.Web.Tests\ReSTore.Web.Tests.csproj", "{27283FC1-3CF0-493B-AD5D-7461080465BF}"
 EndProject
@@ -29,6 +29,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSTore.Views.Tests", "ReSTore.Views.Tests\ReSTore.Views.Tests.csproj", "{2D6E1398-BF2F-4C2D-8531-2B2CA9832F6C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSTore.Views.Builders", "ReSTore.Views.Builders\ReSTore.Views.Builders.csproj", "{0EFDE761-7B3F-45BB-B909-268FDD8E60B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSTore.Web", "ReSTore.Web\ReSTore.Web.csproj", "{B7EFDF0B-6F2B-457D-9E73-2D499393121A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,10 +58,6 @@ Global
 		{21812FD4-F6D0-4A75-A3C0-0BBF8DF8892B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21812FD4-F6D0-4A75-A3C0-0BBF8DF8892B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21812FD4-F6D0-4A75-A3C0-0BBF8DF8892B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2976E1D4-8614-404E-8679-616EF38F39C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2976E1D4-8614-404E-8679-616EF38F39C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2976E1D4-8614-404E-8679-616EF38F39C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2976E1D4-8614-404E-8679-616EF38F39C9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{27283FC1-3CF0-493B-AD5D-7461080465BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{27283FC1-3CF0-493B-AD5D-7461080465BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27283FC1-3CF0-493B-AD5D-7461080465BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -80,6 +78,10 @@ Global
 		{0EFDE761-7B3F-45BB-B909-268FDD8E60B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EFDE761-7B3F-45BB-B909-268FDD8E60B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EFDE761-7B3F-45BB-B909-268FDD8E60B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7EFDF0B-6F2B-457D-9E73-2D499393121A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7EFDF0B-6F2B-457D-9E73-2D499393121A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7EFDF0B-6F2B-457D-9E73-2D499393121A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7EFDF0B-6F2B-457D-9E73-2D499393121A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

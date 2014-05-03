@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ReSTore.Web.Models;
+using WebApiContrib.CollectionJson;
 using WebApiContrib.Formatting.CollectionJson;
 
 namespace ReSTore.Web.Controllers.OrderControllers
@@ -9,7 +10,7 @@ namespace ReSTore.Web.Controllers.OrderControllers
     public class OrderCommandViewHypermediaMapper : 
         ICollectionJsonDocumentWriter<OrderCommandView>
     {
-        public ReadDocument Write(IEnumerable<OrderCommandView> data)
+        public IReadDocument Write(IEnumerable<OrderCommandView> data)
         {
             var commandView = data.Single();
 

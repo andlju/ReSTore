@@ -5,13 +5,14 @@ using System.Web.Http;
 using Raven.Client;
 using Raven.Client.Linq;
 using ReSTore.Web.Models;
+using WebApiContrib.CollectionJson;
 using WebApiContrib.Formatting.CollectionJson;
 
 namespace ReSTore.Web.Controllers
 {
     public class ProductsHypermediaMapper : ICollectionJsonDocumentWriter<Product>
     {
-        public ReadDocument Write(IEnumerable<Product> data)
+        public IReadDocument Write(IEnumerable<Product> data)
         {
             var areaId = data.First().AreaId;
             var categoryId = data.First().CategoryId;

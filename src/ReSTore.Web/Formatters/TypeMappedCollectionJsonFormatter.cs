@@ -6,6 +6,8 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 using System.Web.Http.Controllers;
+using WebApiContrib.CollectionJson;
+using WebApiContrib.Formatting.CollectionJson.Client;
 
 namespace WebApiContrib.Formatting.CollectionJson
 {

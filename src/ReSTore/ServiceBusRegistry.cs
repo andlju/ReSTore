@@ -10,7 +10,7 @@ namespace ReSTore
     {
         public ServiceBusRegistry()
         {
-            For<IServiceBus>().Use(CreateMessageBus);
+            For<IServiceBus>().Use("Creating the message bus", CreateMessageBus);
         }
 
         public static IServiceBus CreateMessageBus(IContext context)

@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Web.Http;
 using ReSTore.Web.Models;
+using WebApiContrib.CollectionJson;
 using WebApiContrib.Formatting.CollectionJson;
 
 namespace ReSTore.Web.Controllers
 {
     public class RootHypermediaMapper : ICollectionJsonDocumentWriter<Root>
     {
-        public ReadDocument Write(IEnumerable<Root> data)
+        public IReadDocument Write(IEnumerable<Root> data)
         {
             var doc = new ReadDocument();
             var collection = doc.Collection;

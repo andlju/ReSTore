@@ -8,7 +8,7 @@ namespace ReSTore.Views.Builders
     {
         public RavenRegistry()
         {
-            For<IDocumentStore>().Use(c =>
+            For<IDocumentStore>().Use("Create Raven Document Store", c =>
                 {
                     var store =
                         new DocumentStore()

@@ -18,7 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Http.Dependencies;
 using Microsoft.Practices.ServiceLocation;
 using StructureMap;
 
@@ -27,7 +26,7 @@ namespace ReSTore.Web.DependencyResolution
     /// <summary>
     /// The structure map dependency scope.
     /// </summary>
-    public class StructureMapDependencyScope : ServiceLocatorImplBase, IDependencyScope
+    public class StructureMapDependencyScope : ServiceLocatorImplBase
     {
         #region Constants and Fields
 
@@ -68,27 +67,6 @@ namespace ReSTore.Web.DependencyResolution
         public void Dispose()
         {
             this.Container.Dispose();
-        }
-
-        /// <summary>
-        /// The get service.
-        /// </summary>
-        /// <param name="serviceType">
-        /// The service type.
-        /// </param>
-        /// <returns>
-        /// The System.Object.
-        /// </returns>
-        public new object GetService(Type serviceType)
-        {
-            if (serviceType == null)
-            {
-                return null;
-            }
-
-            return serviceType.IsAbstract || serviceType.IsInterface
-                       ? this.Container.TryGetInstance(serviceType)
-                       : this.Container.GetInstance(serviceType);
         }
 
         /// <summary>

@@ -8,7 +8,7 @@ namespace ReSTore
     {
         public RavenRegistry()
         {
-            For<IDocumentStore>().Singleton().Use(c =>
+            For<IDocumentStore>().Singleton().Use("Create Raven Document store", c =>
                 {
                     var store = new DocumentStore()
                         {

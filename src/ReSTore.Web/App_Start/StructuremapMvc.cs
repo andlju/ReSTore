@@ -15,7 +15,6 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Web.Http;
 using System.Web.Mvc;
 using StructureMap;
 using ReSTore.Web.DependencyResolution;
@@ -26,8 +25,7 @@ namespace ReSTore.Web.App_Start {
     public static class StructuremapMvc {
         public static void Start() {
 			IContainer container = IoC.Initialize();
-            DependencyResolver.SetResolver(new StructureMapDependencyResolver(container));
-            GlobalConfiguration.Configuration.DependencyResolver = new StructureMapDependencyResolver(container);
+            DependencyResolver.SetResolver(new StructureMapDependencyScope(container));
         }
     }
 }

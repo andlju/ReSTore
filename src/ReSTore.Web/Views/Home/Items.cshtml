@@ -5,22 +5,20 @@
     <h3 ng-show="parentLink"><a href="" ng-click="back()">Back</a></h3>
 </div>
 <div class="row">
-    <section class="span9">
-        <ul class="thumbnails">
-            <li ng-repeat="item in items" class="span2" >
-                <a href="" ng-click="select(item)" style="height: 110px" class="thumbnail" ng-show="hasChildren(item)">
-                    <img ng-src="{{'https://se.airshoppen.com' + item.imageHref}}" alt="">
-                    {{item.name}}
-                </a>
-                <div class="thumbnail" style="height: 250px" ng-show="!hasChildren(item)">
-                    <img ng-src="{{'https://se.airshoppen.com' + item.imageHref}}" alt="">
-                    {{item.name}}
-                    <commands item="item" context="this"/>
-                </div>
-            </li>
-        </ul>
+    <section class="col-md-9">
+        <div ng-repeat="item in items" class="col-md-2" >
+            <a href="" ng-click="select(item)" style="height: 110px" class="thumbnail" ng-show="hasChildren(item)">
+                <img ng-src="{{'https://se.airshoppen.com' + item.imageHref}}" alt="">
+                {{item.name}}
+            </a>
+            <div class="thumbnail" style="height: 250px" ng-show="!hasChildren(item)">
+                <img ng-src="{{'https://se.airshoppen.com' + item.imageHref}}" alt="">
+                {{item.name}}
+                <commands item="item" context="this"/>
+            </div>
+        </div>
     </section>
-    <section class="span3">
+    <section class="col-md-3">
     
         <div ng-show="orderId">
             <table class="table" >

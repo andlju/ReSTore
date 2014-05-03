@@ -8,7 +8,9 @@ namespace ReSTore.Messages.Commands
         public Guid OrderId { get; set; }
         public Guid ProductId { get; set; }
 		
-		[Display(Prompt = "Amount")]
-		public int Amount { get; set; }
+/*
+		[Display(Prompt = "Units")]
+		public int Units { get; set; }
+*/
     }
 }

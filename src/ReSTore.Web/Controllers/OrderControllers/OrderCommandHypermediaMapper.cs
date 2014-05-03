@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using WebApiContrib.CollectionJson;
 using WebApiContrib.Formatting.CollectionJson;
 
 namespace ReSTore.Web.Controllers.OrderControllers
@@ -9,14 +10,14 @@ namespace ReSTore.Web.Controllers.OrderControllers
         ICollectionJsonDocumentReader<TCmd> 
         where TCmd : new()
     {
-        public TCmd Read(WriteDocument document)
+        public TCmd Read(IWriteDocument document)
         {
             var command = document.Template.FromTemplate<TCmd>();
             
             return command;
         }
 
-        public ReadDocument Write(IEnumerable<TCmd> data)
+        public IReadDocument Write(IEnumerable<TCmd> data)
         {
             var doc = new ReadDocument();
             var collection = doc.Collection;
@@ -26,5 +27,6 @@ namespace ReSTore.Web.Controllers.OrderControllers
             
             return doc;
         }
+
     }
 }

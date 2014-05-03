@@ -10,6 +10,15 @@ namespace ReSTore.Infrastructure
     public class EventStoreRepository<TId> : IRepository<TId>
     {
         private readonly IEventStoreSerializer _serializer = new JsonEventStoreSerializer();
+        private readonly IEventStoreConnection _connection;
+
+        public EventStoreRepository()
+        {
+            ConnectionSettings settings = ConnectionSettings.Create();
+            IPEndPoint endpoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1113);
+            _connection = EventStoreConnection.Create(settings, endpoint);
+            _connection.Connect();
+        }
 
         public T GetAggregate<T>(TId id) where T : Aggregate, new()
         {
@@ -26,36 +35,29 @@ namespace ReSTore.Infrastructure
 
         public void Store(TId id, IEnumerable events, Action<IDictionary<string, object>> applyHeaders)
         {
-            using (var conn = EventStoreConnection.Create())
-            {
-                conn.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1113));
+            _connection.AppendToStream(id.ToString(), ExpectedVersion.Any,
+                events.OfType<object>()
+                    .Select(e => _serializer.Serialize(e, h =>
+                    {
+                        h.Add("_Timestamp", DateTime.Now);
+                        applyHeaders(h);
+                    })));
 
-                conn.AppendToStream(id.ToString(), ExpectedVersion.Any,
-                                    events.OfType<object>()
-                                          .Select(e => _serializer.Serialize(e, h =>
-                                              {
-                                                  h.Add("_Timestamp", DateTime.Now);
-                                                  applyHeaders(h);
-                                              })));
-            }
         }
 
         public IEnumerable<object> GetEvents(TId id)
         {
-            using (var conn = EventStoreConnection.Create())
-            {
-                conn.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1113));
 
-                var slice = conn.ReadStreamEventsForward(id.ToString(), 1, int.MaxValue, true);
-                var events = slice.Events.
-                                   Where(e => e.Event.EventType[0] != '$').
-                                   Select(e => _serializer.Deserialize(e.Event)).
-                                   Select(ec => ec.Event).ToArray();
-                if (events.Length == 0)
-                    return null;
+            // TODO Support more than 100 events
+            var slice = _connection.ReadStreamEventsForward(id.ToString(), StreamPosition.Start, 100, true);
+            var events = slice.Events.
+                                Where(e => e.Event.EventType[0] != '$').
+                                Select(e => _serializer.Deserialize(e.Event)).
+                                Select(ec => ec.Event).ToArray();
+            if (events.Length == 0)
+                return null;
 
-                return events;
-            }
+            return events;
         }
     }
 }

@@ -2,26 +2,20 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Formatting;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Controllers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Raven.Client;
 using Raven.Client.Linq;
 using ReSTore.Web.Models;
+using WebApiContrib.CollectionJson;
 using WebApiContrib.Formatting.CollectionJson;
 
 namespace ReSTore.Web.Controllers
 {
     public class CategoriesHypermediaMapper : ICollectionJsonDocumentWriter<Category>
     {
-        public ReadDocument Write(IEnumerable<Category> data)
+        public IReadDocument Write(IEnumerable<Category> data)
         {
             var categories = data as Category[] ?? data.ToArray();
             var areaId = categories.First().AreaId;

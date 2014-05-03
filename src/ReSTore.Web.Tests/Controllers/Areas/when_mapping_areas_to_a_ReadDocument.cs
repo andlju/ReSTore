@@ -1,6 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReSTore.Web.Controllers;
 using Should;
+using WebApiContrib.CollectionJson;
 using WebApiContrib.Formatting.CollectionJson;
 
 namespace ReSTore.Web.Tests.Controllers.Areas
@@ -8,7 +9,7 @@ namespace ReSTore.Web.Tests.Controllers.Areas
     [TestClass]
     public class when_mapping_areas_to_a_ReadDocument
     {
-        private ReadDocument _document;
+        private IReadDocument _document;
 
         [TestInitialize]
         public void When()

@@ -1,16 +1,58 @@
-﻿@model dynamic
-
-@{
-    ViewBag.Title = "ReSTore";
+﻿@{
+    Layout = null;
+    Response.Headers["X-UA-Compatible"] = "IE=10";
 }
-
-<div ng-view>
+<!DOCTYPE html>
+<html lang="en" ng-app="ngRestore">
+<head>
+    <meta charset="utf-8" />
+    <title>My ASP.NET Application</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/angular")
+</head>
+<body>
     
-</div>
+    <div class="container body-content">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="#" class="navbar-brand">Application Name</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#">Home</a></li>
+                        <li>@Html.ActionLink("API", "Index", "Help", new { area = "HelpPage" }, null)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div ng-view>
+            
+        </div>
 
-@section scripts
-{
-<script type="text/javascript">
-    
-</script>
-}
+        <!--
+        <div class="padding-error">
+            <p class="text-danger"></p>
+        </div>
+    --->
+
+
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/app")
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>

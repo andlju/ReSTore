@@ -15,29 +15,21 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-using MassTransit;
-using ReSTore.Web.Controllers;
 using StructureMap;
-using StructureMap.Configuration.DSL;
-
+using StructureMap.Graph;
 namespace ReSTore.Web.DependencyResolution {
     public static class IoC {
         public static IContainer Initialize() {
             ObjectFactory.Initialize(x =>
                         {
-                            x.AddRegistry<RavenRegistry>();
-                            x.AddRegistry<ServiceBusRegistry>();
-                            x.For<ICommandDispatcher>().Use<MassTransitCommandDispatcher>();
                             x.Scan(scan =>
                                     {
                                         scan.TheCallingAssembly();
+                                        scan.LookForRegistries();
                                         scan.WithDefaultConventions();
                                     });
-
+            //                x.For<IExample>().Use<Example>();
                         });
-	        var container = ObjectFactory.Container;
-	        container.GetInstance<IServiceBus>();
             return ObjectFactory.Container;
         }
     }
