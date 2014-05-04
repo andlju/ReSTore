@@ -5,20 +5,13 @@ using ReSTore.Messages.Events;
 
 namespace ReSTore.Views.Builders
 {
-    public interface IModelHandler<TModel>
-    {
-        int HandleAll(ref TModel model, IEnumerable<EventContext> events);
-    }
-
     public class OrderStatusModelHandler : IModelHandler<OrderStatusModel>
     {
 
-        public int HandleAll(ref OrderStatusModel model, IEnumerable<EventContext> events)
+        public void HandleAll(ref OrderStatusModel model, IEnumerable<EventContext> events)
         {
-            var lastProcessedEvent = 0;
             foreach (var eventContext in events)
             {
-                lastProcessedEvent = eventContext.EventNumber;
                 var orderCreated = eventContext.Event as OrderCreated;
                 if (orderCreated != null)
                 {
@@ -44,7 +37,6 @@ namespace ReSTore.Views.Builders
                     continue;
                 }
             }
-            return lastProcessedEvent;
         }
 
         public OrderStatusModel Handle(OrderStatusModel model, OrderCreated orderCreated,

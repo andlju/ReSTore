@@ -23,7 +23,6 @@ namespace ReSTore.Views.Builders
         private IModelUpdateNotifier _updateNotifier;
         private IEventStoreConnection _eventStoreConnection;
         private IEventStoreSerializer _serializer;
-        private EventStoreAllCatchUpSubscription _subscription;
 
 		private IContainer _container;
 
@@ -37,28 +36,41 @@ namespace ReSTore.Views.Builders
 			_eventStoreConnection = _container.GetInstance<IEventStoreConnection>();
 			_serializer = _container.GetInstance<IEventStoreSerializer>();
 			_store = _container.GetInstance<IDocumentStore>();
-			_updateNotifier = new NullModelUpdateNotifier();
+			// _updateNotifier = new NullModelUpdateNotifier();
 			// _updateNotifier = _container.GetInstance<IModelUpdateNotifier>();
-			ViewBuilderData mainData;
+
+            var viewModelBuilders = _container.GetAllInstances<IViewModelBuilder>();
+            foreach (var viewModelBuilder in viewModelBuilders)
+            {
+    			var pos = GetPosition(viewModelBuilder.GetName());
+                var builder = viewModelBuilder;
+                var sub = _eventStoreConnection.SubscribeToAllFrom(
+                    pos,
+                    false,
+                    (s, resolvedEvent) => HandleEvent(builder, resolvedEvent),
+                    null, null,
+                    new UserCredentials("admin", "changeit"));
+                sub.Start();
+            }
+        }
+
+        private Position GetPosition(string modelName)
+        {
+            ViewBuilderData mainData;
             using (var session = _store.OpenSession())
             {
-                mainData = session.Load<ViewBuilderData>("main");
+                mainData = session.Load<ViewBuilderData>(modelName);
             }
             Position pos = Position.Start;
             if (mainData != null)
             {
                 pos = new Position(mainData.CommitPosition, mainData.PreparePosition);
             }
-            _subscription = _eventStoreConnection.SubscribeToAllFrom(
-                pos, false, HandleEvent, s =>
-                {
-                    
-                }, (s,d,e) => { }, new UserCredentials("admin", "changeit"));
-            _subscription.Start();
+            return pos;
         }
 
 
-        private void HandleEvent(EventStoreCatchUpSubscription sub, ResolvedEvent evt)
+        private void HandleEvent(IViewModelBuilder builder, ResolvedEvent evt)
         {
             if (evt.Event.EventType.StartsWith("$"))
                 return;
@@ -66,16 +78,11 @@ namespace ReSTore.Views.Builders
             Debug.WriteLine("Handling event: {1} {0}", evt.Event.EventStreamId, evt.Event.EventNumber);
             var deserializedEvent = _serializer.Deserialize(evt.Event);
 
-            var orderStatusbuilder = new RavenViewModelBuilder<OrderStatusModel>(_store, new OrderStatusModelHandler(), _updateNotifier);
-            orderStatusbuilder.Build(evt.Event.EventStreamId, new[] { deserializedEvent });
-
-            var orderItemsBuilder = new RavenViewModelBuilder<OrderItemsModel>(_store, new OrderItemsModelHandler(), _updateNotifier);
-            orderItemsBuilder.Build(evt.Event.EventStreamId, new[] { deserializedEvent });
+            builder.Build(evt.Event.EventStreamId, evt.Event.EventNumber, evt.Event.EventNumber, new[] { deserializedEvent });
 
             using (var session = _store.OpenSession())
             {
-                StoreViewBuilderData(evt, session);
-                StoreCommandData(evt, deserializedEvent, session);
+                StoreViewBuilderData(builder.GetName(), evt, session);
                 session.SaveChanges();
             }
         }
@@ -94,14 +101,14 @@ namespace ReSTore.Views.Builders
             commandModel.Events.Add(new EventStatusModel() { StreamId = evt.Event.EventStreamId, EventNumber = evt.Event.EventNumber, Type = evt.Event.EventType});
         }
 
-        private static void StoreViewBuilderData(ResolvedEvent evt, IDocumentSession session)
+        private static void StoreViewBuilderData(string modelName, ResolvedEvent evt, IDocumentSession session)
         {
             ViewBuilderData mainData;
-            mainData = session.Load<ViewBuilderData>("main");
+            mainData = session.Load<ViewBuilderData>(modelName);
             if (mainData == null)
             {
                 mainData = new ViewBuilderData();
-                session.Store(mainData, "main");
+                session.Store(mainData, modelName);
             }
             if (evt.OriginalPosition.HasValue)
             {
@@ -114,7 +121,7 @@ namespace ReSTore.Views.Builders
 
         public void Stop()
         {
-            _subscription.Stop(TimeSpan.FromSeconds(2));
+
         }
     }
 }

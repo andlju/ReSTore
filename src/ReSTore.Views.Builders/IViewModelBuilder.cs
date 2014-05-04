@@ -5,6 +5,7 @@ namespace ReSTore.Views.Builders
 {
     public interface IViewModelBuilder
     {
-        void Build<TId>(TId id, IEnumerable<EventContext> events);
+        string GetName();
+        void Build<TId>(TId id, long fromEvent, long toEvent, IEnumerable<EventContext> events);
     }
 }

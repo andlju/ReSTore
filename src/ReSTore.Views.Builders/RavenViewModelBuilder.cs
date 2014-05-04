@@ -1,40 +1,10 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using MassTransit;
 using Raven.Client;
 using ReSTore.Infrastructure;
-using ReSTore.Messages.Notifications;
 
 namespace ReSTore.Views.Builders
 {
-    public interface IModelUpdateNotifier
-    {
-        void Notify<TModel>(string id, TModel model);
-    }
-
-    public class ServiceBusUpdateNotifier : IModelUpdateNotifier
-    {
-        private IServiceBus _bus;
-
-        public ServiceBusUpdateNotifier(IServiceBus bus)
-        {
-            _bus = bus;
-        }
-
-        public void Notify<TModel>(string id, TModel model)
-        {
-            _bus.Publish(new ViewModelUpdated()
-                {
-                    Id = Guid.Parse(id),
-                    Type = typeof (TModel).Name,
-                    Content = model
-                });
-            Debug.WriteLine(string.Format("ViewModelUpdated published: {0} {1}", id, typeof(TModel).Name));
-        }
-    }
-
     public class RavenViewModelBuilder<TModel> : IViewModelBuilder
         where TModel : class
     {
@@ -49,10 +19,15 @@ namespace ReSTore.Views.Builders
             _updateNotifier = updateNotifier;
         }
 
-        public void Build<TId>(TId id, IEnumerable<EventContext> events)
+        public string GetName()
+        {
+            return typeof (TModel).Name;
+        }
+
+        public void Build<TId>(TId id, long fromEvent, long toEvent, IEnumerable<EventContext> events)
         {
             var ravenId = typeof(TModel).Name + "/" + id;
-
+            
             TModel model;
             using (var session = _store.OpenSession())
             {
@@ -60,7 +35,7 @@ namespace ReSTore.Views.Builders
 
                 var isNew = model == null;
                 
-                var eventNumber = _handler.HandleAll(ref model, events);
+                _handler.HandleAll(ref model, events);
 
                 if (model == null)
                     return;
@@ -71,7 +46,7 @@ namespace ReSTore.Views.Builders
                 }
                 
                 var metaData = session.Advanced.GetMetadataFor(model);
-                metaData["EventNumber"] = eventNumber;
+                metaData["EventNumber"] = toEvent;
 
                 session.SaveChanges();
             }

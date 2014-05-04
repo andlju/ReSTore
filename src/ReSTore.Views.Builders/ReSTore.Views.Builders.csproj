@@ -93,6 +93,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EventStoreRegistry.cs" />
+    <Compile Include="IModelHandler.cs" />
+    <Compile Include="IModelUpdateNotifier.cs" />
     <Compile Include="IViewModelBuilder.cs" />
     <Compile Include="OrderItemsModelHandler.cs" />
     <Compile Include="OrderStatusModelHandler.cs" />
@@ -101,6 +103,8 @@
     <Compile Include="RavenRegistry.cs" />
     <Compile Include="RavenViewModelBuilder.cs" />
     <Compile Include="ServiceBusRegistry.cs" />
+    <Compile Include="ServiceBusUpdateNotifier.cs" />
+    <Compile Include="ViewBuilderRegistry.cs" />
     <Compile Include="ViewBuilderService.cs" />
   </ItemGroup>
   <ItemGroup>

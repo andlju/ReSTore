@@ -140,6 +140,12 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ReSTore.Web\ReSTore.Web.csproj">
+      <Project>{b7efdf0b-6f2b-457d-9e73-2d499393121a}</Project>
+      <Name>ReSTore.Web</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

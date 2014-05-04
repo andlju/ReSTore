@@ -29,6 +29,7 @@ namespace ReSTore.Views.Builders
                                                   x.AddRegistry<RavenRegistry>();
                                                   x.AddRegistry<ServiceBusRegistry>();
                                                   x.AddRegistry<EventStoreRegistry>();
+                                                  x.AddRegistry<ViewBuilderRegistry>();
                                                   
                                                   x.For<IModelUpdateNotifier>().Use<ServiceBusUpdateNotifier>();
                                                   

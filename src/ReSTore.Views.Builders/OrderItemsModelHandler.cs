@@ -7,20 +7,16 @@ namespace ReSTore.Views.Builders
 {
     public class OrderItemsModelHandler : IModelHandler<OrderItemsModel>
     {
-        public int HandleAll(ref OrderItemsModel model, IEnumerable<EventContext> events)
+        public void HandleAll(ref OrderItemsModel model, IEnumerable<EventContext> events)
         {
-            var lastProcessedEvent = 0;
             foreach (var eventContext in events)
             {
-                lastProcessedEvent = eventContext.EventNumber;
                 var itemAddedToOrder = eventContext.Event as ItemAddedToOrder;
                 if (itemAddedToOrder != null)
                 {
                     model = Handle(model, itemAddedToOrder, eventContext.Headers);
-                    continue;
                 }
             }
-            return lastProcessedEvent;
         }
 
         public OrderItemsModel Handle(OrderItemsModel model, ItemAddedToOrder itemAddedToOrder, IDictionary<string, object> headers)
