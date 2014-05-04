@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Raven.Client;
 
 namespace ReSTore.Domain.Services
