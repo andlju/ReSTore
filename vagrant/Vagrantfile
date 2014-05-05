@@ -10,25 +10,51 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "raring"
-  config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/raring/current/raring-server-cloudimg-amd64-vagrant-disk1.box" 
-  config.vm.hostname = "raring.vagrantup.com"
-  
-  config.vm.provision :shell, :path => "bootstrap.sh"
-  
-  config.vm.provision :puppet do |puppet|
-    puppet.module_path = "modules"
-  end
+  config.vm.box = "parallels/ubuntu-13.10"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
-  config.vm.box_url = "http://files.vagrantup.com/precise32.box"
+  config.vm.box_url = "https://vagrantcloud.com/parallels/ubuntu-13.10" 
 
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-  config.vm.network :forwarded_port, guest: 15672, host: 15672
-  config.vm.network :forwarded_port, guest: 5672, host: 5672
+  
+  config.vm.provision :shell, :path => "bootstrap.sh"
+
+  config.vm.define "rabbit" do |rabbit|
+
+    rabbit.vm.network "private_network", ip: "192.168.50.1"
+    rabbit.vm.network :forwarded_port, guest: 15672, host: 15672
+    rabbit.vm.network :forwarded_port, guest: 5672, host: 5672
+
+    rabbit.vm.hostname = "rabbit.vagrantup.com"
+  
+    rabbit.vm.provision :shell, :path => "puppet-modules.sh"
+
+    rabbit.vm.provision :puppet do |puppet|
+      puppet.manifests_path = "manifests"
+      puppet.manifest_file = "rabbit.pp"
+      # puppet.module_path = "modules"
+    end
+
+    rabbit.vm.provider "parallels" do |p|
+      p.name = "rabbit_vm"
+    end
+
+  end
+
+
+  config.vm.define "eventstore" do |es|
+
+    es.vm.network "private_network", ip: "192.168.50.2"
+    es.vm.network :forwarded_port, guest: 2113, host: 2113
+
+    es.vm.hostname = "eventstore.vagrantup.com"
+
+    es.vm.provision :shell, :path => "eventstore.sh"
+
+    es.vm.provider "parallels" do |p|
+      p.name = "eventstore_vm"
+    end
+  end
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
