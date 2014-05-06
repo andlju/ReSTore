@@ -1,14 +1,13 @@
 Commands, Events, Views and everything in-between
 =================================================
 
-n-Tier Architecture
-------------
 
-### Client/Server
+### 2 Layers
  - "Rich" client connecting directly to data storage
  - Data model enforcing some constraints
- - Business logic in the client
  - Insert a row, Read it back, Update it
+
+ - Too much business logic in the client
 
 
 ### n-Tier
@@ -19,13 +18,44 @@ n-Tier Architecture
  - Read a row -> Build an object
  - Save the object -> Update a row
 
+ - Integration difficult
+
 
 ### Services
  - Clear boundaries
+ - Explicit contracts
  - Request object -> ORM -> Database
  - Database -> ORM -> Response object
 
+### Service Oriented Architecture
+ - Clients can stay independent of services
+ - Overhead of transforming between Database -> Objects -> Contracts
 
+
+Data stores
+-----------
+Relational vs. Document database
+
+### Relational Data Model
+ - Denormalized tables
+ - No redundant data
+ - Quite efficient for writing
+ - Not so good for reading
+ - Good for ad-hoc queries
+
+#### Sample queries
+ - Get an order, with order lines and shipping address
+ - The products I buy the most
+
+ ### Document Data Model
+  - Each Order is a document
+  - Very quick to read a single document
+  - No good for ad-hoc queries
+  - Aggregation requires Map/Reduce
+
+ ### What to choose?
+  - Optimized for read or write?
+  - 
 
 ### What is CQRS
  - Command
