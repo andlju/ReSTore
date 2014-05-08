@@ -9,4 +9,5 @@ namespace ReSTore.Messages.Events
 
         public decimal Price { get; set; }
     }
+
 }
