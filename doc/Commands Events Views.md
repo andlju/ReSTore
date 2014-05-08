@@ -47,15 +47,15 @@ Relational vs. Document database
  - Get an order, with order lines and shipping address
  - The products I buy the most
 
- ### Document Data Model
-  - Each Order is a document
-  - Very quick to read a single document
-  - No good for ad-hoc queries
-  - Aggregation requires Map/Reduce
+### Document Data Model
+ - Each Order is a document
+ - Very quick to read a single document
+ - No good for ad-hoc queries
+ - Aggregation requires Map/Reduce
 
- ### What to choose?
-  - Optimized for read or write?
-  - 
+### What to choose?
+ - Optimized for read or write?
+
 
 ### What is CQRS
  - Command
@@ -86,7 +86,12 @@ Relational vs. Document database
  - Should you be using Event Sourcing?
  - Do you need them?
  - Are you sure?
+ 
 
+### Commit
+ - Several events that go together as one atomic unit/transaction
+ - You often want to commit several events at once
+ - Reading is always done on the entire stream
 
 Projections
 -----------
@@ -121,6 +126,32 @@ Projections
  - Message on service bus per command
  - Easy to scale out
 
+### Competing consumer - Command side
+ - 
+
+### Competing consumer - Denormalizers
+ - 
+
+
+### Event granularity
+ - Coarse events
+   - Easier on the infrastructure
+   - Often good for integration
+ - Granular events
+   - Easier to break apart later
+   - Example - price on order line or as separate event
+
+### Command granularity
+ - Granular commands
+   - Flexible
+   - Tricky with competing consumers
+ - Coarse commands
+   - One command per user interaction
+   - 
+
+
+### Event-based workflows
+ - 
 
 Testing
 -------
