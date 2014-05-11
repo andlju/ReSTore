@@ -10,7 +10,7 @@ namespace ReSTore.Infrastructure
     public class InMemoryRepository : IRepository<Guid>
     {
         private readonly Dictionary<Guid, List<EventContext>> _store = new Dictionary<Guid, List<EventContext>>();
-        private readonly IList<IEventDispatcher> _eventDispatchers = new List<IEventDispatcher>();
+        private readonly IList<IEventDispatcher<Guid>> _eventDispatchers = new List<IEventDispatcher<Guid>>();
 
         public T GetAggregate<T>(Guid id) where T : Aggregate, new()
         {
@@ -52,7 +52,7 @@ namespace ReSTore.Infrastructure
             storedEvents.AddRange(eventContexts);
             foreach (var dispatcher in _eventDispatchers)
             {
-                dispatcher.Dispatch(eventContexts);
+                dispatcher.Dispatch(id, eventContexts);
             }
         }
 
@@ -66,7 +66,7 @@ namespace ReSTore.Infrastructure
             return storedEvents.Select(ec => ec.Event);
         }
 
-        public void RegisterDispatcher(IEventDispatcher eventDispatcher)
+        public void RegisterDispatcher(IEventDispatcher<Guid> eventDispatcher)
         {
             _eventDispatchers.Add(eventDispatcher);
         }

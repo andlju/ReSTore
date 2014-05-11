@@ -3,18 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Runtime.InteropServices;
-using System.Text;
 using EventStore.ClientAPI;
 using EventStore.ClientAPI.SystemData;
 
 namespace ReSTore.Infrastructure
 {
-    public class EventStoreRepository<TId> : IRepository<TId>
+    public class EventStoreRepository : IRepository<Guid>
     {
         private readonly IEventStoreSerializer _serializer = new JsonEventStoreSerializer();
         private readonly IEventStoreConnection _connection;
-        private readonly IList<IEventDispatcher> _eventDispatchers = new List<IEventDispatcher>();
+        private readonly IList<IEventDispatcher<Guid>> _eventDispatchers = new List<IEventDispatcher<Guid>>();
 
         public EventStoreRepository()
         {
@@ -24,15 +22,17 @@ namespace ReSTore.Infrastructure
             _connection.Connect();
             _connection.SubscribeToAll(true, (s, e) =>
             {
+                if (e.Event.EventType.StartsWith("$"))
+                    return;
                 foreach (var dispatcher in _eventDispatchers)
                 {
                     var eventContext = _serializer.Deserialize(e.Event);
-                    dispatcher.Dispatch(new [] {eventContext});
+                    dispatcher.Dispatch(Guid.Parse(e.OriginalStreamId), new [] {eventContext});
                 }
             },null, new UserCredentials("admin", "changeit"));
         }
 
-        public T GetAggregate<T>(TId id) where T : Aggregate, new()
+        public T GetAggregate<T>(Guid id) where T : Aggregate, new()
         {
             var events = GetEvents(id);
             if (events == null)
@@ -40,12 +40,12 @@ namespace ReSTore.Infrastructure
             return AggregateHelper.Build<T>(events);
         }
 
-        public void Store(TId id, Aggregate aggregate, Action<IDictionary<string,object>> applyHeaders)
+        public void Store(Guid id, Aggregate aggregate, Action<IDictionary<string,object>> applyHeaders)
         {
             Store(id, aggregate.GetUncommittedEvents(), applyHeaders);
         }
 
-        public void Store(TId id, IEnumerable events, Action<IDictionary<string, object>> applyHeaders)
+        public void Store(Guid id, IEnumerable events, Action<IDictionary<string, object>> applyHeaders)
         {
             var eventsArray = events as object[] ?? events.Cast<object>().ToArray();
             _connection.AppendToStream(id.ToString(), ExpectedVersion.Any,
@@ -57,7 +57,7 @@ namespace ReSTore.Infrastructure
                     })));
         }
 
-        public IEnumerable<object> GetEvents(TId id)
+        public IEnumerable<object> GetEvents(Guid id)
         {
 
             // TODO Support more than 100 events
@@ -72,7 +72,7 @@ namespace ReSTore.Infrastructure
             return events;
         }
 
-        public void RegisterDispatcher(IEventDispatcher eventDispatcher)
+        public void RegisterDispatcher(IEventDispatcher<Guid> eventDispatcher)
         {
             _eventDispatchers.Add(eventDispatcher);
         }

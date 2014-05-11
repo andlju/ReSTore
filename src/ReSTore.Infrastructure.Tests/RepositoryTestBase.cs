@@ -45,11 +45,11 @@ namespace ReSTore.Infrastructure.Tests
         public string Test;
     }
 
-    public class TestEventDispatcher : IEventDispatcher
+    public class TestEventDispatcher : IEventDispatcher<Guid>
     {
         public List<EventContext> DispatchedEvents = new List<EventContext>();
  
-        public void Dispatch(IEnumerable<EventContext> events)
+        public void Dispatch(Guid id, IEnumerable<EventContext> events)
         {
             DispatchedEvents.AddRange(events);    
         }
@@ -108,7 +108,7 @@ namespace ReSTore.Infrastructure.Tests
 
             Repository.RegisterDispatcher(testDispatcher);
             Repository.Store(testId, agg, headers => { });
-            Thread.Sleep(100); // TODO Not the nicest way of waiting for a subscription to return
+            Thread.Sleep(500); // TODO Not the nicest way of waiting for a subscription to return
             Assert.IsInstanceOfType(testDispatcher.DispatchedEvents.First().Event, typeof(TestCreated));
         }
 

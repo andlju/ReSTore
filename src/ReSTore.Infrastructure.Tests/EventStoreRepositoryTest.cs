@@ -6,7 +6,7 @@ namespace ReSTore.Infrastructure.Tests
     [TestClass]
     public class EventStoreRepositoryTest : RepositoryTestBase
     {
-        private EventStoreRepository<Guid> _eventStoreRepository;
+        private EventStoreRepository _eventStoreRepository;
 
         protected override IRepository<Guid> Repository
         {
@@ -21,7 +21,7 @@ namespace ReSTore.Infrastructure.Tests
         [TestInitialize]
         public void Initialize()
         {
-            _eventStoreRepository = new EventStoreRepository<Guid>();
+            _eventStoreRepository = new EventStoreRepository();
         }
 
         [TestMethod]

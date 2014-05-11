@@ -18,7 +18,7 @@ namespace ReSTore
                     s.AssemblyContainingType<CreateOrderHandler>();
                     s.ConnectImplementationsToTypesClosing(typeof (ICommandHandler<>));
                 });
-            For<IRepository<Guid>>().Singleton().Use<EventStoreRepository<Guid>>();
+            For<IRepository<Guid>>().Singleton().Use<EventStoreRepository>();
         }
     }
 }
