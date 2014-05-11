@@ -4,11 +4,11 @@ using StructureMap.Configuration.DSL;
 
 namespace ReSTore.Views.Builders
 {
-    public class RavenRegistry : Registry
+    public class RavenViewRegistry : Registry
     {
-        public RavenRegistry()
+        public RavenViewRegistry()
         {
-            For<IDocumentStore>().Use("Create Raven Document Store", c =>
+            For<IDocumentStore>().Use("Create Raven Views Document Store", c =>
                 {
                     var store =
                         new DocumentStore()

@@ -100,7 +100,7 @@
     <Compile Include="OrderStatusModelHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RavenRegistry.cs" />
+    <Compile Include="RavenViewRegistry.cs" />
     <Compile Include="RavenViewModelBuilder.cs" />
     <Compile Include="ServiceBusRegistry.cs" />
     <Compile Include="ServiceBusUpdateNotifier.cs" />

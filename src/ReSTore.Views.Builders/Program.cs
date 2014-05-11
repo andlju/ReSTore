@@ -26,7 +26,6 @@ namespace ReSTore.Views.Builders
         {
             var container = new Container(x =>
                                               {
-                                                  x.AddRegistry<RavenRegistry>();
                                                   x.AddRegistry<ServiceBusRegistry>();
                                                   x.AddRegistry<EventStoreRegistry>();
                                                   x.AddRegistry<ViewBuilderRegistry>();

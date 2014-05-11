@@ -11,7 +11,7 @@ namespace ReSTore
     {
         public DomainRegistry()
         {
-            IncludeRegistry<RavenRegistry>();
+            IncludeRegistry<RavenProductsRegistry>();
             For<IPricingService>().Singleton().Use<PricingService>();
             Scan(s =>
                 {

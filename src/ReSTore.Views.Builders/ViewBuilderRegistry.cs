@@ -7,6 +7,7 @@ namespace ReSTore.Views.Builders
     {
         public ViewBuilderRegistry()
         {
+            IncludeRegistry<RavenViewRegistry>();
             Scan(s =>
             {
                 s.TheCallingAssembly();
