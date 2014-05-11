@@ -1,4 +1,5 @@
-﻿using StructureMap.Configuration.DSL;
+﻿using Raven.Client;
+using StructureMap.Configuration.DSL;
 using StructureMap.Graph;
 
 namespace ReSTore.Views.Builders
@@ -16,8 +17,8 @@ namespace ReSTore.Views.Builders
                     c.Singleton();
                 });
             });
-            For<IViewModelBuilder>().Singleton().Use<RavenViewModelBuilder<OrderItemsModel>>();
-            For<IViewModelBuilder>().Singleton().Use<RavenViewModelBuilder<OrderStatusModel>>();
+            For<IViewModelBuilder>().Singleton().Use<RavenViewModelBuilder<OrderItemsModel>>().Ctor<IDocumentStore>().IsNamedInstance("Views");
+            For<IViewModelBuilder>().Singleton().Use<RavenViewModelBuilder<OrderStatusModel>>().Ctor<IDocumentStore>().IsNamedInstance("Views");
         }
     }
 }

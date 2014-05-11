@@ -20,7 +20,7 @@ namespace ReSTore.Views.Builders
                                               
                     store.Initialize();
                     return store;
-                });
+                }).Named("Views");
 
         }
     }

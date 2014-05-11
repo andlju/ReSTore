@@ -17,7 +17,7 @@ namespace ReSTore
                         };
                     store.Initialize();
                     return store;
-                });
+                }).Named("Products");
         }
     }
 }

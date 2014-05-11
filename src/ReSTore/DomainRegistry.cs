@@ -1,4 +1,5 @@
 ﻿using System;
+using Raven.Client;
 using ReSTore.Domain;
 using ReSTore.Domain.CommandHandlers;
 using ReSTore.Domain.Services;
@@ -13,7 +14,7 @@ namespace ReSTore
         public PricingServiceRegistry()
         {
             IncludeRegistry<RavenProductsRegistry>();
-            For<IPricingService>().Singleton().Use<PricingService>();
+            For<IPricingService>().Singleton().Use<PricingService>().Ctor<IDocumentStore>().IsNamedInstance("Products");
         }
     }
 
