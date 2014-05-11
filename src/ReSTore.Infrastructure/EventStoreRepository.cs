@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
+using System.Text;
 using EventStore.ClientAPI;
+using EventStore.ClientAPI.SystemData;
 
 namespace ReSTore.Infrastructure
 {
@@ -20,6 +22,14 @@ namespace ReSTore.Infrastructure
             IPEndPoint endpoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1113);
             _connection = EventStoreConnection.Create(settings, endpoint);
             _connection.Connect();
+            _connection.SubscribeToAll(true, (s, e) =>
+            {
+                foreach (var dispatcher in _eventDispatchers)
+                {
+                    var eventContext = _serializer.Deserialize(e.Event);
+                    dispatcher.Dispatch(new [] {eventContext});
+                }
+            },null, new UserCredentials("admin", "changeit"));
         }
 
         public T GetAggregate<T>(TId id) where T : Aggregate, new()
@@ -45,10 +55,6 @@ namespace ReSTore.Infrastructure
                         h.Add("_Timestamp", DateTime.Now);
                         applyHeaders(h);
                     })));
-            foreach (var dispatcher in _eventDispatchers)
-            {
-                dispatcher.Dispatch(eventsArray);
-            }
         }
 
         public IEnumerable<object> GetEvents(TId id)

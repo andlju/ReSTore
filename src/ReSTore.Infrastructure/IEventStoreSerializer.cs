@@ -6,7 +6,7 @@ namespace ReSTore.Infrastructure
 {
     public interface IEventStoreSerializer
     {
-        EventData Serialize(object testClassToSerialize, Action<Dictionary<string, object>> setHeaders);
+        EventData Serialize(object obj, Action<Dictionary<string, object>> setHeaders);
         EventContext Deserialize(RecordedEvent evt);
     }
 }

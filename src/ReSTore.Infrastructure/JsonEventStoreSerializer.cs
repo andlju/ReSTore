@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using EventStore.ClientAPI;
-using EventStore.ClientAPI.Common.Utils;
 
 namespace ReSTore.Infrastructure
 {
@@ -10,17 +9,17 @@ namespace ReSTore.Infrastructure
     {
         private const string ClrTypeHeader = "_CLRType";
 
-        public EventData Serialize(object testClassToSerialize, Action<Dictionary<string, object>> setHeaders)
+        public EventData Serialize(object obj, Action<Dictionary<string, object>> setHeaders)
         {
             var headers = new Dictionary<string, object>();
             if (setHeaders != null)
                 setHeaders(headers);
 
-            var type = testClassToSerialize.GetType();
+            var type = obj.GetType();
 
             headers.Add(ClrTypeHeader, type.AssemblyQualifiedName);
 
-            var eventData = GetJsonBytes(testClassToSerialize);
+            var eventData = GetJsonBytes(obj);
             var headersData = GetJsonBytes(headers);
 
             return new EventData(Guid.NewGuid(), type.Name, true, eventData, headersData);
@@ -38,9 +37,9 @@ namespace ReSTore.Infrastructure
             return new EventContext() { Event = obj, EventNumber = evt.EventNumber, Headers = headers };
         }
 
-        private static byte[] GetJsonBytes(object testClassToSerialize)
+        private static byte[] GetJsonBytes(object obj)
         {
-            var json = Newtonsoft.Json.JsonConvert.SerializeObject(testClassToSerialize);
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
             var data = Encoding.UTF8.GetBytes(json);
             return data;
         }

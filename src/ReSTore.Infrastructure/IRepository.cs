@@ -5,7 +5,7 @@ namespace ReSTore.Infrastructure
 {
     public interface IEventDispatcher
     {
-        void Dispatch(IEnumerable<object> events);
+        void Dispatch(IEnumerable<EventContext> events);
     }
 
     public interface IRepository<TId>

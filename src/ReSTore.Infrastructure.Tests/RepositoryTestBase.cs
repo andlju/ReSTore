@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ReSTore.Infrastructure.Tests
@@ -46,9 +47,9 @@ namespace ReSTore.Infrastructure.Tests
 
     public class TestEventDispatcher : IEventDispatcher
     {
-        public List<object> DispatchedEvents = new List<object>();
+        public List<EventContext> DispatchedEvents = new List<EventContext>();
  
-        public void Dispatch(IEnumerable<object> events)
+        public void Dispatch(IEnumerable<EventContext> events)
         {
             DispatchedEvents.AddRange(events);    
         }
@@ -107,8 +108,8 @@ namespace ReSTore.Infrastructure.Tests
 
             Repository.RegisterDispatcher(testDispatcher);
             Repository.Store(testId, agg, headers => { });
-
-            Assert.IsInstanceOfType(testDispatcher.DispatchedEvents.First(), typeof(TestCreated));
+            Thread.Sleep(100); // TODO Not the nicest way of waiting for a subscription to return
+            Assert.IsInstanceOfType(testDispatcher.DispatchedEvents.First().Event, typeof(TestCreated));
         }
 
         protected abstract void FillRepository(Guid aggregateId, object[] events);
