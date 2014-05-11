@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -43,6 +44,15 @@ namespace ReSTore.Infrastructure.Tests
         public string Test;
     }
 
+    public class TestEventDispatcher : IEventDispatcher
+    {
+        public List<object> DispatchedEvents = new List<object>();
+ 
+        public void Dispatch(IEnumerable<object> events)
+        {
+            DispatchedEvents.AddRange(events);    
+        }
+    }
 
     public abstract class RepositoryTestBase
     {
@@ -87,6 +97,18 @@ namespace ReSTore.Infrastructure.Tests
             var events = Repository.GetEvents(testId);
 
             Assert.IsInstanceOfType(Enumerable.First<object>(events), typeof(TestCreated));
+        }
+
+        public virtual void when_dispatcher_has_been_registered()
+        {
+            var testId = Guid.NewGuid();
+            var agg = new TestAgg(testId);
+            var testDispatcher = new TestEventDispatcher();
+
+            Repository.RegisterDispatcher(testDispatcher);
+            Repository.Store(testId, agg, headers => { });
+
+            Assert.IsInstanceOfType(testDispatcher.DispatchedEvents.First(), typeof(TestCreated));
         }
 
         protected abstract void FillRepository(Guid aggregateId, object[] events);

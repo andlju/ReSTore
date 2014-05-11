@@ -37,6 +37,12 @@ namespace ReSTore.Infrastructure.Tests
             base.when_storing_a_new_aggregate();
         }
 
+        [TestMethod]
+        public override void when_dispatcher_has_been_registered()
+        {
+            base.when_dispatcher_has_been_registered();
+        }
+
         [TestInitialize]
         public void Initialize()
         {

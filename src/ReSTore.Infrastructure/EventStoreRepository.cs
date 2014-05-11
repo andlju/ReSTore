@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
 using EventStore.ClientAPI;
 
 namespace ReSTore.Infrastructure
@@ -11,6 +12,7 @@ namespace ReSTore.Infrastructure
     {
         private readonly IEventStoreSerializer _serializer = new JsonEventStoreSerializer();
         private readonly IEventStoreConnection _connection;
+        private readonly IList<IEventDispatcher> _eventDispatchers = new List<IEventDispatcher>();
 
         public EventStoreRepository()
         {
@@ -35,14 +37,18 @@ namespace ReSTore.Infrastructure
 
         public void Store(TId id, IEnumerable events, Action<IDictionary<string, object>> applyHeaders)
         {
+            var eventsArray = events as object[] ?? events.Cast<object>().ToArray();
             _connection.AppendToStream(id.ToString(), ExpectedVersion.Any,
-                events.OfType<object>()
+                eventsArray
                     .Select(e => _serializer.Serialize(e, h =>
                     {
                         h.Add("_Timestamp", DateTime.Now);
                         applyHeaders(h);
                     })));
-
+            foreach (var dispatcher in _eventDispatchers)
+            {
+                dispatcher.Dispatch(eventsArray);
+            }
         }
 
         public IEnumerable<object> GetEvents(TId id)
@@ -58,6 +64,11 @@ namespace ReSTore.Infrastructure
                 return null;
 
             return events;
+        }
+
+        public void RegisterDispatcher(IEventDispatcher eventDispatcher)
+        {
+            _eventDispatchers.Add(eventDispatcher);
         }
     }
 }

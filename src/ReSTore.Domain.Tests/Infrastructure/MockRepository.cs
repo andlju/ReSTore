@@ -11,6 +11,8 @@ namespace ReSTore.Domain.Tests.Infrastructure
         private readonly Dictionary<Guid, List<object>> _store = new Dictionary<Guid, List<object>>();
         private readonly Dictionary<Guid, List<object>> _committedStore = new Dictionary<Guid, List<object>>();
 
+        private readonly IList<IEventDispatcher> _eventDispatchers = new List<IEventDispatcher>();
+
         public T GetAggregate<T>(Guid id) where T : Aggregate, new()
         {
             List<object> storedEvents;
@@ -60,6 +62,11 @@ namespace ReSTore.Domain.Tests.Infrastructure
                 return null;
             }
             return storedEvents;
+        }
+
+        public void RegisterDispatcher(IEventDispatcher eventDispatcher)
+        {
+            _eventDispatchers.Add(eventDispatcher);   
         }
 
         public IEnumerable<object> GetCommittedEvents(Guid id)
