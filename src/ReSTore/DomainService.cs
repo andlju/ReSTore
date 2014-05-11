@@ -9,7 +9,7 @@ using StructureMap;
 
 namespace ReSTore
 {
-    public class ViewBuilderEventDispatcher : IEventDispatcher
+    public class ViewBuilderEventDispatcher : IEventDispatcher<Guid>
     {
         private readonly IContainer _container;
 
@@ -18,7 +18,7 @@ namespace ReSTore
             _container = container;
         }
 
-        public void Dispatch(IEnumerable<EventContext> events)
+        public void Dispatch(Guid id, IEnumerable<EventContext> events)
         {
             var viewModelBuilders = _container.GetAllInstances<IViewModelBuilder>();
 
