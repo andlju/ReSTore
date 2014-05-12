@@ -1,9 +1,4 @@
-﻿using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using ReSTore.Messages.Events;
-using StructureMap;
-using StructureMap.Pipeline;
+﻿using StructureMap;
 using Topshelf;
 
 namespace ReSTore

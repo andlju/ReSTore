@@ -24,6 +24,7 @@ namespace ReSTore.Domain
         public void AddItem(Guid itemId, int numberOfItems, IPricingService pricingService)
         {
             var price = pricingService.GetPrice(itemId);
+
             while (numberOfItems-- > 0)
             {
                 Publish(new ItemAddedToOrder() { OrderId = _orderId, ProductId = itemId, Price = price });
