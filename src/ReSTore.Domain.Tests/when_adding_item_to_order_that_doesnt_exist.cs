@@ -4,13 +4,14 @@ using ReSTore.Domain.CommandHandlers;
 using ReSTore.Infrastructure;
 using ReSTore.Messages.Commands;
 
+// ReSharper disable once InconsistentNaming
 namespace ReSTore.Domain.Tests
 {
     [TestClass]
     public class when_adding_item_to_order_that_doesnt_exist : with<AddItemToOrder>
     {
-        private Guid _orderId = Guid.NewGuid();
-        private Guid _itemId = Guid.NewGuid();
+        private readonly Guid _orderId = Guid.NewGuid();
+        private readonly Guid _itemId = Guid.NewGuid();
 
         protected override ICommandHandler<AddItemToOrder> WithHandler(IRepository<Guid> repository)
         {

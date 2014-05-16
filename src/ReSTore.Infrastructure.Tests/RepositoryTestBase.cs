@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ReSTore.Infrastructure.Tests
 {
-    public class TestAgg : Aggregate
+    public class TestAgg : AggregateRoot
     {
         public Guid Id;
 
@@ -26,7 +26,7 @@ namespace ReSTore.Infrastructure.Tests
         }
     }
 
-    public class UnknownAgg : Aggregate
+    public class UnknownAgg : AggregateRoot
     {
 
         private void Apply(TestCreated evt)

@@ -32,7 +32,7 @@ namespace ReSTore.Infrastructure
             },null, new UserCredentials("admin", "changeit"));
         }
 
-        public T GetAggregate<T>(Guid id) where T : Aggregate, new()
+        public T GetAggregate<T>(Guid id) where T : AggregateRoot, new()
         {
             var events = GetEvents(id);
             if (events == null)
@@ -40,9 +40,9 @@ namespace ReSTore.Infrastructure
             return AggregateHelper.Build<T>(events);
         }
 
-        public void Store(Guid id, Aggregate aggregate, Action<IDictionary<string,object>> applyHeaders)
+        public void Store(Guid id, AggregateRoot aggregateRoot, Action<IDictionary<string,object>> applyHeaders)
         {
-            Store(id, aggregate.GetUncommittedEvents(), applyHeaders);
+            Store(id, aggregateRoot.FetchUncommittedEvents(), applyHeaders);
         }
 
         public void Store(Guid id, IEnumerable events, Action<IDictionary<string, object>> applyHeaders)

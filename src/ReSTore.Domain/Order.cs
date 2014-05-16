@@ -5,11 +5,11 @@ using ReSTore.Messages.Events;
 
 namespace ReSTore.Domain
 {
-    public class Order : Aggregate
+    public class Order : AggregateRoot
     {
         private Guid _orderId;
-        private bool _hasReference;
-        private int _numberOfItems;
+        // private bool _hasReference;
+        // private int _numberOfItems;
 
         public Order()
         {
@@ -43,12 +43,12 @@ namespace ReSTore.Domain
 
         private void Apply(ItemAddedToOrder evt)
         {
-            _numberOfItems++;
+            // _numberOfItems++;
         }
 
         private void Apply(BookingReferenceSet evt)
         {
-            _hasReference = true;
+            // _hasReference = true;
         }
     }
 }

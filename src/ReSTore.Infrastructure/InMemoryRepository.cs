@@ -12,7 +12,7 @@ namespace ReSTore.Infrastructure
         private readonly Dictionary<Guid, List<EventContext>> _store = new Dictionary<Guid, List<EventContext>>();
         private readonly IList<IEventDispatcher<Guid>> _eventDispatchers = new List<IEventDispatcher<Guid>>();
 
-        public T GetAggregate<T>(Guid id) where T : Aggregate, new()
+        public T GetAggregate<T>(Guid id) where T : AggregateRoot, new()
         {
             List<EventContext> storedEvents;
             if (!_store.TryGetValue(id, out storedEvents))
@@ -23,9 +23,9 @@ namespace ReSTore.Infrastructure
             return AggregateHelper.Build<T>(storedEvents.Select(ec => ec.Event));
         }
 
-        public void Store(Guid id, Aggregate aggregate, Action<IDictionary<string, object>> applyHeaders)
+        public void Store(Guid id, AggregateRoot aggregateRoot, Action<IDictionary<string, object>> applyHeaders)
         {
-            Store(id, aggregate.GetUncommittedEvents(), applyHeaders);
+            Store(id, aggregateRoot.FetchUncommittedEvents(), applyHeaders);
         }
 
         public void Store(Guid id, IEnumerable events, Action<IDictionary<string, object>> applyHeaders)

@@ -10,8 +10,8 @@ namespace ReSTore.Infrastructure
 
     public interface IRepository<TId>
     {
-        T GetAggregate<T>(TId id) where T : Aggregate, new();
-        void Store(TId id, Aggregate aggregate, Action<IDictionary<string,object>> applyHeaders);
+        T GetAggregate<T>(TId id) where T : AggregateRoot, new();
+        void Store(TId id, AggregateRoot aggregateRoot, Action<IDictionary<string,object>> applyHeaders);
         IEnumerable<object> GetEvents(TId id);
         void RegisterDispatcher(IEventDispatcher<TId> eventDispatcher);
     }

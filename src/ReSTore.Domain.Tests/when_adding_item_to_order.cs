@@ -7,6 +7,7 @@ using ReSTore.Infrastructure;
 using ReSTore.Messages.Commands;
 using ReSTore.Messages.Events;
 
+// ReSharper disable once InconsistentNaming
 namespace ReSTore.Domain.Tests
 {
     public class FakePricingService : IPricingService
@@ -20,8 +21,8 @@ namespace ReSTore.Domain.Tests
     [TestClass]
     public class when_adding_to_order : with<AddItemToOrder>
     {
-        private Guid _orderId = Guid.NewGuid();
-        private Guid _productId = Guid.NewGuid();
+        private readonly Guid _orderId = Guid.NewGuid();
+        private readonly Guid _productId = Guid.NewGuid();
 
         protected override ICommandHandler<AddItemToOrder> WithHandler(IRepository<Guid> repository)
         {

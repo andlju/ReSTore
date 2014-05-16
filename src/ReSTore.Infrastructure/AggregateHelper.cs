@@ -6,24 +6,6 @@ using System.Reflection;
 
 namespace ReSTore.Infrastructure
 {
-    public abstract class Aggregate
-    {
-        private IList<object> _uncommittedEvents = new List<object>();
-
-        public void Publish(object evt)
-        {
-            this.Apply(evt);
-            _uncommittedEvents.Add(evt);
-        }
-
-        public IEnumerable<object> GetUncommittedEvents()
-        {
-            var events = _uncommittedEvents.ToArray();
-            _uncommittedEvents.Clear();
-            return events;
-        }
-    }
-
     public static class AggregateHelper
     {
         private static readonly Dictionary<Type, Func<IEnumerable<object>, object>> Builders = new Dictionary<Type, Func<IEnumerable<object>, object>>();
@@ -44,7 +26,7 @@ namespace ReSTore.Infrastructure
             }
             Builders[t] = (evts) =>
                                        {
-                                           var agg = (Aggregate)ctor.Invoke(new object[0]);
+                                           var agg = (AggregateRoot)ctor.Invoke(new object[0]);
                                            foreach (var evt in evts)
                                            {
                                                agg.Apply(evt);
@@ -66,7 +48,7 @@ namespace ReSTore.Infrastructure
             Handlers[type] = tmp;
         }
 
-        public static void Apply(this Aggregate agg, object evt)
+        public static void Apply(this AggregateRoot agg, object evt)
         {
             Dictionary<Type, Action<object, object>> handlers;
             if (!Handlers.TryGetValue(agg.GetType(), out handlers))
@@ -86,7 +68,7 @@ namespace ReSTore.Infrastructure
             handler(agg, evt);
         }
 
-        public static T Build<T>(IEnumerable<object> events) where T : Aggregate, new()
+        public static T Build<T>(IEnumerable<object> events) where T : AggregateRoot, new()
         {
             Func<IEnumerable<object>, object> builder;
             if (!Builders.TryGetValue(typeof (T), out builder))

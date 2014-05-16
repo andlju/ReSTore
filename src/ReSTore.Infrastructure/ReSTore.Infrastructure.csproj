@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AggregateHelper.cs" />
+    <Compile Include="AggregateRoot.cs" />
     <Compile Include="EventContext.cs" />
     <Compile Include="EventStoreRepository.cs" />
     <Compile Include="IEventStoreSerializer.cs" />

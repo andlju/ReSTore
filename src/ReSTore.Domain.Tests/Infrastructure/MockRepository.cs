@@ -13,7 +13,7 @@ namespace ReSTore.Domain.Tests.Infrastructure
 
         private readonly IList<IEventDispatcher<Guid>> _eventDispatchers = new List<IEventDispatcher<Guid>>();
 
-        public T GetAggregate<T>(Guid id) where T : Aggregate, new()
+        public T GetAggregate<T>(Guid id) where T : AggregateRoot, new()
         {
             List<object> storedEvents;
             if (!_store.TryGetValue(id, out storedEvents))
@@ -24,9 +24,9 @@ namespace ReSTore.Domain.Tests.Infrastructure
             return AggregateHelper.Build<T>(storedEvents);
         }
 
-        public void Store(Guid id, Aggregate aggregate, Action<IDictionary<string, object>> applyHeaders)
+        public void Store(Guid id, AggregateRoot aggregateRoot, Action<IDictionary<string, object>> applyHeaders)
         {
-            var events = aggregate.GetUncommittedEvents();
+            var events = aggregateRoot.FetchUncommittedEvents();
             Store(id, events, _store);
             Store(id, events, _committedStore);
         }

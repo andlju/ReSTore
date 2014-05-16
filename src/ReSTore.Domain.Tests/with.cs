@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReSTore.Domain.Tests.Infrastructure;
 using ReSTore.Infrastructure;
 
+// ReSharper disable once InconsistentNaming
 namespace ReSTore.Domain.Tests
 {
     public interface IGiven
@@ -16,7 +17,7 @@ namespace ReSTore.Domain.Tests
     {
         class GivenImpl : IGiven
         {
-            private MockRepository _repository;
+            private readonly MockRepository _repository;
 
             public GivenImpl(MockRepository repository)
             {

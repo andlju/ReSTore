@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ReSTore.Domain.CommandHandlers;
 using ReSTore.Infrastructure;
 using ReSTore.Messages.Commands;
 using ReSTore.Messages.Events;
+// ReSharper disable once InconsistentNaming
 
 namespace ReSTore.Domain.Tests
 {
     [TestClass]
     public class when_creating_order : with<CreateOrder>
     {
-        private Guid _orderId = Guid.NewGuid();
+        private readonly Guid _orderId = Guid.NewGuid();
 
         protected override ICommandHandler<CreateOrder> WithHandler(IRepository<Guid> repository)
         {
