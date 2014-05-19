@@ -7,7 +7,7 @@ namespace ReSTore.Infrastructure
     {
         private readonly IList<object> _uncommittedEvents = new List<object>();
 
-        public void Publish(object evt)
+        public void Raise(object evt)
         {
             this.Apply(evt);
             _uncommittedEvents.Add(evt);

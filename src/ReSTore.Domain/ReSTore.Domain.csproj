@@ -55,6 +55,7 @@
     <Compile Include="CommandHandlers\AddItemToOrderHandler.cs" />
     <Compile Include="CommandHandlers\CreateOrderHandler.cs" />
     <Compile Include="CommandHandlers\SetBookingReferenceHandler.cs" />
+    <Compile Include="CommandHandlers\SubmitOrderHandler.cs" />
     <Compile Include="ICommandHandler.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

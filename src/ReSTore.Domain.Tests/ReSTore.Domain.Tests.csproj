@@ -58,6 +58,8 @@
     <Compile Include="when_adding_item_to_order.cs" />
     <Compile Include="when_adding_item_to_order_that_doesnt_exist.cs" />
     <Compile Include="when_creating_order.cs" />
+    <Compile Include="when_submitting_an_order.cs" />
+    <Compile Include="when_submitting_an_order_with_no_booking_reference.cs" />
     <Compile Include="with.cs" />
   </ItemGroup>
   <ItemGroup>

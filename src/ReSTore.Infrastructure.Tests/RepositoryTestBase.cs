@@ -17,7 +17,7 @@ namespace ReSTore.Infrastructure.Tests
 
         public TestAgg(Guid id)
         {
-            Publish(new TestCreated() { TestId = id });
+            Raise(new TestCreated() { TestId = id });
         }
 
         private void Apply(TestCreated evt)

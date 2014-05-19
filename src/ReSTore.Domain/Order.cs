@@ -8,8 +8,8 @@ namespace ReSTore.Domain
     public class Order : AggregateRoot
     {
         private Guid _orderId;
-        // private bool _hasReference;
-        // private int _numberOfItems;
+        private int _numberOfItems;
+        private bool _hasReference;
 
         public Order()
         {
@@ -18,7 +18,7 @@ namespace ReSTore.Domain
 
         public Order(Guid orderId)
         {
-            Publish(new OrderCreated() { OrderId = orderId });
+            Raise(new OrderCreated() { OrderId = orderId });
         }
 
         public void AddItem(Guid itemId, int numberOfItems, IPricingService pricingService)
@@ -27,13 +27,23 @@ namespace ReSTore.Domain
 
             while (numberOfItems-- > 0)
             {
-                Publish(new ItemAddedToOrder() { OrderId = _orderId, ProductId = itemId, Price = price });
+                Raise(new ItemAddedToOrder() { OrderId = _orderId, ProductId = itemId, Price = price });
             }
         }
 
         public void SetBookingReference(string bookingReference)
         {
-            Publish(new BookingReferenceSet() {OrderId = _orderId, BookingReference = bookingReference});
+            Raise(new BookingReferenceSet() {OrderId = _orderId, BookingReference = bookingReference});
+        }
+
+        public void Submit()
+        {
+            if(_numberOfItems == 0)
+                throw new Exception("Order must have at least one item");
+            if(!_hasReference)
+                throw new Exception("Set a booking reference before submitting the order");
+
+            Raise(new OrderSubmitted() { OrderId = _orderId });
         }
 
         private void Apply(OrderCreated evt)
@@ -43,12 +53,12 @@ namespace ReSTore.Domain
 
         private void Apply(ItemAddedToOrder evt)
         {
-            // _numberOfItems++;
+            _numberOfItems++;
         }
 
         private void Apply(BookingReferenceSet evt)
         {
-            // _hasReference = true;
+            _hasReference = true;
         }
     }
 }
